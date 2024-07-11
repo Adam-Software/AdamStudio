@@ -6,6 +6,8 @@ using AdamStudio.Core.Model;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
+using AdamStudio.Views;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
@@ -41,18 +43,18 @@ namespace AdamStudio.ViewModels
         private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
-        IContainerExtension _container;
+        //IContainerExtension _container;
 
         #endregion
 
         #region ~
 
-        public MainWindowViewModel(IContainerExtension container, IRegionManager regionManager, IRegionChangeAwareService regionChangeAwareService, IStatusBarNotificationDeliveryService statusBarNotification, 
+        public MainWindowViewModel(ILogger<MainWindowViewModel> loggerService, IRegionManager regionManager, IRegionChangeAwareService regionChangeAwareService, IStatusBarNotificationDeliveryService statusBarNotification, 
                     ICommunicationProviderService communicationProviderService, IFolderManagmentService folderManagment, IWebApiService webApiService, 
                     IAvalonEditService avalonEditService, IThemeManagerService themeManager, ICultureProvider cultureProvider, 
                     IControlHelper controlHelper) 
         {
-            _container = container;
+            //_container = container;
             mRegionManager = regionManager;
             mWebApiService = webApiService;
             RegionChangeAwareService = regionChangeAwareService;
@@ -64,13 +66,14 @@ namespace AdamStudio.ViewModels
             mCultureProvider = cultureProvider;
             ControlHelper = controlHelper;
 
+            loggerService.LogInformation("Main window loaded");
+
             //DeactivateViewDelegateCommand = new DelegateCommand(DeactivateView);
             ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
 
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
-            SwitchToSettingsViewDelegateCommand = new DelegateCommand(SwitchToSettingsView, SwitchToSettingsViewCanExecute);
-
+            SwitchToSettingsViewDelegateCommand = new DelegateCommand(SwitchToSettingsView, SwitchToSettingsViewCanExecute);            
             Subscribe();
         }
 

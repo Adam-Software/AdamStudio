@@ -31,6 +31,9 @@
     <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Prism.Container.Extensions" Version="8.0.62" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\AdamStudio.Core\AdamStudio.Core.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.ContentRegion\AdamStudio.Modules.ContentRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.FlayoutsRegion\AdamStudio.Modules.FlayoutsRegion.csproj" />

@@ -1,22 +1,25 @@
-﻿using AdamStudio.Services.Interfaces;
-using AdamStudio.Services;
-using AdamStudio.Views;
-using Prism.DryIoc;
-using Prism.Ioc;
-using System;
-using System.Windows;
+﻿using AdamStudio.Controls.CustomControls.RegionAdapters;
 using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core.Properties;
-using AdamStudio.Services.TcpClientDependency;
-using Prism.Regions;
-using System.Net;
-using AdamStudio.Controls.CustomControls.RegionAdapters;
-using MahApps.Metro.Controls;
 using AdamStudio.Modules.ContentRegion;
 using AdamStudio.Modules.FlayoutsRegion;
 using AdamStudio.Modules.MenuRegion;
 using AdamStudio.Modules.StatusBarRegion;
+using AdamStudio.Services;
+using AdamStudio.Services.Interfaces;
+using AdamStudio.Services.TcpClientDependency;
+using AdamStudio.Views;
+using MahApps.Metro.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using Prism.DryIoc;
+using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
+using Serilog;
+using Serilog.Core;
+using System;
+using System.Net;
+using System.Windows;
 
 namespace AdamStudio
 {
@@ -27,9 +30,23 @@ namespace AdamStudio
             return Container.Resolve<MainWindow>();
         }
 
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ISingleInstanceService, SingleInstanceService>();
+            containerRegistry.RegisterServices(services =>
+            {
+                Logger serilogLogger = new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .WriteTo.File("logs/log-.txt", 
+                            rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
+                            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+                    .CreateLogger();
+
+                
+                services.AddLogging(s => s.AddSerilog(serilogLogger, dispose:true));
+            });
+
             containerRegistry.RegisterSingleton<IFlyoutStateChecker, FlyoutStateChecker>();
             containerRegistry.RegisterSingleton<ICultureProvider, CultureProvider>();
             containerRegistry.RegisterSingleton<IFileManagmentService, FileManagmentService>();
@@ -232,6 +249,7 @@ namespace AdamStudio
             Container.Resolve<ICultureProvider>().Dispose();
 
             Container.Resolve<IControlHelper>().Dispose();
+           
         }
     }
 }
