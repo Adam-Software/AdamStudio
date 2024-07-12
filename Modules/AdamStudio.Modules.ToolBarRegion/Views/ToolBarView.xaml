@@ -9,7 +9,44 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              prism:ViewModelLocator.AutoWireViewModel="True" >
 
-    <DockPanel LastChildFill="True">
+    <mah:MetroTabControl x:Name="MainTab"
+                             Grid.ColumnSpan="5" Grid.Row="1" 
+                             TabStripPlacement="Bottom"
+                             Height="30"
+                             mah:HeaderedControlHelper.HeaderFontSize="13">
+
+        <mah:MetroTabItem Header="Результат" x:Name="ResultTab" Height="30"
+                           
+                          CloseButtonEnabled="False" MouseLeave="ResultTab_MouseLeave_1">
+
+            <Popup PlacementTarget="{Binding ElementName=MainTab}"
+                   x:Name="Popup"
+                   StaysOpen="False"
+                   Placement="Top"
+                   Opened="Popup_Opened"
+                   Closed="Popup_Closed"
+                   IsHitTestVisible="False"
+                   Width="{Binding ActualWidth, ElementName=MainTab}"  
+                   IsOpen="{Binding  IsSelected, ElementName=ResultTab, Mode=TwoWay}">
+
+                <Border BorderThickness="1">
+
+                    <StackPanel Margin="10 5 10 5">
+
+                        <CheckBox Margin="5" Content="1" />
+                        <CheckBox Margin="5" Content="2" />
+                        <CheckBox Margin="5" Content="3" />
+                        <CheckBox Margin="5" Content="4" />
+                        <CheckBox Margin="5" Content="5" />
+
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </mah:MetroTabItem>
+        <mah:MetroTabItem Header="SSH"/>
+    </mah:MetroTabControl>
+    
+    <!--    <DockPanel LastChildFill="True">
 
         <Button DockPanel.Dock="Right"
                 VerticalAlignment="Top"
@@ -71,5 +108,5 @@
             </mah:MetroTabItem>
 
         </mah:MetroTabControl>
-    </DockPanel>
+    </DockPanel>-->
 </UserControl>

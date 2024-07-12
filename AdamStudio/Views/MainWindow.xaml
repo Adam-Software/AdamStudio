@@ -137,71 +137,13 @@
 
         <mah:MetroContentControl Grid.Column="0"
                                  Grid.Row="0"
-                                
                                  prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 
-        <Expander x:Name="expander" ExpandDirection="Down" 
-                  IsExpanded="True" 
-                  HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Stretch"
-                  Grid.ColumnSpan="5"
-                  Height="30"
-                  Grid.Row="1">
-            
-            <Expander.Header>
-                <TextBlock 
-                    TextAlignment="Left" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" 
-                    Text="LOCATIONS" FontWeight="Bold"/>
-            </Expander.Header>
-            
-            <Popup PlacementTarget="{Binding ElementName=expander}"
-                   Placement="Bottom" 
-                   StaysOpen="True" 
-                   AllowsTransparency="False"
-                   PopupAnimation="Fade"
-                   Width="{Binding ActualWidth, ElementName=expander}"  
-                   IsOpen="{Binding IsExpanded, ElementName=expander}">
+        <ContentControl Grid.ColumnSpan="5" Grid.Row="1" 
+                         Height="30"  
+                         prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}" />
 
-                <Border BorderThickness="1">
-                    <StackPanel VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch">
-                   
-                        <CheckBox Margin="5" Content="1" />
-                        <CheckBox Margin="5" Content="2" />
-                        <CheckBox Margin="5" Content="3" />
-                        <CheckBox Margin="5" Content="4" />
-                        <CheckBox Margin="5" Content="5" />
-                        
-                    </StackPanel>
-                </Border>
-            </Popup>
-        </Expander>
-
-        <!--<mah:MetroTabControl Grid.ColumnSpan="5" Grid.Row="1" 
-                             TabStripPlacement="Bottom"
-                             Height="500"
-                             Margin="0 0 0 0"
-                             mah:TabControlHelper.CloseButtonEnabled="True"
-                             mah:HeaderedControlHelper.HeaderFontSize="13"
-                             mah:TabControlHelper.Underlined="SelectedTabItem"
-                             mah:TabControlHelper.UnderlinePlacement="Bottom"        
-                             mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
-                             mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
-                             BorderBrush="{DynamicResource MahApps.Brushes.Text}">
-
-            <mah:MetroTabItem Header="Результат" Margin="0 0 0 0"  mah:TabControlHelper.Transition="Up"  >
-                <TextBox Text="Test"/>
-            </mah:MetroTabItem>
-            
-            <mah:MetroTabItem Header="SSH">
-                
-            </mah:MetroTabItem>
-        </mah:MetroTabControl>-->
-        
-        
-        <mah:MetroContentControl  Grid.ColumnSpan="5" Grid.Row="2" 
+        <ContentControl Grid.ColumnSpan="5" Grid.Row="2" 
                          Height="25"  
                          prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" />
 
