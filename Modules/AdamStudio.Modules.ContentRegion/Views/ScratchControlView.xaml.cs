@@ -56,7 +56,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
             mWebViewProvider.RaiseExecuteReloadWebViewEvent += RaiseExecuteReloadWebViewEvent;
 
             /*element event */
-            TextResulEditor.TextChanged += TextResulEditorTextChanged;
+            //TextResulEditor.TextChanged += TextResulEditorTextChanged;
             MainGrid.SizeChanged += MainGridSizeChanged;
             SourceEditor.SizeChanged += TextResulEditorSizeChanged;
 
@@ -153,7 +153,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
 
         private void TextResulEditorTextChanged(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(TextResulEditor.ScrollToEnd));
+            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(TextResulEditor.ScrollToEnd));
         }
 
         private async void InitializeWebViewCore()

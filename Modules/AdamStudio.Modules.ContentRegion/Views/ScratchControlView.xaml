@@ -26,29 +26,29 @@
             
             <Grid.RowDefinitions>
                 <!-- buttons 0 Empty -->
-                <RowDefinition Height="0"/>
+                <RowDefinition Height="Auto"/>
                 <!-- webview and source editor  1 -->
                 <RowDefinition Height="*"/>
                 <!--splitter 2-->
-                <RowDefinition Height="Auto"/>
-                <!-- result 3 -->
+                <!--<RowDefinition Height="Auto"/>
+                
                 <RowDefinition Height="{Binding Path=BlocklySourceEditorHeight, Mode=TwoWay, 
                                                 Converter={StaticResource GridLengthConverter}, Source={x:Static properties:Settings.Default }}">
                     <RowDefinition.Style>
                         <Style TargetType="{x:Type RowDefinition}">
-                            <!-- Default MinHeight -->
+                
                             <Setter Property="MinHeight" Value="150" />
                             <Setter Property="MaxHeight" Value="500" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=ResultExpander, Path=IsExpanded}" Value="False">
                                     <Setter Property="MinHeight" Value="25" />
-                                    <!-- MinHeight when Collapsed -->
+                
                                     <Setter Property="MaxHeight" Value="25" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </RowDefinition.Style>
-                </RowDefinition>
+                </RowDefinition>-->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -72,7 +72,6 @@
 
             <DockPanel Margin="5 0 0 5" DockPanel.Dock="Top">
 
-                    
                 <Button Padding="2" Command="{Binding ShowOpenFileDialogDelegateCommand}" 
                         CommandParameter="Workspace">
                         
@@ -95,13 +94,13 @@
 
             </DockPanel>
 
-            <Border DockPanel.Dock="Top"  Margin="-1 0 0 0" BorderThickness="0 1 0 0"/>
+            <Border DockPanel.Dock="Top"  BorderThickness="0 1 0 0"/>
 
                 <webControl:WebView2  DockPanel.Dock="Top"
                                       Name="WebView"
                                       DefaultBackgroundColor="Transparent"
                                       ZoomFactor="{Binding WebViewZoomFactor, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
-                                      Margin="0"/>
+                                      Margin="0 0 0 1"/>
             
         </DockPanel>
         
@@ -621,7 +620,7 @@
             <!--#endregion-->
 
             <!--#region result expander -->
-
+<!--
             <GridSplitter Grid.Column="0" 
                           Grid.Row="2" 
                           Grid.ColumnSpan="3" 
@@ -714,7 +713,7 @@
                 </DockPanel>
             </Expander>
 
-            <!--#endregion-->
+            #endregion-->
 
         </Grid>
     
