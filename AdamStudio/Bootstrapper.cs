@@ -33,7 +33,6 @@ namespace AdamStudio
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ISingleInstanceService, SingleInstanceService>();
             containerRegistry.RegisterSingleton<ILogWriteEventAwareService, LogWriteEventAwareService>();
 
             containerRegistry.RegisterServices(services =>

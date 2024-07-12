@@ -168,14 +168,12 @@ namespace AdamStudio.ViewModels
             
             if (regionName == RegionNames.SettingsRegion)
             {
-                mLoggerService.LogWarning("SwitchToScratchRegion");
                 ShowRegion(RegionNames.ScratchRegion);
                 return;
             }
             
             if(regionName == RegionNames.ScratchRegion)
             {
-                mLoggerService.LogWarning("SwitchToSettingsRegion");
                 ShowRegion(RegionNames.SettingsRegion);
                 return;
             }   
