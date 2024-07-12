@@ -41,6 +41,7 @@ using AdamStudio.Modules.ContentRegion;
 using AdamStudio.Modules.FlayoutsRegion;
 using AdamStudio.Modules.MenuRegion;
 using AdamStudio.Modules.StatusBarRegion;
+using AdamStudio.Modules.ToolBarRegion;
 
 #endregion
 
@@ -262,6 +263,7 @@ namespace AdamStudio
             moduleCatalog.AddModule<ContentRegionModule>();
             moduleCatalog.AddModule<StatusBarRegionModule>();
             moduleCatalog.AddModule<FlayoutsRegionModule>();
+            moduleCatalog.AddModule<ToolBarRegionModule>();
         }
 
         protected override void OnExit(ExitEventArgs e)

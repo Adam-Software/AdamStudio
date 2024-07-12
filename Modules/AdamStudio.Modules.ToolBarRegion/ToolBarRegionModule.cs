@@ -1,28 +1,28 @@
 ﻿using AdamStudio.Core;
-using AdamStudio.Modules.MenuRegion.Views;
+using AdamStudio.Modules.ToolBarRegion.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace AdamStudio.Modules.MenuRegion
+namespace AdamStudio.Modules.ToolBarRegion
 {
-    public class MenuRegionModule : IModule
+    public class ToolBarRegionModule : IModule
     {
         private readonly IRegionManager mRegionManager;
 
-        public MenuRegionModule(IRegionManager regionManager) 
+        public ToolBarRegionModule(IRegionManager regionManager) 
         {
             mRegionManager = regionManager;
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            mRegionManager.RequestNavigate(RegionNames.MenuRegion, nameof(MenuRegionView));
+            mRegionManager.RequestNavigate(RegionNames.ToolBarRegion, nameof(ToolBarView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<MenuRegionView>(nameof(MenuRegionView));
+            containerRegistry.RegisterForNavigation<ToolBarView>(nameof(ToolBarView));
         }
     }
 }

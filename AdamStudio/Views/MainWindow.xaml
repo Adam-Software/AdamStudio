@@ -121,6 +121,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -139,6 +140,10 @@
                         prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 
         <ContentControl  Grid.ColumnSpan="5" Grid.Row="1" 
+                         Height="25"
+                         prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}" />
+        
+        <ContentControl  Grid.ColumnSpan="5" Grid.Row="2" 
                          Height="25"
                          prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" />
 

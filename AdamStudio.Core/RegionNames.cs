@@ -5,10 +5,12 @@
        
         public const string ContentRegion = $"{nameof(ContentRegion)}";
         public const string FlayoutsRegion = $"{nameof(FlayoutsRegion)}";
-        
-        public const string StatusBarRegion = "StatusBarView";
-        public const string MenuRegion = "MenuRegionView";
-        public const string ScratchRegion = "ScratchControlView";
-        public const string SettingsRegion = "SettingsControlView";
+        public const string ToolBarRegion = $"{nameof(ToolBarRegion)}";
+        public const string StatusBarRegion = $"{nameof(StatusBarRegion)}";
+        public const string MenuRegion = $"{nameof(MenuRegion)}";
+
+
+        public const string ScratchView = "ScratchControlView";
+        public const string SettingsView = "SettingsControlView";
     }
 }

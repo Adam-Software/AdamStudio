@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Modules\AdamStudio.Modules.FlayoutsRegion\AdamStudio.Modules.FlayoutsRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.MenuRegion\AdamStudio.Modules.MenuRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.StatusBar\AdamStudio.Modules.StatusBarRegion.csproj" />
+    <ProjectReference Include="..\Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
