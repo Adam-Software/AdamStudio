@@ -9,25 +9,22 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              prism:ViewModelLocator.AutoWireViewModel="True" >
 
-    <mah:MetroTabControl x:Name="MainTab"
-                             Grid.ColumnSpan="5" Grid.Row="1" 
-                             TabStripPlacement="Bottom"
-                             Height="30"
-                             mah:HeaderedControlHelper.HeaderFontSize="13">
+    <DockPanel x:Name="View" LastChildFill="False">
+        
+        <Expander Header="Результат" 
+                  x:Name="ResultEpander"
+                  BorderThickness="0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
 
-        <mah:MetroTabItem Header="Результат" x:Name="ResultTab" Height="30"
-                           
-                          CloseButtonEnabled="False" MouseLeave="ResultTab_MouseLeave_1">
-
-            <Popup PlacementTarget="{Binding ElementName=MainTab}"
+            <Popup PlacementTarget="{Binding ElementName=View}"
                    x:Name="Popup"
                    StaysOpen="False"
                    Placement="Top"
-                   Opened="Popup_Opened"
-                   Closed="Popup_Closed"
-                   IsHitTestVisible="False"
-                   Width="{Binding ActualWidth, ElementName=MainTab}"  
-                   IsOpen="{Binding  IsSelected, ElementName=ResultTab, Mode=TwoWay}">
+                   Width="{Binding ActualWidth, ElementName=View}"  
+                   IsOpen="{Binding IsExpanded, ElementName=ResultEpander}">
 
                 <Border BorderThickness="1">
 
@@ -42,10 +39,29 @@
                     </StackPanel>
                 </Border>
             </Popup>
-        </mah:MetroTabItem>
-        <mah:MetroTabItem Header="SSH"/>
-    </mah:MetroTabControl>
-    
+        </Expander>
+        
+        <Expander Header="Лог приложения"
+                  BorderThickness="0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
+            
+        </Expander>
+
+        <Expander Header="SSH" 
+                  BorderThickness="0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
+
+        </Expander>
+
+
+    </DockPanel>
+
     <!--    <DockPanel LastChildFill="True">
 
         <Button DockPanel.Dock="Right"
