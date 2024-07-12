@@ -43,7 +43,7 @@ namespace AdamStudio.ViewModels
         private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
-        //IContainerExtension _container;
+        private readonly ILogger<MainWindowViewModel> mLoggerService;
 
         #endregion
 
@@ -54,7 +54,6 @@ namespace AdamStudio.ViewModels
                     IAvalonEditService avalonEditService, IThemeManagerService themeManager, ICultureProvider cultureProvider, 
                     IControlHelper controlHelper) 
         {
-            //_container = container;
             mRegionManager = regionManager;
             mWebApiService = webApiService;
             RegionChangeAwareService = regionChangeAwareService;
@@ -65,8 +64,7 @@ namespace AdamStudio.ViewModels
             mThemeManager = themeManager;
             mCultureProvider = cultureProvider;
             ControlHelper = controlHelper;
-
-            loggerService.LogInformation("Main window loaded");
+            mLoggerService = loggerService;
 
             //DeactivateViewDelegateCommand = new DelegateCommand(DeactivateView);
             ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
@@ -170,12 +168,14 @@ namespace AdamStudio.ViewModels
             
             if (regionName == RegionNames.SettingsRegion)
             {
+                mLoggerService.LogWarning("SwitchToScratchRegion");
                 ShowRegion(RegionNames.ScratchRegion);
                 return;
             }
             
             if(regionName == RegionNames.ScratchRegion)
             {
+                mLoggerService.LogWarning("SwitchToSettingsRegion");
                 ShowRegion(RegionNames.SettingsRegion);
                 return;
             }   

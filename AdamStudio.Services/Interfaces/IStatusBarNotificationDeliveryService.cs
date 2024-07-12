@@ -6,7 +6,7 @@ namespace AdamStudio.Services.Interfaces
 
     public delegate void ChangeProgressRingStateEventHandler(object sender, bool newState);
     public delegate void NewCompileLogMessageEventHandler(object sender, string message);
-    public delegate void NewAppLogMessageEventHandler(object sender, string message);
+    //public delegate void NewAppLogMessageEventHandler(object sender, string message);
     public delegate void UpdateNotificationCounterEventHandler(object sender, int counter);
 
     #endregion
@@ -17,7 +17,7 @@ namespace AdamStudio.Services.Interfaces
 
         public event ChangeProgressRingStateEventHandler RaiseChangeProgressRingStateEvent;
         public event NewCompileLogMessageEventHandler RaiseNewCompileLogMessageEvent;
-        public event NewAppLogMessageEventHandler RaiseNewAppLogMessageEvent;
+        //public event NewAppLogMessageEventHandler RaiseNewAppLogMessageEvent;
         public event UpdateNotificationCounterEventHandler RaiseUpdateNotificationCounterEvent;
 
         #endregion
@@ -26,7 +26,7 @@ namespace AdamStudio.Services.Interfaces
 
         public bool ProgressRingStart { get; set; }
         public string CompileLogMessage { get; set; }
-        public string AppLogMessage {  get; set; }
+        //public string AppLogMessage {  get; set; }
         public int NotificationCounter { get; set; }
 
         #endregion

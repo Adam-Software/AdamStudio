@@ -34,13 +34,20 @@ namespace AdamStudio
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ISingleInstanceService, SingleInstanceService>();
+            containerRegistry.RegisterSingleton<ILogWriteEventAwareService, LogWriteEventAwareService>();
+
             containerRegistry.RegisterServices(services =>
             {
+                ILogWriteEventAwareService logWriteEventAware = Container.Resolve<ILogWriteEventAwareService>();
+
                 Logger serilogLogger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
+                    .WriteTo.DelegatingTextSink(writeAction => logWriteEventAware.WriteToBuffer(writeAction), 
+                            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
                     .WriteTo.File("logs/log-.txt", 
                             rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
                             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+
                     .CreateLogger();
 
                 
@@ -249,7 +256,9 @@ namespace AdamStudio
             Container.Resolve<ICultureProvider>().Dispose();
 
             Container.Resolve<IControlHelper>().Dispose();
-           
+
+            Container.Resolve<ILogWriteEventAwareService>().Dispose();
+
         }
     }
 }

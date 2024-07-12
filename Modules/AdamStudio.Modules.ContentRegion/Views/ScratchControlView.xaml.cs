@@ -2,6 +2,7 @@
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.WebViewProviderDependency;
+using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.IO;
@@ -24,6 +25,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
         private readonly IControlHelper mControlHelper;
         private readonly IWebSocketClientService mWebSocketClient;
         private readonly IVideoViewProvider mVideoViewProvider;
+        private readonly ILogger<ScratchControlView> mLogger;
 
         #endregion
 
@@ -33,12 +35,13 @@ namespace AdamStudio.Modules.ContentRegion.Views
 
         #endregion
 
-        public ScratchControlView(IWebViewProvider webViewProvider, IStatusBarNotificationDeliveryService statusBarNotification, 
+        public ScratchControlView(ILogger<ScratchControlView> logger, IWebViewProvider webViewProvider, IStatusBarNotificationDeliveryService statusBarNotification, 
                         IFolderManagmentService folderManagment, IControlHelper controlHelper, IWebSocketClientService webSocketClient, IVideoViewProvider videoViewProvider)
         {
             InitializeComponent();
             InitializeWebViewCore();
 
+            mLogger = logger;
             mWebViewProvider = webViewProvider;
             mStatusBarNotification = statusBarNotification;
             mControlHelper = controlHelper;
@@ -183,7 +186,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
             }
             catch
             {
-                mStatusBarNotification.AppLogMessage = "Error reading blokly code";
+                mLogger.LogError("Error reading blokly code");
                 receivedResult = new WebMessageJsonReceived { Action = string.Empty, Data = string.Empty };
             }
 

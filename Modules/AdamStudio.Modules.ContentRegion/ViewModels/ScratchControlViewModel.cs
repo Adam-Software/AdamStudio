@@ -23,6 +23,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
@@ -56,6 +57,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IControlHelper mControlHelper;
         private readonly IVideoViewProvider mVideoViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
+        private readonly ILogger<ScratchControlViewModel> mLogger;
 
         #endregion
 
@@ -97,13 +99,14 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public ScratchControlViewModel(IRegionManager regionManager, ICommunicationProviderService communicationProvider, IPythonRemoteRunnerService pythonRemoteRunner, 
+        public ScratchControlViewModel(ILogger<ScratchControlViewModel> logger, IRegionManager regionManager, ICommunicationProviderService communicationProvider, IPythonRemoteRunnerService pythonRemoteRunner, 
                         IStatusBarNotificationDeliveryService statusBarNotificationDelivery, IWebViewProvider webViewProvider,
                         IFileManagmentService fileManagment, IWebApiService webApiService, IAvalonEditService avalonEditService,
                         ICultureProvider cultureProvider, ISystemDialogService systemDialogService, IControlHelper controlHelper,
                         IVideoViewProvider videoViewProvider, IRegionChangeAwareService regionChangeAwareService) : base(regionManager)
         {
-            
+
+            mLogger = logger;
             mCommunicationProvider = communicationProvider;
             mPythonRemoteRunner = pythonRemoteRunner;
             mStatusBarNotificationDelivery = statusBarNotificationDelivery;
@@ -404,7 +407,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             if (result.IsOpenFileCanceled)
             {
-                mStatusBarNotificationDelivery.AppLogMessage = mFileNotSelectedLogMessage;
+                mLogger.LogWarning(mFileNotSelectedLogMessage);
                 return;
             }
 
@@ -442,7 +445,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             if (result.IsSaveFileCanceled)
             {
-                mStatusBarNotificationDelivery.AppLogMessage = mFileNotSavedLogMessage;
+                mLogger.LogWarning(mFileNotSavedLogMessage);
                 return;
             }
 
@@ -744,16 +747,16 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             switch (result.OpenFileType)
             {
                 case SupportFileType.Undefined:
-                    mStatusBarNotificationDelivery.AppLogMessage = $"{mExtNotSupport1} {Path.GetExtension(path)} {mExtNotSupport2}";
+                    mLogger.LogInformation($"{mExtNotSupport1} {Path.GetExtension(path)} {mExtNotSupport2}");
                     break;
                 case SupportFileType.Script:
                     SourceTextEditor = await mFileManagment.ReadTextAsStringAsync(path);
-                    mStatusBarNotificationDelivery.AppLogMessage = $"{mOpenFile} {path}";
+                    mLogger.LogInformation($"{mOpenFile} {path}");
                     break;
                 case SupportFileType.Workspace:
                     string xml = await mFileManagment.ReadTextAsStringAsync(path);
                     _ = await ExecuteScriptFunctionAsync("loadSavedWorkspace", new object[] { xml });
-                    mStatusBarNotificationDelivery.AppLogMessage = $"{mOpenFile} {path}";
+                    mLogger.LogInformation($"{mOpenFile} {path}");
                     break;
             }
         }
@@ -773,7 +776,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 await mFileManagment.WriteAsync(path, file);
             }
 
-            mStatusBarNotificationDelivery.AppLogMessage = $"{mFileSavedLogMessage} {path}";
+            mLogger.LogInformation($"{mFileSavedLogMessage} {path}");
         }
 
         private void RaiseDelegateCommandsCanExecuteChanged()
@@ -912,11 +915,11 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     await mWebViewProvider.ExecuteJavaScript(Scripts.RestoreSavedBlocks);
                 }
 
-                mStatusBarNotificationDelivery.AppLogMessage = mScretchLoadedCompleteLogMessage;
+                mLogger.LogInformation(mScretchLoadedCompleteLogMessage);
             }
             catch
             {
-                mStatusBarNotificationDelivery.AppLogMessage = mScretchLoadedErrorLogMessage;
+                mLogger.LogWarning(mScretchLoadedErrorLogMessage);
             }
         }
 
