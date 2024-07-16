@@ -7,58 +7,123 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+             xmlns:converters="clr-namespace:AdamStudio.Core.Converters;assembly=AdamStudio.Core"
+             xmlns:properties="clr-namespace:AdamStudio.Core.Properties;assembly=AdamStudio.Core"
              prism:ViewModelLocator.AutoWireViewModel="True" >
 
-    <DockPanel x:Name="View" LastChildFill="False">
+    <UserControl.Resources>
+        
+        <Style  TargetType="Expander" BasedOn="{StaticResource MahApps.Styles.Expander}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="mah:HeaderedControlHelper.HeaderBackground" Value="Transparent"/>
+            <Setter Property="mah:HeaderedControlHelper.HeaderForeground" Value="{DynamicResource MahApps.Brushes.Text}"/>
+            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+            
+        </Style>
+
+        <converters:GridLengthConverter x:Key="GridLengthConverter" />
+
+    </UserControl.Resources>
+    
+    <DockPanel x:Name="View" LastChildFill="False" Height="30">
         
         <Expander Header="Результат" 
-                  x:Name="ResultEpander"
-                  BorderThickness="0"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
-                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
+                  x:Name="ResultExpander"
+                  BorderThickness="0">
 
             <Popup PlacementTarget="{Binding ElementName=View}"
-                   x:Name="Popup"
-                   StaysOpen="False"
-                   Placement="Top"
+                   StaysOpen="True"
+                   Placement="Top"                     
                    Width="{Binding ActualWidth, ElementName=View}"  
-                   IsOpen="{Binding IsExpanded, ElementName=ResultEpander}">
+                   IsOpen="{Binding IsExpanded, ElementName=ResultExpander}"
+                   Height="500">
+
+                <TabControl DockPanel.Dock="Top"
+                            Margin="5 5 5 0"
+                            BorderThickness="1"
+                            TabStripPlacement="Bottom"
+                            mah:TabControlHelper.CloseButtonEnabled="False"
+                            mah:HeaderedControlHelper.HeaderFontSize="13"
+                            mah:TabControlHelper.Underlined="SelectedTabItem"
+                            mah:TabControlHelper.UnderlinePlacement="Top"
+            
+                            mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
+                            mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
+                            BorderBrush="{DynamicResource MahApps.Brushes.Text}"
+                            Height="{Binding Path=BlocklySourceEditorHeight, Mode=TwoWay, 
+                                    Converter={StaticResource GridLengthConverter},  
+                                    Source={x:Static properties:Settings.Default }}">
+
+                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
+
+                        <TextBox x:Name="TextResulEditor"
+                                 Margin="0 0 0 0"
+                                 BorderThickness="0"
+                                 HorizontalScrollBarVisibility="Auto"
+                                 VerticalScrollBarVisibility="Auto"                 
+                                 IsReadOnly="True"
+                                 Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </mah:MetroTabItem>
+
+                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
+                        
+                        <StackPanel Margin="5 5 0 0">
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
+
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
+                        </StackPanel>
+
+                    </mah:MetroTabItem>
+
+                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.InitilizationTime}">
+                        <StackPanel Margin="5 5 0 0">
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.ExitCode, StringFormat=Exit code: {0} }" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.RunTime, StringFormat=Run time (ms): {0} }" />
+
+                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StandardError}"/>
+
+                        </StackPanel>
+                    </mah:MetroTabItem>
+
+                </TabControl>
+
+            </Popup>
+            
+        </Expander>
+        
+        <Expander Header="Логи"
+                  x:Name="LogExpander">
+
+
+            <Popup PlacementTarget="{Binding ElementName=View}"
+                   StaysOpen="True"
+                   Placement="Top"                     
+                   Width="{Binding ActualWidth, ElementName=View}"  
+                   IsOpen="{Binding IsExpanded, ElementName=LogExpander}">
 
                 <Border BorderThickness="1">
 
                     <StackPanel Margin="10 5 10 5">
 
-                        <CheckBox Margin="5" Content="1" />
-                        <CheckBox Margin="5" Content="2" />
-                        <CheckBox Margin="5" Content="3" />
-                        <CheckBox Margin="5" Content="4" />
-                        <CheckBox Margin="5" Content="5" />
+                        <TextBlock Text="test"/>
+                        <TextBlock Text="test"/>
+                        <TextBlock Text="test"/>
+                        <TextBlock Text="test"/>
 
                     </StackPanel>
                 </Border>
             </Popup>
         </Expander>
-        
-        <Expander Header="Лог приложения"
-                  BorderThickness="0"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
-                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
-            
-        </Expander>
-
-        <Expander Header="SSH" 
-                  BorderThickness="0"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  mah:HeaderedControlHelper.HeaderBackground="Transparent"
-                  mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}">
-
-        </Expander>
-
 
     </DockPanel>
 

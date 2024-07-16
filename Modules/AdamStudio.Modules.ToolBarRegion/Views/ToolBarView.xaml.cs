@@ -8,20 +8,5 @@ namespace AdamStudio.Modules.ToolBarRegion.Views
         {
             InitializeComponent();
         }
-
-        private void Popup_Opened(object sender, System.EventArgs e)
-        {
-          
-        }
-
-        private void Popup_Closed(object sender, System.EventArgs e)
-        {
-          
-        }
-
-        private void ResultTab_MouseLeave_1(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            
-        }
     }
 }
