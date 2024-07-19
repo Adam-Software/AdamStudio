@@ -121,7 +121,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-     
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -135,50 +134,10 @@
                                  x:Name="ContentRegion"
                                  prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 
+        <ContentControl Grid.Row="1" 
+                        prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}"/>
 
-
-     
-
-        <DockPanel Grid.Row="1"  LastChildFill="False" x:Name="DockPanel">
-
-            <Popup x:Name="PopupWindow"
-                     Height="500"
-                     PlacementTarget="{Binding ElementName=DockPanel}"
-                     StaysOpen="True"
-                     Placement="Top"
-                     Width="{Binding ActualWidth, ElementName=ContentRegion}"
-                     IsOpen="{Binding  IsChecked,  ElementName=ResultButton}">
-
-
-
-
-                    <DockPanel LastChildFill="False">
-
-                    <Thumb DockPanel.Dock="Top"
-                           Width="{Binding ActualWidth, ElementName=ContentRegion}" Height="4"
-                           DragStarted="Thumb_DragStarted"
-                           DragDelta="Thumb_DragDelta"
-                           DragCompleted="Thumb_DragCompleted"/>
-
-                    <!--<ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}" />-->
-
-                </DockPanel>
-
-
-
-            </Popup>
-
-            <ToggleButton Content="Результат" DockPanel.Dock="Left" Width="100" x:Name="ResultButton"/>
-
-
-        </DockPanel>
-
-
-
-
-
-
-        <ContentControl Grid.Row="4" 
+        <ContentControl Grid.Row="2" 
                         Height="25"  
                         prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" />
 
