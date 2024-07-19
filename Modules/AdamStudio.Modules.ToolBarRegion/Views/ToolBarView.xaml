@@ -27,19 +27,7 @@
 
     </UserControl.Resources>
     
-    <DockPanel x:Name="View" LastChildFill="False" Height="30">
-        
-        <Expander Header="Результат" 
-                  x:Name="ResultExpander"
-                  BorderThickness="0">
-
-            <Popup PlacementTarget="{Binding ElementName=View}"
-                   StaysOpen="True"
-                   Placement="Top"                     
-                   Width="{Binding ActualWidth, ElementName=View}"  
-                   IsOpen="{Binding IsExpanded, ElementName=ResultExpander}"
-                   Height="500">
-
+   
                 <TabControl DockPanel.Dock="Top"
                             Margin="5 5 5 0"
                             BorderThickness="1"
@@ -48,13 +36,10 @@
                             mah:HeaderedControlHelper.HeaderFontSize="13"
                             mah:TabControlHelper.Underlined="SelectedTabItem"
                             mah:TabControlHelper.UnderlinePlacement="Top"
-            
                             mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
                             mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
                             BorderBrush="{DynamicResource MahApps.Brushes.Text}"
-                            Height="{Binding Path=BlocklySourceEditorHeight, Mode=TwoWay, 
-                                    Converter={StaticResource GridLengthConverter},  
-                                    Source={x:Static properties:Settings.Default }}">
+                            Height="500">
 
                     <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
@@ -97,35 +82,8 @@
 
                 </TabControl>
 
-            </Popup>
-            
-        </Expander>
-        
-        <Expander Header="Логи"
-                  x:Name="LogExpander">
-
-
-            <Popup PlacementTarget="{Binding ElementName=View}"
-                   StaysOpen="True"
-                   Placement="Top"                     
-                   Width="{Binding ActualWidth, ElementName=View}"  
-                   IsOpen="{Binding IsExpanded, ElementName=LogExpander}">
-
-                <Border BorderThickness="1">
-
-                    <StackPanel Margin="10 5 10 5">
-
-                        <TextBlock Text="test"/>
-                        <TextBlock Text="test"/>
-                        <TextBlock Text="test"/>
-                        <TextBlock Text="test"/>
-
-                    </StackPanel>
-                </Border>
-            </Popup>
-        </Expander>
-
-    </DockPanel>
+      
+    
 
     <!--    <DockPanel LastChildFill="True">
 
