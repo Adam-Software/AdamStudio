@@ -34,6 +34,8 @@
                      StaysOpen="True"
                      Placement="Top"
                      CloseOnMouseLeftButtonDown="False"
+                              AllowsTransparency="True"
+                     
                      Width="{Binding ActualWidth, ElementName=DockPanel}"
                      IsOpen="{Binding  IsChecked,  ElementName=ResultButton}">
 
