@@ -17,7 +17,6 @@ namespace AdamStudio.Services
         public LogWriteEventAwareService() { }
 
         
-
         public void Dispose()
         {
             mLogEventBuffer?.Clear();

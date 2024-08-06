@@ -915,7 +915,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     await mWebViewProvider.ExecuteJavaScript(Scripts.RestoreSavedBlocks);
                 }
 
-                mLogger.LogInformation(mScretchLoadedCompleteLogMessage);
+                //mLogger.LogInformation(mScretchLoadedCompleteLogMessage);
             }
             catch
             {

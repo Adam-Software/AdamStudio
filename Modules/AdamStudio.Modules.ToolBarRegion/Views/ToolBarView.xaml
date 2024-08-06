@@ -19,26 +19,26 @@
         <!--#region ResultsTemplate-->
         <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
             <TabControl Grid.Column="0"
-             Margin="5 10 5 0"
-             BorderThickness="1"
-             TabStripPlacement="Bottom"
-             mah:TabControlHelper.CloseButtonEnabled="False"
-             mah:HeaderedControlHelper.HeaderFontSize="13"
-             mah:TabControlHelper.Underlined="SelectedTabItem"
-             mah:TabControlHelper.UnderlinePlacement="Top"
-             mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
-             mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
-             BorderBrush="{DynamicResource MahApps.Brushes.Text}">
+                        Margin="5 10 5 0"
+                        BorderThickness="1"
+                        TabStripPlacement="Bottom"
+                        mah:TabControlHelper.CloseButtonEnabled="False"
+                        mah:HeaderedControlHelper.HeaderFontSize="13"
+                        mah:TabControlHelper.Underlined="SelectedTabItem"
+                        mah:TabControlHelper.UnderlinePlacement="Top"
+                        mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
+                        mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Text}">
 
                 <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
                     <TextBox x:Name="TextResulEditor"
-                 Margin="0 0 0 0"
-                 BorderThickness="0"
-                 HorizontalScrollBarVisibility="Auto"
-                 VerticalScrollBarVisibility="Auto"                 
-                 IsReadOnly="True"
-                 Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Margin="0 0 0 0"
+                             BorderThickness="0"
+                             HorizontalScrollBarVisibility="Auto"
+                             VerticalScrollBarVisibility="Auto"                 
+                             IsReadOnly="True"
+                             Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </mah:MetroTabItem>
 
@@ -67,14 +67,15 @@
                 </mah:MetroTabItem>
             </TabControl>
         </ControlTemplate>
+        
         <!--#endregion-->
         
         <!--#region SSHTemplate-->
-        <ControlTemplate TargetType="ContentControl" x:Key="SSHTemplate">
-            <StackPanel>
-                <TextBlock Text="Test"/>
-                <Button Content="Test2"/>
-            </StackPanel>
+        
+        <ControlTemplate TargetType="ContentControl" x:Key="LogsTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Logs}"/>
+            </Grid>
         </ControlTemplate>
 
         <!--#endregion-->
@@ -88,16 +89,13 @@
                               Width="{Binding ActualWidth, ElementName=DockPanel}"
                               Height="{Binding Path=PopupPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
                               IsOpen="{Binding IsChecked, ElementName=ResultButton, Mode=TwoWay}"
-                              PopupWindowTemplate="{StaticResource ResultsTemplate}">
-        </template:PopupWindow>
-
+                              PopupWindowTemplate="{StaticResource ResultsTemplate}"/>
 
         <template:PopupWindow Grid.Row="0" DockPanel.Dock="Top"
                               Width="{Binding ActualWidth, ElementName=DockPanel}"
                               Height="{Binding Path=SSHPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
-                              IsOpen="{Binding IsChecked, ElementName=SSHButton, Mode=TwoWay}"
-                              PopupWindowTemplate="{StaticResource SSHTemplate}">
-        </template:PopupWindow>
+                              IsOpen="{Binding IsChecked, ElementName=LogsButton, Mode=TwoWay}"
+                              PopupWindowTemplate="{StaticResource LogsTemplate}"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
@@ -108,8 +106,8 @@
                           Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
 
 
-            <ToggleButton x:Name="SSHButton"
-                          Content="SSH"  
+            <ToggleButton x:Name="LogsButton"
+                          Content="Логи"  
                           Width="130"
                           HorizontalAlignment="Left"
                           Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
