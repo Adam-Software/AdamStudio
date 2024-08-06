@@ -18,6 +18,7 @@
 
         <!--#region ResultsTemplate-->
         <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
+            
             <TabControl Grid.Column="0"
                         Margin="5 10 5 0"
                         BorderThickness="1"
@@ -74,16 +75,15 @@
         
         <ControlTemplate TargetType="ContentControl" x:Key="LogsTemplate">
             <Grid>
-                <TextBlock Text="{Binding Logs}"/>
+                <TextBlock Text="{Binding ApplicationLogs}"/>
             </Grid>
         </ControlTemplate>
 
         <!--#endregion-->
 
     </UserControl.Resources>
-    
-    <Grid  x:Name="DockPanel" Height="30">
 
+    <Grid  x:Name="DockPanel" Height="25">
 
         <template:PopupWindow Grid.Row="0" DockPanel.Dock="Top"
                               Width="{Binding ActualWidth, ElementName=DockPanel}"
@@ -101,14 +101,16 @@
 
             <ToggleButton x:Name="ResultButton"
                           Content="Результат"  
-                          Width="130"
+                          Width="100"
+                          FontSize="11"
                           HorizontalAlignment="Left"
                           Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
 
 
             <ToggleButton x:Name="LogsButton"
                           Content="Логи"  
-                          Width="130"
+                          Width="100"
+                          FontSize="11"
                           HorizontalAlignment="Left"
                           Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
 

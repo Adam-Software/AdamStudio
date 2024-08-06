@@ -153,7 +153,6 @@ namespace AdamStudio.ViewModels
 
         private bool SwitchToVideoCanExecute()
         {
-         
             var regionName = RegionChangeAwareService.RegionNavigationTargetName;
             return regionName == RegionNames.ScratchView;
         }
@@ -227,6 +226,7 @@ namespace AdamStudio.ViewModels
         private void LoadCustomAvalonEditHighlighting()
         {
             mAvalonEditService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
+            mLoggerService.LogInformation("Loaded highlighting");
         }
 
         private void LoadAppTheme()

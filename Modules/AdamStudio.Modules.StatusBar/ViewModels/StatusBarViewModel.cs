@@ -60,7 +60,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
             OpenNotificationPanelDelegateCommand = new DelegateCommand(OpenNotificationPanel, OpenNotificationPanelCanExecute);
 
-            LoadResource();
+            //LoadResource();
             LoadDefaultFieldValue();
         }
 
@@ -238,7 +238,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             }
 
             mLogger.LogInformation(mChangAppLanguageLogMessage);
-            //AppLogStatusBar = mChangAppLanguageLogMessage;
         }
 
         #endregion

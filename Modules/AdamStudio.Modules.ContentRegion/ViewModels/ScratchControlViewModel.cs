@@ -69,14 +69,14 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region Var
 
-        private bool mIsWarningStackOwerflowAlreadyShow;
+        //private bool mIsWarningStackOwerflowAlreadyShow;
 
         private string mCompileLogMessageStartDebug; 
         private string mCompileLogMessageEndDebug;
-        private string mFinishAppExecute;
-        private string mWarningStackOwerflow1;
-        private string mWarningStackOwerflow2;
-        private string mWarningStackOwerflow3;
+        //private string mFinishAppExecute;
+        //private string mWarningStackOwerflow1;
+        //private string mWarningStackOwerflow2;
+        //private string mWarningStackOwerflow3;
 
         private string mSaveWorkspaceDialogTitle;
         private string mSaveScriptFileDialogTitle;
@@ -154,8 +154,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             mWebViewProvider.ReloadWebView();
 
-            
-
             base.OnNavigatedTo(navigationContext);
         }
 
@@ -177,7 +175,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             set { SetProperty(ref videoFrameRate, value); }
         }
 
-        private bool isShowVideo; //= Settings.Default.ShowVideo;
+        private bool isShowVideo; 
         public bool IsShowVideo
         {
             get => isShowVideo;
@@ -238,7 +236,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
         }
 
-        private string resultText;
+        /*private string resultText;
         public string ResultText
         {
             get => resultText;
@@ -263,7 +261,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         {
             get => resultInitilizationTime;
             set => SetProperty(ref resultInitilizationTime, value);
-        }
+        }*/
 
         private string pythonVersion;
         public string PythonVersion
@@ -327,9 +325,9 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent += OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent += OnRaiseTcpServiceClientDisconnect;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
-            mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
+            //mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent += RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent += RaiseWebViewNavigationCompleteEvent;
@@ -344,9 +342,9 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent -= OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent -= OnRaiseTcpServiceClientDisconnect;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
-            mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
+            //mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent -= RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent -= RaiseWebViewNavigationCompleteEvent;
@@ -468,14 +466,14 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         private void CleanExecuteEditor()
         {
-            ClearResultText();   
+            //ClearResultText();   
         }
 
         private bool CleanExecuteEditorCanExecute()
         {
             bool isPythonCodeNotExecute = !IsPythonCodeExecute;
-            var isResultNotEmpty = ResultText?.Length > 0;
-            return isPythonCodeNotExecute &&  isResultNotEmpty;
+            //var isResultNotEmpty = ResultText?.Length > 0;
+            return isPythonCodeNotExecute;// &&  isResultNotEmpty;
         }
 
         private async void RunPythonCode()
@@ -485,23 +483,28 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             
             try
             {
-                ClearResultText();
+                //ClearResultText();
+
 
                 var command = new AdamController.WebApi.Client.v1.RequestModel.PythonCommandModel
                 {
                     Command = source
                 };
 
-                ExtendedCommandExecuteResult executeResult = await mWebApiService.PythonExecuteAsync(command);
-                UpdateResultInitilizationTimeText(executeResult);
+                IsPythonCodeExecute = true;
+                
+                _ = await mWebApiService.PythonExecuteAsync(command);
+                
+                //ExtendedCommandExecuteResult executeResult = await mWebApiService.PythonExecuteAsync(command);
+                //UpdateResultInitilizationTimeText(executeResult);
             }
             catch
             {
-                
+                //IsPythonCodeExecute = false;
             }
             finally
             {
-               
+                //IsPythonCodeExecute = false;
             }
         }
 
@@ -630,7 +633,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             IsShowVideo = isShowVideo;
         }
 
-        private void UpdateResultText(string text, bool isFinishMessage = false)
+        /*rivate void UpdateResultText(string text, bool isFinishMessage = false)
         {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
@@ -657,9 +660,9 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     ResultText += text;
                 }
             }));
-        }
+        }*/
 
-        private void UpdateResultExecutionTimeText(ExtendedCommandExecuteResult executeResult)
+        /*private void UpdateResultExecutionTimeText(ExtendedCommandExecuteResult executeResult)
         {
             
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -683,19 +686,19 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 ResultExecutionTime = fixResult;
                 IsPythonCodeExecute = false;
             }));
-        }
+        }*/
 
-        private void UpdateResultInitilizationTimeText(ExtendedCommandExecuteResult executeResult)
+        /*private void UpdateResultInitilizationTimeText(ExtendedCommandExecuteResult executeResult)
         {
             ResultInitilizationTime = executeResult;
-        }
+        }*/
 
-        private void ClearResultText()
+        /*private void ClearResultText()
         {
             ResultText = string.Empty;
             ResultExecutionTime = null;
             ResultInitilizationTime = null;
-        }
+        }*/
 
         private void OnPythonCodeExecuteStatusChange(bool isPythonCodeExecute)
         {
@@ -712,7 +715,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 return;
             }
 
-            mIsWarningStackOwerflowAlreadyShow = false;
+            //mIsWarningStackOwerflowAlreadyShow = false;
             mStatusBarNotificationDelivery.CompileLogMessage = mCompileLogMessageStartDebug;
             mStatusBarNotificationDelivery.ProgressRingStart = true;
 
@@ -795,11 +798,11 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         {
             mCompileLogMessageStartDebug = mCultureProvider.FindResource("DebuggerMessages.CompileLogMessageStartDebug");
             mCompileLogMessageEndDebug = mCultureProvider.FindResource("DebuggerMessages.CompileLogMessageEndDebug");
-            mFinishAppExecute = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.FinishAppExecute");
+            //mFinishAppExecute = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.FinishAppExecute");
 
-            mWarningStackOwerflow1 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow1");
-            mWarningStackOwerflow2 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow2");
-            mWarningStackOwerflow3 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow3");
+            //mWarningStackOwerflow1 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow1");
+            //mWarningStackOwerflow2 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow2");
+            //mWarningStackOwerflow3 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow3");
 
             mSaveWorkspaceDialogTitle = mCultureProvider.FindResource("ScratchControlViewModel.SaveWorkspaceFileDialog.DialogTitle");
             mSaveScriptFileDialogTitle = mCultureProvider.FindResource("ScratchControlViewModel.SaveScriptFileDialog.DialogTitle");
@@ -856,24 +859,24 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             UpdatePythonInfo();
         }
 
-        private void OnRaisePythonScriptExecuteStart(object sender)
+        /*private void OnRaisePythonScriptExecuteStart(object sender)
         {
             IsPythonCodeExecute = true;
-        }
+        }*/
 
-        private void OnRaisePythonStandartOutput(object sender, string message)
+        /*private void OnRaisePythonStandartOutput(object sender, string message)
         {
             UpdateResultText(message);
-        }
+        }*/
 
-        private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
+        /*private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
         {
             if (remoteCommandExecuteResult == null)
                 return;
    
             UpdateResultText("", true);
             UpdateResultExecutionTimeText(remoteCommandExecuteResult);
-        }
+        }*/
 
         private void OnRaiseIsVideoShowChangeEvent(object sender)
         {
