@@ -1,6 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 
 namespace AdamStudio.Views
 {
@@ -10,10 +8,5 @@ namespace AdamStudio.Views
         {
             InitializeComponent();
         }
-
-       
-       
-
-       
     }
 }

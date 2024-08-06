@@ -127,6 +127,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+    
         <Border BorderThickness="1" />
 
         <mah:MetroContentControl Grid.Column="0"

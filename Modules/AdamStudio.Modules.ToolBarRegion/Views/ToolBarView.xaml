@@ -6,106 +6,230 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+             xmlns:template="clr-namespace:AdamStudio.Modules.ToolBarRegion.Template"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:converters="clr-namespace:AdamStudio.Core.Converters;assembly=AdamStudio.Core"
-             xmlns:properties="clr-namespace:AdamStudio.Core.Properties;assembly=AdamStudio.Core" xmlns:controlzex="urn:controlzex"
+             xmlns:properties="clr-namespace:AdamStudio.Core.Properties;assembly=AdamStudio.Core" 
+             xmlns:controlzex="urn:controlzex"
              prism:ViewModelLocator.AutoWireViewModel="True" >
 
     <UserControl.Resources>
-        
-        <Style  TargetType="Expander" BasedOn="{StaticResource MahApps.Styles.Expander}">
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="mah:HeaderedControlHelper.HeaderBackground" Value="Transparent"/>
-            <Setter Property="mah:HeaderedControlHelper.HeaderForeground" Value="{DynamicResource MahApps.Brushes.Text}"/>
-            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
-            
-        </Style>
-
         <converters:GridLengthConverter x:Key="GridLengthConverter" />
+
+        <!--#region ResultsTemplate-->
+        <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
+            <TabControl Grid.Column="0"
+             Margin="5 10 5 0"
+             BorderThickness="1"
+             TabStripPlacement="Bottom"
+             mah:TabControlHelper.CloseButtonEnabled="False"
+             mah:HeaderedControlHelper.HeaderFontSize="13"
+             mah:TabControlHelper.Underlined="SelectedTabItem"
+             mah:TabControlHelper.UnderlinePlacement="Top"
+             mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
+             mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
+             BorderBrush="{DynamicResource MahApps.Brushes.Text}">
+
+                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
+
+                    <TextBox x:Name="TextResulEditor"
+                 Margin="0 0 0 0"
+                 BorderThickness="0"
+                 HorizontalScrollBarVisibility="Auto"
+                 VerticalScrollBarVisibility="Auto"                 
+                 IsReadOnly="True"
+                 Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </mah:MetroTabItem>
+
+                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
+
+                    <StackPanel Margin="5 5 0 0">
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
+                    </StackPanel>
+
+                </mah:MetroTabItem>
+
+                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.InitilizationTime}">
+                    <StackPanel Margin="5 5 0 0">
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.ExitCode, StringFormat=Exit code: {0} }" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.RunTime, StringFormat=Run time (ms): {0} }" />
+                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StandardError}"/>
+                    </StackPanel>
+                </mah:MetroTabItem>
+            </TabControl>
+        </ControlTemplate>
+        <!--#endregion-->
+        
+        <!--#region SSHTemplate-->
+        <ControlTemplate TargetType="ContentControl" x:Key="SSHTemplate">
+            <StackPanel>
+                <TextBlock Text="Test"/>
+                <Button Content="Test2"/>
+            </StackPanel>
+        </ControlTemplate>
+
+        <!--#endregion-->
 
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="False" x:Name="DockPanel">
+    <Grid  x:Name="DockPanel" Height="30">
+
+
+        <template:PopupWindow Grid.Row="0" DockPanel.Dock="Top"
+                              Width="{Binding ActualWidth, ElementName=DockPanel}"
+                              Height="{Binding Path=PopupPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
+                              IsOpen="{Binding IsChecked, ElementName=ResultButton, Mode=TwoWay}"
+                              PopupWindowTemplate="{StaticResource ResultsTemplate}">
+        </template:PopupWindow>
+
+
+        <template:PopupWindow Grid.Row="0" DockPanel.Dock="Top"
+                              Width="{Binding ActualWidth, ElementName=DockPanel}"
+                              Height="{Binding Path=SSHPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
+                              IsOpen="{Binding IsChecked, ElementName=SSHButton, Mode=TwoWay}"
+                              PopupWindowTemplate="{StaticResource SSHTemplate}">
+        </template:PopupWindow>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+
+            <ToggleButton x:Name="ResultButton"
+                          Content="Результат"  
+                          Width="130"
+                          HorizontalAlignment="Left"
+                          Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
+
+
+            <ToggleButton x:Name="SSHButton"
+                          Content="SSH"  
+                          Width="130"
+                          HorizontalAlignment="Left"
+                          Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"/>
+
+        </StackPanel>
+    </Grid>
+
+
+   
+    <!--    <DockPanel LastChildFill="False" x:Name="DockPanel">
 
         <controlzex:PopupEx x:Name="PopupWindow"
-                     Height="{Binding Path=PopupPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
-                     StaysOpen="True"
-                     Placement="Top"
-                     CloseOnMouseLeftButtonDown="False"
-                              AllowsTransparency="True"
-                     
-                     Width="{Binding ActualWidth, ElementName=DockPanel}"
-                     IsOpen="{Binding  IsChecked,  ElementName=ResultButton}">
+                            Height="{Binding Path=PopupPanelHeight, Mode=TwoWay, Source={x:Static properties:Settings.Default }}"
+                            MinHeight="200"
+                            StaysOpen="True"
+                            Placement="Top"
+                            CloseOnMouseLeftButtonDown="False"
+                            Width="{Binding ActualWidth, ElementName=DockPanel}"
+                            IsOpen="{Binding  IsChecked,  ElementName=ResultButton}">
 
-            <DockPanel LastChildFill="True">
+        
+                <DockPanel LastChildFill="True" 
+                           Background="{DynamicResource MahApps.Brushes.Window.Background}">
 
                 <Thumb DockPanel.Dock="Top"
-                       Width="{Binding ActualWidth, ElementName=ContentRegion}" Height="4"
+                       Height="4"
+                       BorderThickness="3"
+                       BorderBrush="White"
+                       Background="{DynamicResource MahApps.Brushes.Text}"
                        Cursor="SizeNS"
                        DragDelta="ThumbDragDelta"/>
 
-                <TabControl DockPanel.Dock="Top"
-                      Margin="5 5 5 0"
-                      BorderThickness="1"
-                      TabStripPlacement="Bottom"
-                      mah:TabControlHelper.CloseButtonEnabled="False"
-                      mah:HeaderedControlHelper.HeaderFontSize="13"
-                      mah:TabControlHelper.Underlined="SelectedTabItem"
-                      mah:TabControlHelper.UnderlinePlacement="Top"
-                      mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
-                      mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
-                      BorderBrush="{DynamicResource MahApps.Brushes.Text}">
+                <Border DockPanel.Dock="Top" 
+                        BorderThickness="1 0 1 1" BorderBrush="{DynamicResource MahApps.Brushes.Text}">
 
-                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
+                    <Grid DockPanel.Dock="Top">
 
-                        <TextBox x:Name="TextResulEditor"
-                                 Margin="0 0 0 0"
-                                 BorderThickness="0"
-                                 HorizontalScrollBarVisibility="Auto"
-                                 VerticalScrollBarVisibility="Auto"                 
-                                 IsReadOnly="True"
-                           Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    </mah:MetroTabItem>
+                        <DockPanel Grid.Column="1">
 
-                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
+                            <Button DockPanel.Dock="Top" 
+                                    VerticalAlignment="Top"
+                                    Margin="5 5 5 0"
+                                    Click="CloseButtonClick"
+                                    Style="{DynamicResource MahApps.Styles.Button.Chromeless}">
+                                
+                                <iconPacks:PackIconEvaIcons Kind="Close" Width="10" Height="10"  />
 
-                        <StackPanel Margin="5 5 0 0">
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
-                        </StackPanel>
+                            </Button>
+                        </DockPanel>
 
-                    </mah:MetroTabItem>
+                        <TabControl Grid.Column="0"
+                                    Margin="5 10 5 0"
+                                    BorderThickness="1"
+                                    TabStripPlacement="Bottom"
+                                    mah:TabControlHelper.CloseButtonEnabled="False"
+                                    mah:HeaderedControlHelper.HeaderFontSize="13"
+                                    mah:TabControlHelper.Underlined="SelectedTabItem"
+                                    mah:TabControlHelper.UnderlinePlacement="Top"
+                                    mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
+                                    mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.Text}">
 
-                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.InitilizationTime}">
-                        <StackPanel Margin="5 5 0 0">
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.Succeesed, StringFormat=Succeesed: {0}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.ExitCode, StringFormat=Exit code: {0} }" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.RunTime, StringFormat=Run time (ms): {0} }" />
-                            <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StandardError}"/>
+                            <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
-                        </StackPanel>
-                    </mah:MetroTabItem>
+                                <TextBox x:Name="TextResulEditor"
+                                        Margin="0 0 0 0"
+                                        BorderThickness="0"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        VerticalScrollBarVisibility="Auto"                 
+                                        IsReadOnly="True"
+                                        Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                </TabControl>
+                            </mah:MetroTabItem>
 
+                            <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
+
+                                <StackPanel Margin="5 5 0 0">
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
+                                </StackPanel>
+
+                            </mah:MetroTabItem>
+
+                            <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.InitilizationTime}">
+                                <StackPanel Margin="5 5 0 0">
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.ExitCode, StringFormat=Exit code: {0} }" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.RunTime, StringFormat=Run time (ms): {0} }" />
+                                    <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StandardError}"/>
+                                </StackPanel>
+                            </mah:MetroTabItem>
+                        </TabControl>
+                    </Grid>
+                </Border>
             </DockPanel>
 
         </controlzex:PopupEx>
 
-        <ToggleButton Content="Результат" DockPanel.Dock="Left" Width="100" x:Name="ResultButton"/>
+   
+        <ToggleButton x:Name="ResultButton"
+                      DockPanel.Dock="Left"
+                      Content="Результат"  
+                      Width="130"
+                      Style="{StaticResource MahApps.Styles.ToggleButton.Flat}"
+                      />
 
     </DockPanel>
 
-
+-->
     <!--    <DockPanel LastChildFill="True">
 
         <Button DockPanel.Dock="Right"

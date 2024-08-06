@@ -284,5 +284,8 @@
     <Setting Name="PopupPanelHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">500</Value>
     </Setting>
+    <Setting Name="SSHPanelHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
