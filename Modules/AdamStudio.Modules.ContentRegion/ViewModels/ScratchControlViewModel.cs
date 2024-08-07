@@ -827,6 +827,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private void RaiseWebViewNavigationCompleteEvent(object sender)
         {
             InitBlockly();
+            mLogger.LogTrace("Called RaiseWebViewNavigationCompleteEvent");
         }
 
         private void RaiseWebViewbMessageReceivedEvent(object sender, WebMessageJsonReceived webMessageReceived)
