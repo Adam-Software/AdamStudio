@@ -80,10 +80,10 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
             switch (selectedRegionName)
             {
-                case RegionNames.ScratchView:
+                case RegionNames.ScratchRegion:
                     IsCheckedScratchMenuItem = true;
                     break;
-                case RegionNames.SettingsView:    
+                case RegionNames.SettingsRegion:    
                     IsCheckedVisualSettingsMenuItem = true;
                     break;
             }
@@ -122,9 +122,10 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         #region Command methods
 
-        private void ShowRegion(string regionName)
+        private void ShowRegion(string viewName)
         {
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, regionName);
+
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
         }
 
         private void CloseApp()

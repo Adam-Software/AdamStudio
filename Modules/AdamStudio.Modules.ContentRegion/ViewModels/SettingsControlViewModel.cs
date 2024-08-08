@@ -115,7 +115,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.SettingsView;
+            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.SettingsRegion;
 
             ThemesCollection = mThemeManager.AppThemesCollection;
             SelectedTheme = mThemeManager.GetCurrentAppTheme();

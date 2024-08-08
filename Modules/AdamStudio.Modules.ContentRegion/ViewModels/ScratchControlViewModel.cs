@@ -146,7 +146,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.ScratchView;
+            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.ScratchRegion;
 
             Subscribe();
             LoadResources();

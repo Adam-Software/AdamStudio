@@ -10,6 +10,9 @@
         public const string MenuRegion = $"{nameof(MenuRegion)}";
 
 
+        public const string ScratchRegion = "ScratchRegion";
+        public const string SettingsRegion = "SettingsRegion";
+
         public const string ScratchView = "ScratchControlView";
         public const string SettingsView = "SettingsControlView";
     }
