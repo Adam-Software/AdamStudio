@@ -31,11 +31,15 @@
     <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Prism.Container.Extensions" Version="8.0.62" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\AdamStudio.Core\AdamStudio.Core.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.ContentRegion\AdamStudio.Modules.ContentRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.FlayoutsRegion\AdamStudio.Modules.FlayoutsRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.MenuRegion\AdamStudio.Modules.MenuRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.StatusBar\AdamStudio.Modules.StatusBarRegion.csproj" />
+    <ProjectReference Include="..\Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

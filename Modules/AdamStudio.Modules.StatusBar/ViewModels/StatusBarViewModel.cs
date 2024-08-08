@@ -4,6 +4,7 @@ using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
 using MahApps.Metro.IconPacks;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -26,6 +27,8 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         private readonly IFlyoutStateChecker mFlyoutState;
         private readonly ICultureProvider mCultureProvider;
         private readonly IControlHelper mControlHelper;
+        private readonly ILogWriteEventAwareService mLogWriteEventAwareService;
+        private readonly ILogger<StatusBarViewModel> mLogger;
 
         #endregion
 
@@ -44,18 +47,20 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         #region ~
 
         public StatusBarViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, IFlyoutStateChecker flyoutState, ICommunicationProviderService communicationProviderService, 
-                                    IStatusBarNotificationDeliveryService statusBarNotification, ICultureProvider cultureProvider, IControlHelper controlHelper) : base(regionManager)
-        {
+                                    IStatusBarNotificationDeliveryService statusBarNotification, ICultureProvider cultureProvider, IControlHelper controlHelper,
+                                    ILogWriteEventAwareService logWriteEventAwareService, ILogger<StatusBarViewModel> logger) : base(regionManager)        {
             mFlyoutManager = flyoutManager;
             mCommunicationProviderService = communicationProviderService;
             mStatusBarNotificationDelivery = statusBarNotification; 
             mFlyoutState = flyoutState;
             mCultureProvider = cultureProvider;
             mControlHelper = controlHelper;
+            mLogWriteEventAwareService = logWriteEventAwareService;
+            mLogger = logger;
 
             OpenNotificationPanelDelegateCommand = new DelegateCommand(OpenNotificationPanel, OpenNotificationPanelCanExecute);
 
-            LoadResource();
+            //LoadResource();
             LoadDefaultFieldValue();
         }
 
@@ -214,6 +219,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mCompileLogStatusBar = mCultureProvider.FindResource("StatusBarViewModel.CompileLogStatusBar");
             mAppLogStatusBar = mCultureProvider.FindResource("StatusBarViewModel.AppLogStatusBar");
 
+            
             mChangAppLanguageLogMessage = mCultureProvider.FindResource("StatusBarViewModel.ChangAppLanguage.LogMessage");
         }
 
@@ -231,7 +237,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
                 ConnectIcon = PackIconModernKind.Connect;
             }
 
-            AppLogStatusBar = mChangAppLanguageLogMessage;
+            mLogger.LogInformation(mChangAppLanguageLogMessage);
         }
 
         #endregion
@@ -246,13 +252,15 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
             mStatusBarNotificationDelivery.RaiseChangeProgressRingStateEvent += RaiseChangeProgressRingStateEvent;
             mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent += RaiseNewCompileLogMessageEvent;
-            mStatusBarNotificationDelivery.RaiseNewAppLogMessageEvent += RaiseNewAppLogMessageEvent;
             mStatusBarNotificationDelivery.RaiseUpdateNotificationCounterEvent += RaiseUpdateNotificationCounterEvent;
 
             mFlyoutState.IsNotificationFlyoutOpenedStateChangeEvent += IsOpenedStateChangeEvent;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent += RaiseCurrentAppCultureLoadOrChangeEvent;
+            mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
         }
+
+
 
         private void Unsubscribe() 
         {
@@ -262,11 +270,11 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
             mStatusBarNotificationDelivery.RaiseChangeProgressRingStateEvent -= RaiseChangeProgressRingStateEvent;
             mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent -= RaiseNewCompileLogMessageEvent;
-            mStatusBarNotificationDelivery.RaiseNewAppLogMessageEvent -= RaiseNewAppLogMessageEvent;
 
             mFlyoutState.IsNotificationFlyoutOpenedStateChangeEvent -= IsOpenedStateChangeEvent;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent -= RaiseCurrentAppCultureLoadOrChangeEvent;
+            mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;
         }
 
         #endregion
@@ -325,8 +333,13 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             UpdateStatusConnectToolbar();
         }
 
+        private void RaiseNewLogMessageWriteEvent(object sender, string message)
+        {
+            AppLogStatusBar = message;
+        }
+
         #endregion
 
-        
+
     }
 }

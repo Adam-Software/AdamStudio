@@ -102,7 +102,6 @@ namespace AdamStudio.Services
 
         #endregion
 
-
         #region Private methods
 
         #endregion

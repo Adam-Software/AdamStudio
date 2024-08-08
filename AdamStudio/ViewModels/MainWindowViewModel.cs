@@ -4,9 +4,12 @@ using AdamStudio.Core;
 using AdamStudio.Core.Extensions;
 using AdamStudio.Core.Model;
 using AdamStudio.Core.Mvvm;
-using AdamStudio.Services.Interfaces;
 using AdamStudio.Core.Properties;
+using AdamStudio.Services.Interfaces;
+using AdamStudio.Views;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Regions;
 using System;
 using System.Globalization;
@@ -19,8 +22,7 @@ namespace AdamStudio.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         #region DelegateCommands
-        
-        public DelegateCommand<string> ShowRegionCommand { get; }
+
         public DelegateCommand<string> MoveSplitterDelegateCommand { get; }
         public DelegateCommand SwitchToVideoDelegateCommand { get; }
         public DelegateCommand SwitchToSettingsViewDelegateCommand { get; }
@@ -29,7 +31,7 @@ namespace AdamStudio.ViewModels
 
         #region Services
 
-        public ISubRegionChangeAwareService SubRegionChangeAwareService { get; }
+        public IRegionChangeAwareService RegionChangeAwareService { get; }
         public IControlHelper ControlHelper { get; }
 
         private readonly IRegionManager mRegionManager;
@@ -40,19 +42,20 @@ namespace AdamStudio.ViewModels
         private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
+        private readonly ILogger<MainWindowViewModel> mLoggerService;
 
         #endregion
 
         #region ~
 
-        public MainWindowViewModel(IRegionManager regionManager, ISubRegionChangeAwareService subRegionChangeAwareService, IStatusBarNotificationDeliveryService statusBarNotification, 
+        public MainWindowViewModel(ILogger<MainWindowViewModel> loggerService, IRegionManager regionManager, IRegionChangeAwareService regionChangeAwareService, IStatusBarNotificationDeliveryService statusBarNotification, 
                     ICommunicationProviderService communicationProviderService, IFolderManagmentService folderManagment, IWebApiService webApiService, 
                     IAvalonEditService avalonEditService, IThemeManagerService themeManager, ICultureProvider cultureProvider, 
                     IControlHelper controlHelper) 
         {
             mRegionManager = regionManager;
             mWebApiService = webApiService;
-            SubRegionChangeAwareService = subRegionChangeAwareService;
+            RegionChangeAwareService = regionChangeAwareService;
             mStatusBarNotification = statusBarNotification;
             mCommunicationProviderService = communicationProviderService;
             mFolderManagment = folderManagment;
@@ -60,15 +63,41 @@ namespace AdamStudio.ViewModels
             mThemeManager = themeManager;
             mCultureProvider = cultureProvider;
             ControlHelper = controlHelper;
+            mLoggerService = loggerService;
 
-            ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
-
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
-            SwitchToSettingsViewDelegateCommand = new DelegateCommand(SwitchToSettingsView, SwitchToSettingsViewCanExecute);
-
+            SwitchToSettingsViewDelegateCommand = new DelegateCommand(SwitchToSettingsView, SwitchToSettingsViewCanExecute);            
             Subscribe();
         }
+
+
+        /*Test*/
+        /*private void DeactivateView()
+        {
+            //IRegion region = mRegionManager.Regions[SubRegionNames.InsideConentRegion];
+
+            ScratchControlView view = _container.Resolve<ScratchControlView>();
+            SettingsControlView settings = _container.Resolve<SettingsControlView>();
+            
+            //bool isActive = region.ActiveViews.FirstOrDefault() != null;
+
+            //var cratch = region.GetView(nameof(ScratchControlView));
+            //var settings = region.GetView(nameof(SettingsControlView));
+
+            //object menu = region.Views.ToList();
+            // (nameof(ScratchControlView));
+
+            /*if (true)
+            {
+                region.Deactivate(view);
+                region.Activate(settings);
+            }
+            else
+            {
+                
+            } */           
+        //}
 
         #endregion
 
@@ -106,8 +135,8 @@ namespace AdamStudio.ViewModels
 
         private bool MoveSplitterCanExecute(string arg)
         {
-            var regionName = SubRegionChangeAwareService.InsideRegionNavigationRequestName;
-            return regionName == SubRegionNames.SubRegionScratch;
+            var regionName = RegionChangeAwareService.RegionNavigationTargetName;
+            return regionName == RegionNames.ScratchView;
         }
 
         private void SwitchToVideo()
@@ -124,26 +153,25 @@ namespace AdamStudio.ViewModels
 
         private bool SwitchToVideoCanExecute()
         {
-            var regionName = SubRegionChangeAwareService.InsideRegionNavigationRequestName;
-            return regionName == SubRegionNames.SubRegionScratch;
+            var regionName = RegionChangeAwareService.RegionNavigationTargetName;
+            return regionName == RegionNames.ScratchView;
         }
 
         private void SwitchToSettingsView()
         {
+            var activeViewName = RegionChangeAwareService.RegionNavigationTargetName;
             
-            var regionName = SubRegionChangeAwareService.InsideRegionNavigationRequestName;
-            
-            if (regionName == SubRegionNames.SubRegionScratch)
+            if (activeViewName == RegionNames.SettingsView)
             {
-                ShowRegion(SubRegionNames.SubRegionVisualSettings);
+                ShowView(RegionNames.ScratchView);
                 return;
             }
             
-            if(regionName == SubRegionNames.SubRegionVisualSettings)
+            if(activeViewName == RegionNames.ScratchView)
             {
-                ShowRegion(SubRegionNames.SubRegionScratch);
+                ShowView(RegionNames.SettingsView);
                 return;
-            }    
+            }   
         }
 
         private bool SwitchToSettingsViewCanExecute()
@@ -155,20 +183,9 @@ namespace AdamStudio.ViewModels
 
         #region Private methods
 
-        private void ShowRegion(string subRegionName)
+        private void ShowView(string viewName)
         {
-            switch (subRegionName)
-            {
-                case SubRegionNames.SubRegionScratch:
-                    mRegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionScratch);
-                    break;
-                case SubRegionNames.SubRegionComputerVisionControl:
-                    mRegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionComputerVisionControl);
-                    break;
-                case SubRegionNames.SubRegionVisualSettings:
-                    mRegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionVisualSettings);
-                    break;
-            }
+            mRegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
 
             MoveSplitterDelegateCommand.RaiseCanExecuteChanged();
             SwitchToVideoDelegateCommand.RaiseCanExecuteChanged(); 
@@ -209,6 +226,7 @@ namespace AdamStudio.ViewModels
         private void LoadCustomAvalonEditHighlighting()
         {
             mAvalonEditService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
+            mLoggerService.LogInformation("Loaded highlighting");
         }
 
         private void LoadAppTheme()
@@ -237,8 +255,8 @@ namespace AdamStudio.ViewModels
             mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent += RaiseTcpServiceCientConnectedEvent;
             mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
 
-            Application.Current.MainWindow.Loaded += MainWindowLoaded;
-            Application.Current.MainWindow.Closed += MainWindowClosed; 
+            System.Windows.Application.Current.MainWindow.Loaded += MainWindowLoaded;
+            System.Windows.Application.Current.MainWindow.Closed += MainWindowClosed; 
         }
 
         /// <summary>
@@ -267,12 +285,12 @@ namespace AdamStudio.ViewModels
                 mFolderManagment.CreateAppDataFolder();
                 SaveFolderPathToSettings();
             }
-                
 
+            //Loaded resource 
+            ShowView(RegionNames.ScratchView);
+            
             LoadCustomAvalonEditHighlighting();
             LoadAppTheme();
-
-            ShowRegionCommand.Execute(SubRegionNames.SubRegionScratch);
 
             if (Settings.Default.AutoStartTcpConnect)
                 mCommunicationProviderService.ConnectAllAsync();

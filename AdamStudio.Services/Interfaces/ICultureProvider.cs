@@ -26,7 +26,6 @@ namespace AdamStudio.Services.Interfaces
         #endregion
 
         #region Public methods
-
         public string FindResource(string resourcePath);
         public void ChangeAppCulture(CultureInfo culture);
 

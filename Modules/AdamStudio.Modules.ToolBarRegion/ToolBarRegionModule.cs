@@ -1,28 +1,28 @@
 ﻿using AdamStudio.Core;
-using AdamStudio.Modules.StatusBarRegion.Views;
+using AdamStudio.Modules.ToolBarRegion.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace AdamStudio.Modules.StatusBarRegion
+namespace AdamStudio.Modules.ToolBarRegion
 {
-    public class StatusBarRegionModule : IModule
+    public class ToolBarRegionModule : IModule
     {
         private readonly IRegionManager mRegionManager;
 
-        public StatusBarRegionModule(IRegionManager regionManager)
+        public ToolBarRegionModule(IRegionManager regionManager) 
         {
             mRegionManager = regionManager;
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            mRegionManager.RequestNavigate(RegionNames.StatusBarRegion, nameof(StatusBarView));
+            mRegionManager.RequestNavigate(RegionNames.ToolBarRegion, nameof(ToolBarView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<StatusBarView>(nameof(StatusBarView));
+            containerRegistry.RegisterForNavigation<ToolBarView>(nameof(ToolBarView));
         }
     }
 }

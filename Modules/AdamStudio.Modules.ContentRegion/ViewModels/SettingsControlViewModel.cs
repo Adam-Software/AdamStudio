@@ -32,6 +32,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
         private readonly IWebViewProvider mWebViewProvider;
+        private readonly IRegionChangeAwareService mRegionChangeAwareService;
 
         #endregion
 
@@ -45,12 +46,13 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         #region ~
 
         public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, 
-            IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider) : base(regionManager)
+            IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider, IRegionChangeAwareService subRegionChangeAwareService) : base(regionManager)
         {
             mFlyoutManager = flyoutManager;
             mThemeManager = themeManager;
             mCultureProvider = cultureProvider;
             mWebViewProvider = webViewProvider;
+            mRegionChangeAwareService = subRegionChangeAwareService;
 
             ChangeSpacingToggleSwitchDelegateCommand = new DelegateCommand(ChangeSpacingToggleSwitch, ChangeSpacingToggleSwitchCanExecute);
             OpenPortSettingsDelegateCommand = new DelegateCommand(OpenPortSettings, OpenPortSettingsCanExecute);
@@ -113,13 +115,15 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            base.OnNavigatedTo(navigationContext);
+            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.SettingsView;
 
             ThemesCollection = mThemeManager.AppThemesCollection;
             SelectedTheme = mThemeManager.GetCurrentAppTheme();
 
             LanguageApp = mCultureProvider.SupportAppCultures;
             SelectedLanguageApp = mCultureProvider.CurrentAppCulture;
+
+            base.OnNavigatedTo(navigationContext);
         }
 
         public override void Destroy()

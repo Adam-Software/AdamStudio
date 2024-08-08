@@ -20,13 +20,13 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         #region Services
 
-        private readonly ISubRegionChangeAwareService mSubRegionChangeAware;
+        private readonly IRegionChangeAwareService mRegionChangeAware;
 
         #endregion
 
-        public MenuRegionViewModel(IRegionManager regionManager,ISubRegionChangeAwareService subRegionChangeAware) : base(regionManager)
+        public MenuRegionViewModel(IRegionManager regionManager, IRegionChangeAwareService regionChangeAware) : base(regionManager)
         {
-            mSubRegionChangeAware = subRegionChangeAware;
+            mRegionChangeAware = regionChangeAware;
 
             CloseAppCommand = new DelegateCommand(CloseApp);
             ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
@@ -46,6 +46,7 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             base.OnNavigatedTo(navigationContext);
         }
 
+
         public override void Destroy()
         {
             Unsubscribe();
@@ -62,13 +63,6 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             set => SetProperty(ref isCheckedScratchMenuItem, value);
         }
 
-        private bool isCheckedComputerVisionMenuItem;
-        public bool IsCheckedComputerVisionMenuItem
-        {
-            get => isCheckedComputerVisionMenuItem;
-            set => SetProperty(ref isCheckedComputerVisionMenuItem, value);
-        }
-
         private bool isCheckedVisualSettingsMenuItem;
         public bool IsCheckedVisualSettingsMenuItem
         {
@@ -80,19 +74,16 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         #region Private methods
 
-        private void ChangeCheckedMenuItem(string selectedSubRegionName)
+        private void ChangeCheckedMenuItem(string selectedRegionName)
         {
             ResetIsCheckedMenuItem();
 
-            switch (selectedSubRegionName)
+            switch (selectedRegionName)
             {
-                case SubRegionNames.SubRegionScratch:
+                case RegionNames.ScratchView:
                     IsCheckedScratchMenuItem = true;
                     break;
-                case SubRegionNames.SubRegionComputerVisionControl:
-                    IsCheckedComputerVisionMenuItem = true;
-                    break;
-                case SubRegionNames.SubRegionVisualSettings:    
+                case RegionNames.SettingsView:    
                     IsCheckedVisualSettingsMenuItem = true;
                     break;
             }
@@ -101,7 +92,6 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
         private void ResetIsCheckedMenuItem()
         {
             IsCheckedScratchMenuItem = false;
-            IsCheckedComputerVisionMenuItem = false;
             IsCheckedVisualSettingsMenuItem = false;
         }
 
@@ -111,12 +101,12 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         private void Subscribe()
         {
-            mSubRegionChangeAware.RaiseSubRegionChangeEvent += RaiseSubRegionChangeEvent;
+            mRegionChangeAware.RaiseRegionChangeEvent += RaiseSubRegionChangeEvent;
         }
 
         private void Unsubscribe() 
         {
-            mSubRegionChangeAware.RaiseSubRegionChangeEvent -= RaiseSubRegionChangeEvent;
+            mRegionChangeAware.RaiseRegionChangeEvent -= RaiseSubRegionChangeEvent;
         }
 
         #endregion
@@ -125,27 +115,16 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         private void RaiseSubRegionChangeEvent(object sender)
         {
-            ChangeCheckedMenuItem(mSubRegionChangeAware.InsideRegionNavigationRequestName);
+            ChangeCheckedMenuItem(mRegionChangeAware.RegionNavigationTargetName);
         }
 
         #endregion
 
         #region Command methods
 
-        private void ShowRegion(string subRegionName)
+        private void ShowRegion(string regionName)
         {
-            switch (subRegionName)
-            {
-                case SubRegionNames.SubRegionScratch:
-                    RegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionScratch);
-                    break;
-                case SubRegionNames.SubRegionComputerVisionControl:
-                    RegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionComputerVisionControl);
-                    break;
-                case SubRegionNames.SubRegionVisualSettings:
-                    RegionManager.RequestNavigate(RegionNames.ContentRegion, SubRegionNames.SubRegionVisualSettings);
-                    break;
-            }
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, regionName);
         }
 
         private void CloseApp()
