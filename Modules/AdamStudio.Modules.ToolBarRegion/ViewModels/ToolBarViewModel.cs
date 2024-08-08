@@ -86,13 +86,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             set => SetProperty(ref resultExecutionTime, value);
         }
 
-        private ExtendedCommandExecuteResult resultInitilizationTime;
-        public ExtendedCommandExecuteResult ResultInitilizationTime
-        {
-            get => resultInitilizationTime;
-            set => SetProperty(ref resultInitilizationTime, value);
-        }
-
         private bool isPythonCodeExecute;
         public bool IsPythonCodeExecute
         {
@@ -168,16 +161,10 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             }));
         }
 
-        private void UpdateResultInitilizationTimeText(ExtendedCommandExecuteResult executeResult)
-        {
-            ResultInitilizationTime = executeResult;
-        }
-
         private void ClearResultText()
         {
             ResultText = string.Empty;
             ResultExecutionTime = null;
-            ResultInitilizationTime = null;
         }
 
         private void LoadResources()

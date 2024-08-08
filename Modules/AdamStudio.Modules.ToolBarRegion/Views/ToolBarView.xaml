@@ -11,12 +11,16 @@
              xmlns:converters="clr-namespace:AdamStudio.Core.Converters;assembly=AdamStudio.Core"
              xmlns:properties="clr-namespace:AdamStudio.Core.Properties;assembly=AdamStudio.Core" 
              xmlns:controlzex="urn:controlzex"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:in="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
              prism:ViewModelLocator.AutoWireViewModel="True" >
 
     <UserControl.Resources>
         <converters:GridLengthConverter x:Key="GridLengthConverter" />
 
         <!--#region ResultsTemplate-->
+        
         <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
             
             <TabControl Grid.Column="0"
@@ -33,13 +37,24 @@
 
                 <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
-                    <TextBox x:Name="TextResulEditor"
+                    <ScrollViewer Grid.Row="1" Name="ResultScrollViewer" VerticalScrollBarVisibility="Auto">
+
+                        <TextBox x:Name="TextResulEditor"
                              Margin="0 0 0 0"
                              BorderThickness="0"
                              HorizontalScrollBarVisibility="Auto"
                              VerticalScrollBarVisibility="Auto"                 
                              IsReadOnly="True"
-                             Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                            <in:Interaction.Triggers>
+                                <in:EventTrigger EventName="TextChanged">
+                                    <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
+                                </in:EventTrigger>
+                            </in:Interaction.Triggers>
+
+                        </TextBox>
+                    </ScrollViewer>
 
                 </mah:MetroTabItem>
 
@@ -56,22 +71,12 @@
 
                 </mah:MetroTabItem>
 
-                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.InitilizationTime}">
-                    <StackPanel Margin="5 5 0 0">
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.Succeesed, StringFormat=Succeesed: {0}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.ExitCode, StringFormat=Exit code: {0} }" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.RunTime, StringFormat=Run time (ms): {0} }" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultInitilizationTime.StandardError}"/>
-                    </StackPanel>
-                </mah:MetroTabItem>
             </TabControl>
         </ControlTemplate>
         
         <!--#endregion-->
         
-        <!--#region SSHTemplate-->
+        <!--#region LogsTemplate-->
         
         <ControlTemplate TargetType="ContentControl" x:Key="LogsTemplate">
             <Grid>

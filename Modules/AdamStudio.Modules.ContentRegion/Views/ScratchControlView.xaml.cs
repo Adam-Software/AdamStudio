@@ -145,11 +145,6 @@ namespace AdamStudio.Modules.ContentRegion.Views
             mWebViewProvider.NavigationComplete();
         }
 
-        /*private void TextResulEditorTextChanged(object sender, EventArgs e)
-        {
-            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(TextResulEditor.ScrollToEnd));
-        }*/
-
         private async void InitializeWebViewCore()
         {
             var tempPath = Path.Combine(Path.GetTempPath(), "AdamBrowser");

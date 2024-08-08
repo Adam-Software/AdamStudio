@@ -105,7 +105,6 @@ namespace AdamStudio.ViewModels
 
         public string WindowTitle => $"AdamStudio {Assembly.GetExecutingAssembly().GetName().Version}";
 
-
         #endregion
 
         #region DelegateCommands methods

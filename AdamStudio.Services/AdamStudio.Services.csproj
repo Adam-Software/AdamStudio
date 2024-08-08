@@ -21,6 +21,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
+    <PackageReference Include="The.Microsoft.Expression.Interactions" Version="4.5.0" />
     <PackageReference Include="Websocket.Client" Version="5.1.1" />
     <PackageReference Include="zgabi.FFME.Windows" Version="6.0.2" />
   </ItemGroup>
