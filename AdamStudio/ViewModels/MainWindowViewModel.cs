@@ -135,7 +135,7 @@ namespace AdamStudio.ViewModels
         private bool MoveSplitterCanExecute(string arg)
         {
             var regionName = RegionChangeAwareService.RegionNavigationTargetName;
-            return regionName == RegionNames.ScratchRegion;
+            return regionName == ViewNames.ScratchView;
         }
 
         private void SwitchToVideo()
@@ -153,22 +153,22 @@ namespace AdamStudio.ViewModels
         private bool SwitchToVideoCanExecute()
         {
             var regionName = RegionChangeAwareService.RegionNavigationTargetName;
-            return regionName == RegionNames.ScratchRegion;
+            return regionName == ViewNames.ScratchView;
         }
 
         private void SwitchToSettingsView()
         {
             var activeViewName = RegionChangeAwareService.RegionNavigationTargetName;
             
-            if (activeViewName == RegionNames.ScratchRegion)
+            if (activeViewName == ViewNames.ScratchView)
             {
-                ShowView(RegionNames.SettingsView);
+                ShowView(ViewNames.SettingsView);
                 return;
             }
             
-            if(activeViewName == RegionNames.SettingsRegion)
+            if(activeViewName == ViewNames.SettingsView)
             {
-                ShowView(RegionNames.ScratchView);
+                ShowView(ViewNames.ScratchView);
                 return;
             }   
         }
@@ -286,7 +286,7 @@ namespace AdamStudio.ViewModels
             }
 
             //Loaded resource 
-            ShowView(RegionNames.ScratchRegion);
+            ShowView(ViewNames.ScratchView);
             
             LoadCustomAvalonEditHighlighting();
             LoadAppTheme();

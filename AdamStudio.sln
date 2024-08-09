@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamController.WebApi.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Controls", "AdamStudio.Controls\AdamStudio.Controls.csproj", "{1BADFDB1-D66E-4580-8EAF-CAEE37761640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdamStudio.Modules.ToolBarRegion", "Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj", "{AA601C7F-2233-47FE-911E-8221E8B861C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Modules.ToolBarRegion", "Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj", "{AA601C7F-2233-47FE-911E-8221E8B861C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

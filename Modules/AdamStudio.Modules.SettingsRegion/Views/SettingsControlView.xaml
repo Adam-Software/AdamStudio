@@ -1,6 +1,9 @@
-﻿<UserControl x:Class="AdamStudio.Modules.ContentRegion.Views.SettingsControlView"
+﻿<UserControl x:Class="AdamStudio.Modules.SettingsRegion.Views.SettingsControlView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AdamStudio.Modules.SettingsRegion.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:core="clr-namespace:AdamStudio.Core;assembly=AdamStudio.Core"
@@ -55,222 +58,221 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    
-        <Grid Margin="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-            <!--#region Various settings -->
+        <!--#region Various settings -->
 
-            <DockPanel Grid.Column="0" LastChildFill="False">
+        <DockPanel Grid.Column="0" LastChildFill="False">
 
-                <GroupBox DockPanel.Dock="Top"
+            <GroupBox DockPanel.Dock="Top"
                       Header="{ DynamicResource SettingsControlView.GroupBox.Header.LanguageAndTheme }">
 
-                    <StackPanel Margin="10 0 10 10" Width="200">
+                <StackPanel Margin="10 0 10 10" Width="200">
 
-                        <Label Content="{ DynamicResource SettingsControlView.Label.Content.Theme }"/>
+                    <Label Content="{ DynamicResource SettingsControlView.Label.Content.Theme }"/>
 
-                        <mah:SplitButton Width="160"
+                    <mah:SplitButton Width="160"
                                      DisplayMemberPath="DisplayName"
                                      SelectedItem="{Binding SelectedTheme}"
                                      ItemsSource="{Binding ThemesCollection}">
 
-                            <mah:SplitButton.Icon>
-                                <iconPacks:PackIconEvaIcons Kind="ColorPalette" Margin="0 0 5 0"/>
-                            </mah:SplitButton.Icon>
-                        </mah:SplitButton>
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconEvaIcons Kind="ColorPalette" Margin="0 0 5 0"/>
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
 
-                        <Label Content="{DynamicResource SettingsControlView.Label.Content.Language}" 
+                    <Label Content="{DynamicResource SettingsControlView.Label.Content.Language}" 
                            HorizontalContentAlignment="Center"/>
 
-                        <mah:SplitButton Width="160"
+                    <mah:SplitButton Width="160"
                                      DisplayMemberPath="DisplayName"
                                      ItemsSource="{Binding LanguageApp}"
                                      SelectedItem="{Binding SelectedLanguageApp}">
 
-                            <mah:SplitButton.Icon>
-                                <iconPacks:PackIconFeatherIcons Kind="Globe" Margin="0 0 5 0"/>
-                            </mah:SplitButton.Icon>
-                        </mah:SplitButton>
-                    </StackPanel>
-                </GroupBox>
-            </DockPanel>
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconFeatherIcons Kind="Globe" Margin="0 0 5 0"/>
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
 
-            <!--#endregion-->
+        <!--#endregion-->
 
-            <!--#region  Scrath settings -->
+        <!--#region  Scrath settings -->
 
-            <DockPanel Margin="10 0 0 0" Grid.Column="1" LastChildFill="False">
+        <DockPanel Margin="10 0 0 0" Grid.Column="1" LastChildFill="False">
 
-                <GroupBox DockPanel.Dock="Top"
+            <GroupBox DockPanel.Dock="Top"
                       Header="{DynamicResource SettingsControlView.GroupBox.Header.ScratchEditorSettings}">
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="200"/>
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="200"/>
+                    </Grid.ColumnDefinitions>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                        <!--#region Show blocks -->
+                    <!--#region Show blocks -->
 
-                        <DockPanel Grid.Column="0" 
+                    <DockPanel Grid.Column="0" 
                                Grid.Row="0"
                                Margin="10 0 10 0">
 
-                            <Label DockPanel.Dock="Top"
+                        <Label DockPanel.Dock="Top"
                                Content="{DynamicResource SettingsControlView.Label.Content.DisplayedSetsBlocks}" />
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Logic}"
                                           IsOn="{Binding BlocklyLogicCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Colors}"
                                           IsOn="{Binding BlocklyColorCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Lists}"
                                           IsOn="{Binding BlocklyListsCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Loops}"
                                           IsOn="{Binding BlocklyLoopCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Math}"
                                           IsOn="{Binding BlocklyMathCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Procedures}"
                                           IsOn="{Binding BlocklyProcedureCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Texts}"
                                           IsOn="{Binding BlocklyTextCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Variables}"
                                           IsOn="{Binding BlocklyVariableCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"
+                        <mah:ToggleSwitch DockPanel.Dock="Top"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Adam.2.6}"
                                           IsOn="{Binding BlocklyAdamTwoCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                            <mah:ToggleSwitch DockPanel.Dock="Top"                                          
+                        <mah:ToggleSwitch DockPanel.Dock="Top"                                          
                                           IsOn="{Binding BlocklyAdamThreeCategoryState, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                           Content="{DynamicResource SettingsControlView.ToggleSwitch.Content.BlockNames.Adam.2.7}">
-                            </mah:ToggleSwitch>
+                        </mah:ToggleSwitch>
 
-                        </DockPanel>
+                    </DockPanel>
 
-                        <!--#endregion-->
+                    <!--#endregion-->
 
-                        <!--#region Button -->
+                    <!--#region Button -->
 
-                        <DockPanel  Grid.Column="1" 
+                    <DockPanel  Grid.Column="1" 
                                     Grid.Row="0" 
                                     
                                     Margin="10 0 10 0"
                                     LastChildFill="False">
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                           Margin="0 35 0 0"
                                           
                                       IsChecked="{Binding BlocklyShowGrid, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial Kind="Grid" Margin="0 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowGridText}" />
+                                <iconPacks:PackIconMaterial Kind="Grid" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowGridText}" />
 
-                                </StackPanel>
-                            </ToggleButton>
+                            </StackPanel>
+                        </ToggleButton>
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                       Margin="0 10 0 0"
                                       IsChecked="{Binding BlocklyShowTrashcan, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial Kind="TrashCanOutline" Margin="0 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowTrashCan}" />
+                                <iconPacks:PackIconMaterial Kind="TrashCanOutline" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowTrashCan}" />
 
-                                </StackPanel>
+                            </StackPanel>
 
-                            </ToggleButton>
+                        </ToggleButton>
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                       Margin="0 10 0 0"
                                       IsChecked="{Binding BlocklySnapToGridNodes, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial  Kind="ViewGrid" Margin="0 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.AlignBlocks}"/>
+                                <iconPacks:PackIconMaterial  Kind="ViewGrid" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.AlignBlocks}"/>
 
-                                </StackPanel>
+                            </StackPanel>
 
-                            </ToggleButton>
+                        </ToggleButton>
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                       Margin="0 10 0 0"
                                       IsChecked="{Binding BlocklyRestoreBlockOnLoad, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial  Kind="Restore" Margin="0 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowLast}" />
+                                <iconPacks:PackIconMaterial  Kind="Restore" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShowLast}" />
 
-                                </StackPanel>
-                            </ToggleButton>
+                            </StackPanel>
+                        </ToggleButton>
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                       Margin="0 10 0 0"
                                       IsChecked="{Binding DontShowBrowserMenuInBlockly, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial  Kind="Menu" Margin="10 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.BrowserMenuNotShow}"/>
+                                <iconPacks:PackIconMaterial  Kind="Menu" Margin="10 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.BrowserMenuNotShow}"/>
 
-                                </StackPanel>
-                            </ToggleButton>
+                            </StackPanel>
+                        </ToggleButton>
 
 
-                            <ToggleButton DockPanel.Dock="Top"
+                        <ToggleButton DockPanel.Dock="Top"
                                       Margin="0 10 0 0"
                                       IsChecked="{Binding ShadowWorkspaceInDebug, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
 
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 
-                                    <iconPacks:PackIconMaterial  Kind="BlockHelper" Margin="0 0 5 0"/>
-                                    <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShadowOnDebug}" />
+                                <iconPacks:PackIconMaterial  Kind="BlockHelper" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource SettingsControlView.ToggleButton.TextBox.ShadowOnDebug}" />
 
-                                </StackPanel>
-                            </ToggleButton>
-                        </DockPanel>
+                            </StackPanel>
+                        </ToggleButton>
+                    </DockPanel>
 
-                        <!--#endregion-->
+                    <!--#endregion-->
 
-                        <!--#region ChangeSpacingSwitch -->
+                    <!--#region ChangeSpacingSwitch -->
 
-                        <DockPanel Grid.Column="0"
+                    <DockPanel Grid.Column="0"
                                Grid.Row="1"
                                    
                                Grid.ColumnSpan="2"
                                Margin="10 0 10 0">
 
-                            <mah:ToggleSwitch DockPanel.Dock="Left"
+                        <mah:ToggleSwitch DockPanel.Dock="Left"
                                           x:Name="ChangeSpacingSwitch"
                                           Header="{DynamicResource SettingsControlView.ToggleSwitch.Header.ChangeSpacingSwitch}"
                                           OnContent="{DynamicResource SettingsControlView.ToggleSwitch.OnContent.ChangeSpacingSwitch}"
@@ -279,7 +281,7 @@
                                           IsEnabled="{Binding BlocklyShowGrid, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                           Command="{Binding ChangeSpacingToggleSwitchDelegateCommand}"/>
 
-                            <mah:NumericUpDown DockPanel.Dock="Right"
+                        <mah:NumericUpDown DockPanel.Dock="Right"
                                                Margin="70 20 0 20"
                                                Value="{Binding BlocklyGridSpacing, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                                Minimum="5"
@@ -287,42 +289,42 @@
                                                Interval="5"
                                                FontWeight="Medium">
 
-                                <mah:NumericUpDown.IsEnabled>
-                                    <MultiBinding Converter="{StaticResource MultiConverter}">
-                                        <Binding ElementName="ChangeSpacingSwitch" Path="IsOn"/>
-                                        <Binding ElementName="ChangeSpacingSwitch" Path="IsEnabled"/>
-                                    </MultiBinding>
-                                </mah:NumericUpDown.IsEnabled>
+                            <mah:NumericUpDown.IsEnabled>
+                                <MultiBinding Converter="{StaticResource MultiConverter}">
+                                    <Binding ElementName="ChangeSpacingSwitch" Path="IsOn"/>
+                                    <Binding ElementName="ChangeSpacingSwitch" Path="IsEnabled"/>
+                                </MultiBinding>
+                            </mah:NumericUpDown.IsEnabled>
 
-                            </mah:NumericUpDown>
-                        </DockPanel>
+                        </mah:NumericUpDown>
+                    </DockPanel>
 
-                        <!--#endregion-->
+                    <!--#endregion-->
 
-                    </Grid>
-                </GroupBox>
-            </DockPanel>
+                </Grid>
+            </GroupBox>
+        </DockPanel>
 
-            <!--#endregion-->
+        <!--#endregion-->
 
-            <!--#region Connect settings -->
+        <!--#region Connect settings -->
 
-            <DockPanel Width="280" Margin="10 0 0 0" Grid.Column="2" LastChildFill="False">
+        <DockPanel Width="280" Margin="10 0 0 0" Grid.Column="2" LastChildFill="False">
 
-                <GroupBox DockPanel.Dock="Top"
+            <GroupBox DockPanel.Dock="Top"
                       Header="{DynamicResource SettingsControlView.GroupBox.Header.ConnectionAndNotificationSettings}">
 
-                    <DockPanel Margin="10 10 10 0">
+                <DockPanel Margin="10 10 10 0">
 
-                        <StackPanel DockPanel.Dock="Top" 
+                    <StackPanel DockPanel.Dock="Top" 
                                     Margin="0 0 0 10"
                                     HorizontalAlignment="Right"
                                     Orientation="Horizontal">
 
-                            <Label FontSize="14" 
+                        <Label FontSize="14" 
                                Content="{DynamicResource SettingsControlView.StackPanel.TextBox.RobotIp}"/>
 
-                            <TextBox DockPanel.Dock="Right"
+                        <TextBox DockPanel.Dock="Right"
                                  Width="150"
                                  HorizontalContentAlignment ="Center"
                                  VerticalContentAlignment="Center"
@@ -331,64 +333,63 @@
                                  
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="192.168.50.10"/>
-                        </StackPanel>
+                    </StackPanel>
 
-                        <Button DockPanel.Dock="Top"
+                    <Button DockPanel.Dock="Top"
                             Margin="0 0 0 10"
                             Content="{DynamicResource SettingsControlView.Button.Content.WebApiSettings}"
                             Command="{Binding OpenWebApiSettingsDelegateCommand}"/>
 
-                        <Button DockPanel.Dock="Top"
+                    <Button DockPanel.Dock="Top"
                             Margin="0 0 0 10"
                             Content="{DynamicResource SettingsControlView.Button.Content.PortSettings}"
                             Command="{Binding OpenPortSettingsDelegateCommand}"/>
 
-                        <ToggleButton DockPanel.Dock="Top"
+                    <ToggleButton DockPanel.Dock="Top"
                                   Margin="0 0 0 10"
                                   Content="{DynamicResource SettingsControlView.ToggleButton.Content.ConnectOnStart}"
                                   IsChecked="{Binding AutoStartTcpConnect, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                        <ToggleButton DockPanel.Dock="Top"
+                    <ToggleButton DockPanel.Dock="Top"
                                   Margin="0 0 0 10"
                                   Content="{DynamicResource SettingsControlView.ToggleButton.Content.NotifyOnDisconnection}"
                                   IsChecked="{Binding IsMessageShowOnAbortMainConnection, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                    </DockPanel>
+                </DockPanel>
 
-                </GroupBox>
+            </GroupBox>
 
-            </DockPanel>
+        </DockPanel>
 
-            <!--#endregion-->
+        <!--#endregion-->
 
-            <!--#region UserFolder settings -->
+        <!--#region UserFolder settings -->
 
-            <DockPanel Margin="10 0 0 0" Grid.Column="3" Width="220" LastChildFill="False">
+        <DockPanel Margin="10 0 0 0" Grid.Column="3" Width="220" LastChildFill="False">
 
-                <GroupBox DockPanel.Dock="Top"
+            <GroupBox DockPanel.Dock="Top"
                           Header="{DynamicResource SettingsControlView.GroupBox.Header.EnvironmentsSetting}">
 
-                    <DockPanel Margin="10">
+                <DockPanel Margin="10">
 
-                        <ToggleButton DockPanel.Dock="Top"
+                    <ToggleButton DockPanel.Dock="Top"
                                   Margin="0 0 0 10"
                                   Content="{DynamicResource SettingsControlView.ToggleButton.Content.CreateUserFolder}"
                                   IsChecked="{Binding CreateUserDirrectory, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                        <Button DockPanel.Dock="Top"
+                    <Button DockPanel.Dock="Top"
                             Content="{DynamicResource SettingsControlView.Button.Content.SettingsUserFolder}"
                             IsEnabled="{Binding CreateUserDirrectory, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                             Command="{Binding OpenUserFolderSettingsDelegateCommand}"/>
 
-                    </DockPanel>
+                </DockPanel>
 
-                </GroupBox>
+            </GroupBox>
 
-            </DockPanel>
-            
-            <!--#endregion-->
-            
-        </Grid>
-    
+        </DockPanel>
+
+        <!--#endregion-->
+
+    </Grid>
 
 </UserControl>

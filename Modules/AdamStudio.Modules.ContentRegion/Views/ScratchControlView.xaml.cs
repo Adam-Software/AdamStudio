@@ -56,7 +56,6 @@ namespace AdamStudio.Modules.ContentRegion.Views
             mWebViewProvider.RaiseExecuteReloadWebViewEvent += RaiseExecuteReloadWebViewEvent;
 
             /*element event */
-            //TextResulEditor.TextChanged += TextResulEditorTextChanged;
             MainGrid.SizeChanged += MainGridSizeChanged;
             SourceEditor.SizeChanged += TextResulEditorSizeChanged;
 

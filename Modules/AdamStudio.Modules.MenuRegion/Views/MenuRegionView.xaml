@@ -21,12 +21,12 @@
 
             <MenuItem Header="{DynamicResource MainMenu.View.ScratchEditorHeader}" 
                       Command="{Binding ShowRegionCommand}"
-                      CommandParameter="{x:Static core:RegionNames.ScratchView}"
+                      CommandParameter="{x:Static core:ViewNames.ScratchView}"
                       IsChecked="{Binding IsCheckedScratchMenuItem}" />
 
             <MenuItem Header="{DynamicResource MainMenu.View.VisualSettingsHeader}" 
                       Command="{Binding ShowRegionCommand}"
-                      CommandParameter="{x:Static core:RegionNames.SettingsView}" 
+                      CommandParameter="{x:Static core:ViewNames.SettingsView}" 
                       IsChecked="{Binding IsCheckedVisualSettingsMenuItem}"/>
 
         </MenuItem>

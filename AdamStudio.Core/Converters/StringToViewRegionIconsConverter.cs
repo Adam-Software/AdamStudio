@@ -16,10 +16,10 @@ namespace AdamStudio.Core.Converters
             if (value != null)
                 stringValue = (string)value;
 
-            if (stringValue == RegionNames.SettingsRegion)
+            if (stringValue == ViewNames.SettingsView)
                 return PackIconSimpleIconsKind.Scratch;
 
-            if (stringValue == RegionNames.ScratchRegion)
+            if (stringValue == ViewNames.ScratchView)
                 return PackIconFeatherIconsKind.Settings;
 
             return PackIconSimpleIconsKind.AbbRobotStudio;

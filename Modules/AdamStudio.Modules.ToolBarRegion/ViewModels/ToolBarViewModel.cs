@@ -2,6 +2,7 @@
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Windows;
@@ -11,6 +12,12 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 {
     public class ToolBarViewModel : RegionViewModelBase
     {
+        #region DelegateCommands
+
+        public DelegateCommand CleanExecuteEditorDelegateCommand { get; }
+
+        #endregion
+
         private readonly ILogger<ToolBarViewModel> mLogger;
         private readonly ILogWriteEventAwareService mLogWriteEventAware;
         private readonly IPythonRemoteRunnerService mPythonRemoteRunner;
@@ -29,8 +36,27 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mPythonRemoteRunner = pythonRemoteRunner;
             mCultureProvider = cultureProvider;
 
-            //LoadResources();
+            CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
+
             mLogger.LogTrace("Load ~");
+        }
+
+        private void CleanExecuteEditor()
+        {
+            ResultText = string.Empty;
+            ResultExecutionTime = null;
+        }
+
+        private bool CleanExecuteEditorCanExecute()
+        {
+            //bool isPythonCodeNotExecute = !IsPythonCodeExecute;
+            bool isResultNotEmpty = ResultText?.Length > 0;
+            return /*isPythonCodeNotExecute &&*/ isResultNotEmpty;
+        }
+
+        private void RaiseDelegateCommandsCanExecuteChanged()
+        {
+            CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
         }
 
         #region Navigation
@@ -43,7 +69,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             Subscribe();
-           //LoadResources();
 
             base.OnNavigatedTo(navigationContext);
         }
@@ -74,8 +99,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             {
                 bool isNewValue = SetProperty(ref resultText, value);
 
-                //if (isNewValue)
-                    //CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
+                if (isNewValue)
+                    CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -94,11 +119,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             {
                 bool isNewValue = SetProperty(ref isPythonCodeExecute, value);
 
-                if (isNewValue)
+                /*if (isNewValue)
                 {
                     //OnPythonCodeExecuteStatusChange(IsPythonCodeExecute);
-                    //RaiseDelegateCommandsCanExecuteChanged();
-                }
+                    RaiseDelegateCommandsCanExecuteChanged();
+                }*/
             }
         }
 
@@ -137,7 +162,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private void UpdateResultExecutionTimeText(ExtendedCommandExecuteResult executeResult)
         {
-
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 ExtendedCommandExecuteResult fixResult = new()
@@ -157,11 +181,10 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
                 };
 
                 ResultExecutionTime = fixResult;
-                IsPythonCodeExecute = false;
             }));
         }
 
-        private void ClearResultText()
+        private void ClearResults()
         {
             ResultText = string.Empty;
             ResultExecutionTime = null;
@@ -188,6 +211,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private void OnRaisePythonScriptExecuteStart(object sender)
         {
             IsPythonCodeExecute = true;
+            mIsWarningStackOwerflowAlreadyShow = false;
+            ClearResults();
         }
 
         private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
@@ -197,6 +222,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
             UpdateResultText("", true);
             UpdateResultExecutionTimeText(remoteCommandExecuteResult);
+            IsPythonCodeExecute = false;
         }
 
         private void OnRaisePythonStandartOutput(object sender, string message)
@@ -204,11 +230,9 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             UpdateResultText(message);
         }
 
-
         private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender)
         {
             LoadResources();
-           
         }
 
         #endregion

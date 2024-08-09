@@ -20,58 +20,70 @@
         <converters:GridLengthConverter x:Key="GridLengthConverter" />
 
         <!--#region ResultsTemplate-->
-        
+
         <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
-            
-            <TabControl Grid.Column="0"
+
+            <DockPanel LastChildFill="True">
+
+                <Button DockPanel.Dock="Right"
+                        VerticalAlignment="Top"
                         Margin="5 10 5 0"
-                        BorderThickness="1"
-                        TabStripPlacement="Bottom"
-                        mah:TabControlHelper.CloseButtonEnabled="False"
-                        mah:HeaderedControlHelper.HeaderFontSize="13"
-                        mah:TabControlHelper.Underlined="SelectedTabItem"
-                        mah:TabControlHelper.UnderlinePlacement="Top"
-                        mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
-                        mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
-                        BorderBrush="{DynamicResource MahApps.Brushes.Text}">
+                        Command="{Binding CleanExecuteEditorDelegateCommand}">
 
-                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
+                    <iconPacks:Codicons Kind="ClearAll"/>
+                </Button>
 
-                    <ScrollViewer Grid.Row="1" Name="ResultScrollViewer" VerticalScrollBarVisibility="Auto">
+                <TabControl Grid.Column="0"
+                            Margin="5 10 5 0"
+                            BorderThickness="1"
+                            TabStripPlacement="Bottom"
+                            mah:TabControlHelper.CloseButtonEnabled="False"
+                            mah:HeaderedControlHelper.HeaderFontSize="13"
+                            mah:TabControlHelper.Underlined="SelectedTabItem"
+                            mah:TabControlHelper.UnderlinePlacement="Top"
+                            mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource MahApps.Brushes.Text}"
+                            mah:TabControlHelper.UnderlineBrush="{DynamicResource MahApps.Brushes.Text}"
+                            BorderBrush="{DynamicResource MahApps.Brushes.Text}">
 
-                        <TextBox x:Name="TextResulEditor"
-                             Margin="0 0 0 0"
-                             BorderThickness="0"
-                             HorizontalScrollBarVisibility="Auto"
-                             VerticalScrollBarVisibility="Auto"                 
-                             IsReadOnly="True"
-                             Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
-                            <in:Interaction.Triggers>
-                                <in:EventTrigger EventName="TextChanged">
-                                    <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
-                                </in:EventTrigger>
-                            </in:Interaction.Triggers>
+                        <ScrollViewer DockPanel.Dock="Right" Name="ResultScrollViewer" VerticalScrollBarVisibility="Auto">
 
-                        </TextBox>
-                    </ScrollViewer>
+                            <TextBox x:Name="TextResulEditor"
+                                     Margin="0 0 0 0"
+                                     BorderThickness="0"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     VerticalScrollBarVisibility="Auto"                 
+                                     IsReadOnly="True"
+                                     Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-                </mah:MetroTabItem>
+                                <in:Interaction.Triggers>
+                                    <in:EventTrigger EventName="TextChanged">
+                                        <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
+                                    </in:EventTrigger>
+                                </in:Interaction.Triggers>
 
-                <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
+                            </TextBox>
+                        </ScrollViewer>
 
-                    <StackPanel Margin="5 5 0 0">
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
-                        <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
-                    </StackPanel>
+                    </mah:MetroTabItem>
 
-                </mah:MetroTabItem>
+                    <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.ExecutionTime}">
 
-            </TabControl>
+                        <StackPanel Margin="5 5 0 0">
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.Succeesed, StringFormat=Succeesed: {0}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.ExitCode, StringFormat=Exit code: {0} }" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StartTime, StringFormat=Start time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.EndTime, StringFormat=End time: {0:HH:mm.ss.m}}" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.RunTime, StringFormat=Run time (ms): {0} }" />
+                            <TextBox BorderThickness="0" Text="{Binding ResultExecutionTime.StandardError}"/>
+                        </StackPanel>
+
+                    </mah:MetroTabItem>
+
+                </TabControl>
+
+            </DockPanel>
         </ControlTemplate>
         
         <!--#endregion-->

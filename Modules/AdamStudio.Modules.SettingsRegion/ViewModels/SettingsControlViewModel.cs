@@ -13,16 +13,16 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Media;
 
-namespace AdamStudio.Modules.ContentRegion.ViewModels
+namespace AdamStudio.Modules.SettingsRegion.ViewModels
 {
-    public class SettingsControlViewModel : RegionViewModelBase 
+    public class SettingsControlViewModel : RegionViewModelBase
     {
         #region DelegateCommands
 
         public DelegateCommand ChangeSpacingToggleSwitchDelegateCommand { get; }
         public DelegateCommand OpenPortSettingsDelegateCommand { get; }
         public DelegateCommand OpenWebApiSettingsDelegateCommand { get; }
-        public DelegateCommand OpenUserFolderSettingsDelegateCommand { get; }   
+        public DelegateCommand OpenUserFolderSettingsDelegateCommand { get; }
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, 
+        public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager,
             IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider, IRegionChangeAwareService subRegionChangeAwareService) : base(regionManager)
         {
             mFlyoutManager = flyoutManager;
@@ -115,7 +115,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            mRegionChangeAwareService.RegionNavigationTargetName = ViewNames.SettingsView;
+            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.SettingsRegion;
 
             ThemesCollection = mThemeManager.AppThemesCollection;
             SelectedTheme = mThemeManager.GetCurrentAppTheme();
@@ -136,10 +136,10 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         #region Public fields
 
         private List<CultureInfo> languageApp;
-        public List<CultureInfo> LanguageApp 
+        public List<CultureInfo> LanguageApp
         {
             get => languageApp;
-            private set => SetProperty(ref languageApp, value); 
+            private set => SetProperty(ref languageApp, value);
         }
 
         private CultureInfo selectedLanguageApp;
@@ -159,7 +159,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         }
 
         public ReadOnlyObservableCollection<Theme> themesCollection;
-        public ReadOnlyObservableCollection<Theme> ThemesCollection 
+        public ReadOnlyObservableCollection<Theme> ThemesCollection
         {
             get => themesCollection;
             set => SetProperty(ref themesCollection, value);
@@ -169,7 +169,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public Theme SelectedTheme
         {
             get => selectedTheme;
-            set 
+            set
             {
                 bool isNewValue = SetProperty(ref selectedTheme, value);
 
@@ -178,7 +178,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     mWebViewProvider.NeedReloadOnLoad = true;
                     ChangeTheme(SelectedTheme);
                 }
-            } 
+            }
         }
 
         #endregion
@@ -224,7 +224,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 Settings.Default.BlocklyWorkspaceLanguage = BlocklyLanguage.en;
                 Settings.Default.BlocklyToolboxLanguage = BlocklyLanguage.en;
             }
-                
+
             if (cultureInfo.TwoLetterISOLanguageName == "ru")
             {
                 Settings.Default.BlocklyWorkspaceLanguage = BlocklyLanguage.ru;

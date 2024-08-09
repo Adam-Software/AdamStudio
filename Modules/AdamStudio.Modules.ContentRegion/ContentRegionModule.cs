@@ -22,8 +22,8 @@ namespace AdamStudio.Modules.ContentRegion
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ScratchControlView>(nameof(ScratchControlView));
-            containerRegistry.RegisterForNavigation<SettingsControlView>(nameof(SettingsControlView));
+            containerRegistry.RegisterForNavigation<ScratchControlView>(ViewNames.ScratchView);
+            containerRegistry.RegisterForNavigation<SettingsControlView>(ViewNames.SettingsView);
         }
     }
 }

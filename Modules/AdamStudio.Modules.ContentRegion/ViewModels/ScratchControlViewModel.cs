@@ -35,7 +35,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public DelegateCommand ReloadWebViewDelegateCommand { get; }
         public DelegateCommand<string> ShowSaveFileDialogDelegateCommand { get; }
         public DelegateCommand<string> ShowOpenFileDialogDelegateCommand { get; }
-        public DelegateCommand CleanExecuteEditorDelegateCommand { get; }
+        //public DelegateCommand CleanExecuteEditorDelegateCommand { get; }
         public DelegateCommand RunPythonCodeDelegateCommand { get; }
         public DelegateCommand StopPythonCodeExecuteDelegateCommand { get; }
         public DelegateCommand ToZeroPositionDelegateCommand { get; }
@@ -124,7 +124,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             CopyToClipboardDelegateCommand = new DelegateCommand(CopyToClipboard, CopyToClipboardCanExecute);
             ReloadWebViewDelegateCommand = new DelegateCommand(ReloadWebView, ReloadWebViewCanExecute);
-            CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
+            //CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
             RunPythonCodeDelegateCommand = new DelegateCommand(RunPythonCode, RunPythonCodeCanExecute);
             StopPythonCodeExecuteDelegateCommand = new DelegateCommand(StopPythonCodeExecute, StopPythonCodeExecuteCanExecute);
             ToZeroPositionDelegateCommand = new DelegateCommand(ToZeroPosition, ToZeroPositionCanExecute);
@@ -133,22 +133,18 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             DirectionButtonUpDelegateCommand = new DelegateCommand<string>(DirectionButtonUp, DirectionButtonUpCanExecute);
 
             HighlightingDefinition = avalonEditService.GetDefinition(HighlightingName.AdamPython);
+
+            Subscribe();
         }
 
         #endregion
 
         #region Navigation
 
-        public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            base.ConfirmNavigationRequest(navigationContext, continuationCallback);
-        }
-
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            mRegionChangeAwareService.RegionNavigationTargetName = RegionNames.ScratchRegion;
+            mRegionChangeAwareService.RegionNavigationTargetName = ViewNames.ScratchView;
 
-            Subscribe();
             LoadResources();
             UpdateIsShowVideo(Settings.Default.ShowVideo);
 
@@ -327,7 +323,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
             //mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
-            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
+            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent += RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent += RaiseWebViewNavigationCompleteEvent;
@@ -344,7 +340,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
             //mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
-            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
+            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent -= RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent -= RaiseWebViewNavigationCompleteEvent;
@@ -464,17 +460,17 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return isPythonCodeNotExecute;
         }
 
-        private void CleanExecuteEditor()
+        /*private void CleanExecuteEditor()
         {
-            //ClearResultText();   
-        }
+            ClearResultText();   
+        }*/
 
-        private bool CleanExecuteEditorCanExecute()
+        /*private bool CleanExecuteEditorCanExecute()
         {
             bool isPythonCodeNotExecute = !IsPythonCodeExecute;
             //var isResultNotEmpty = ResultText?.Length > 0;
             return isPythonCodeNotExecute;// &&  isResultNotEmpty;
-        }
+        }*/
 
         private async void RunPythonCode()
         {
@@ -710,13 +706,13 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     await mWebViewProvider.ExecuteJavaScript(Scripts.ShadowDisable);
                 }));
 
-                mStatusBarNotificationDelivery.CompileLogMessage = mCompileLogMessageEndDebug;
+                mLogger.LogInformation(mCompileLogMessageEndDebug);
                 mStatusBarNotificationDelivery.ProgressRingStart = false;
                 return;
             }
 
             //mIsWarningStackOwerflowAlreadyShow = false;
-            mStatusBarNotificationDelivery.CompileLogMessage = mCompileLogMessageStartDebug;
+            mLogger.LogInformation(mCompileLogMessageStartDebug);
             mStatusBarNotificationDelivery.ProgressRingStart = true;
 
 
@@ -788,7 +784,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             ReloadWebViewDelegateCommand.RaiseCanExecuteChanged();
             ShowSaveFileDialogDelegateCommand.RaiseCanExecuteChanged();
             ShowOpenFileDialogDelegateCommand.RaiseCanExecuteChanged();
-            CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
+            //CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
             RunPythonCodeDelegateCommand.RaiseCanExecuteChanged();
             StopPythonCodeExecuteDelegateCommand.RaiseCanExecuteChanged();
             ToZeroPositionDelegateCommand.RaiseCanExecuteChanged();
@@ -870,14 +866,10 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             UpdateResultText(message);
         }*/
 
-        /*private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
+        private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
         {
-            if (remoteCommandExecuteResult == null)
-                return;
-   
-            UpdateResultText("", true);
-            UpdateResultExecutionTimeText(remoteCommandExecuteResult);
-        }*/
+           IsPythonCodeExecute = false;
+        }
 
         private void OnRaiseIsVideoShowChangeEvent(object sender)
         {
@@ -919,7 +911,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     await mWebViewProvider.ExecuteJavaScript(Scripts.RestoreSavedBlocks);
                 }
 
-                //mLogger.LogInformation(mScretchLoadedCompleteLogMessage);
+                mLogger.LogInformation(mScretchLoadedCompleteLogMessage);
             }
             catch
             {
