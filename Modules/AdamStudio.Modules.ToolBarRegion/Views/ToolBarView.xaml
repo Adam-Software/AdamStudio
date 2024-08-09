@@ -25,13 +25,23 @@
 
             <DockPanel LastChildFill="True">
 
-                <Button DockPanel.Dock="Right"
-                        VerticalAlignment="Top"
-                        Margin="5 10 5 0"
-                        Command="{Binding CleanExecuteEditorDelegateCommand}">
+                <StackPanel DockPanel.Dock="Right">
 
-                    <iconPacks:Codicons Kind="ClearAll"/>
-                </Button>
+                    <Button VerticalAlignment="Top"
+                            Margin="5 10 5 0"
+                            Command="{Binding CleanExecuteEditorDelegateCommand}">
+
+                        <iconPacks:Codicons Kind="ClearAll"/>
+                    </Button>
+
+                    <!--<Button DockPanel.Dock="Right"
+                            VerticalAlignment="Top"
+                            Margin="5 10 5 0">
+
+                        <iconPacks:Codicons Kind="ArrowDown"/>
+                    </Button>-->
+
+                </StackPanel>
 
                 <TabControl Grid.Column="0"
                             Margin="5 10 5 0"
@@ -49,6 +59,7 @@
 
                         <ScrollViewer DockPanel.Dock="Right" Name="ResultScrollViewer" VerticalScrollBarVisibility="Auto">
 
+
                             <TextBox x:Name="TextResulEditor"
                                      Margin="0 0 0 0"
                                      BorderThickness="0"
@@ -61,6 +72,7 @@
                                     <in:EventTrigger EventName="TextChanged">
                                         <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
                                     </in:EventTrigger>
+
                                 </in:Interaction.Triggers>
 
                             </TextBox>
