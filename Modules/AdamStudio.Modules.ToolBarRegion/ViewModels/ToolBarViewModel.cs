@@ -1,5 +1,6 @@
 ﻿using AdamController.WebApi.Client.v1.ResponseModel;
 using AdamStudio.Core.Mvvm;
+using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
@@ -18,10 +19,18 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         #endregion
 
+        #region Services
+
         private readonly ILogger<ToolBarViewModel> mLogger;
         private readonly ILogWriteEventAwareService mLogWriteEventAware;
         private readonly IPythonRemoteRunnerService mPythonRemoteRunner;
         private readonly ICultureProvider mCultureProvider;
+        private readonly ITcpClientService mTcpClientService;
+        private readonly IWebApiService mWebApiService;
+
+        #endregion
+
+        #region Var
 
         private bool mIsWarningStackOwerflowAlreadyShow;
         private string mFinishAppExecute;
@@ -29,12 +38,17 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private string mWarningStackOwerflow2;
         private string mWarningStackOwerflow3;
 
-        public ToolBarViewModel(IRegionManager regionManager, ILogger<ToolBarViewModel> logger, ILogWriteEventAwareService logWriteEventAware, IPythonRemoteRunnerService pythonRemoteRunner, ICultureProvider cultureProvider) : base(regionManager)
+        #endregion
+
+        public ToolBarViewModel(IRegionManager regionManager, ILogger<ToolBarViewModel> logger, ILogWriteEventAwareService logWriteEventAware, IPythonRemoteRunnerService pythonRemoteRunner, ICultureProvider cultureProvider,
+            ITcpClientService tcpClientService, IWebApiService webApiService) : base(regionManager)
         {
             mLogger = logger;
             mLogWriteEventAware = logWriteEventAware;
             mPythonRemoteRunner = pythonRemoteRunner;
             mCultureProvider = cultureProvider;
+            mTcpClientService = tcpClientService;
+            mWebApiService = webApiService;
 
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
 
@@ -190,6 +204,42 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             ResultExecutionTime = null;
         }
 
+        private string mPythonVersion;
+        public string PythonVersion
+        {
+            get => mPythonVersion;
+            set => SetProperty(ref mPythonVersion, value);
+        }
+
+        private string mPythonBinPath;
+        public string PythonBinPath
+        {
+            get => mPythonBinPath;
+            set => SetProperty(ref mPythonBinPath, value);
+        }
+
+        private string mPythonWorkDir;
+        public string PythonWorkDir
+        {
+            get => mPythonWorkDir;
+            set => SetProperty(ref mPythonWorkDir, value);
+        }
+
+        private void UpdatePythonInfo(string pythonVersion = null, string pythonBinPath = null, string pythonWorkDir = null)
+        {
+            /*if (string.IsNullOrEmpty(pythonVersion))
+            {
+                //PythonVersion = string.Empty;
+                //PythonBinPath = string.Empty;
+                //PythonWorkDir = string.Empty;
+                return;
+            }*/
+
+            PythonVersion = pythonVersion;
+            PythonBinPath = pythonBinPath;
+            PythonWorkDir = pythonWorkDir;
+        }
+
         private void LoadResources()
         {
             mFinishAppExecute = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.FinishAppExecute");
@@ -235,12 +285,33 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             LoadResources();
         }
 
+        private async void RaiseTcpCientConnectedEvent(object sender)
+        {
+            var pythonVersionResult = await mWebApiService.GetPythonVersion();
+            var pythonBinPathResult = await mWebApiService.GetPythonBinDir();
+            var pythonWorkDirResult = await mWebApiService.GetPythonWorkDir();
+
+            string pythonVersion = pythonVersionResult?.StandardOutput?.Replace("\n", "");
+            string pythonBinPath = pythonBinPathResult?.StandardOutput?.Replace("\n", "");
+            string pythonWorkDir = pythonWorkDirResult?.StandardOutput?.Replace("\n", "");
+
+            UpdatePythonInfo(pythonVersion, pythonBinPath, pythonWorkDir);
+        }
+
+        private void RaiseTcpClientDisconnectedEvent(object sender)
+        {
+            UpdatePythonInfo();
+        }
+
         #endregion
 
         #region Subscribes
 
         private void Subscribe()
         {
+            mTcpClientService.RaiseTcpCientConnectedEvent += RaiseTcpCientConnectedEvent;
+            mTcpClientService.RaiseTcpClientDisconnectedEvent += RaiseTcpClientDisconnectedEvent;
+
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
 
             mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
@@ -252,6 +323,9 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private void Unsubscribe()
         {
+            mTcpClientService.RaiseTcpCientConnectedEvent -= RaiseTcpCientConnectedEvent;
+            mTcpClientService.RaiseTcpClientDisconnectedEvent -= RaiseTcpClientDisconnectedEvent;
+
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;
 
             mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;

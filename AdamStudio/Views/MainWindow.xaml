@@ -32,7 +32,8 @@
         <mah:WindowCommands ShowLastSeparator="False">
             <StackPanel Orientation="Horizontal" >
                 
-                <ContentControl Margin="5 0 10 0" prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" />
+                <ContentControl Margin="5 0 10 0" 
+                                prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" />
 
             </StackPanel> 
         </mah:WindowCommands>
@@ -110,7 +111,8 @@
     <!--#region Flayouts -->
 
     <mah:MetroWindow.Flyouts>
-        <customusercontrol:FlyoutContainer Margin="0 25 0 25" prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
+        <customusercontrol:FlyoutContainer Margin="0 25 0 25" 
+                                           prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
     </mah:MetroWindow.Flyouts>
 
     <!--#endregion-->
@@ -136,7 +138,7 @@
                                  prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 
         <ContentControl Grid.Row="1" 
-                        prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}"/>
+                        prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}" />
 
         <ContentControl Grid.Row="2" 
                         Height="25"  

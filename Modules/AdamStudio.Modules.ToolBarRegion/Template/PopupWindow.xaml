@@ -15,7 +15,8 @@
                             CloseOnMouseLeftButtonDown="False"
                             Height="{Binding Height, ElementName=popupWindow, Mode=TwoWay}"
                             Width="{Binding Width, ElementName=popupWindow}"
-                            IsOpen="{Binding IsOpen,  ElementName=popupWindow}">
+                            IsOpen="{Binding IsOpen,  ElementName=popupWindow}"
+                            >
 
 
         <DockPanel LastChildFill="True" 

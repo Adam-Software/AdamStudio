@@ -35,7 +35,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public DelegateCommand ReloadWebViewDelegateCommand { get; }
         public DelegateCommand<string> ShowSaveFileDialogDelegateCommand { get; }
         public DelegateCommand<string> ShowOpenFileDialogDelegateCommand { get; }
-        //public DelegateCommand CleanExecuteEditorDelegateCommand { get; }
         public DelegateCommand RunPythonCodeDelegateCommand { get; }
         public DelegateCommand StopPythonCodeExecuteDelegateCommand { get; }
         public DelegateCommand ToZeroPositionDelegateCommand { get; }
@@ -69,14 +68,8 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region Var
 
-        //private bool mIsWarningStackOwerflowAlreadyShow;
-
         private string mCompileLogMessageStartDebug; 
         private string mCompileLogMessageEndDebug;
-        //private string mFinishAppExecute;
-        //private string mWarningStackOwerflow1;
-        //private string mWarningStackOwerflow2;
-        //private string mWarningStackOwerflow3;
 
         private string mSaveWorkspaceDialogTitle;
         private string mSaveScriptFileDialogTitle;
@@ -124,7 +117,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             CopyToClipboardDelegateCommand = new DelegateCommand(CopyToClipboard, CopyToClipboardCanExecute);
             ReloadWebViewDelegateCommand = new DelegateCommand(ReloadWebView, ReloadWebViewCanExecute);
-            //CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
+
             RunPythonCodeDelegateCommand = new DelegateCommand(RunPythonCode, RunPythonCodeCanExecute);
             StopPythonCodeExecuteDelegateCommand = new DelegateCommand(StopPythonCodeExecute, StopPythonCodeExecuteCanExecute);
             ToZeroPositionDelegateCommand = new DelegateCommand(ToZeroPosition, ToZeroPositionCanExecute);
@@ -232,60 +225,12 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
         }
 
-        /*private string resultText;
-        public string ResultText
-        {
-            get => resultText;
-            set 
-            {
-                bool isNewValue = SetProperty(ref resultText, value);
-
-                if(isNewValue)
-                    CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
-            } 
-        }
-
-        private ExtendedCommandExecuteResult resultExecutionTime;
-        public ExtendedCommandExecuteResult ResultExecutionTime
-        {
-            get => resultExecutionTime;
-            set => SetProperty(ref resultExecutionTime, value);    
-        }
-
-        private ExtendedCommandExecuteResult resultInitilizationTime;
-        public ExtendedCommandExecuteResult ResultInitilizationTime
-        {
-            get => resultInitilizationTime;
-            set => SetProperty(ref resultInitilizationTime, value);
-        }*/
-
-        private string pythonVersion;
-        public string PythonVersion
-        {
-            get => pythonVersion;
-            set => SetProperty(ref pythonVersion, value);
-        }
-
         private float sliderValue;
         public float SliderValue
         {
             get => sliderValue;
             set => SetProperty(ref sliderValue, value);
         }
-
-        /*private string pythonBinPath;
-        public string PythonBinPath
-        {
-            get => pythonBinPath;
-            set => SetProperty(ref pythonBinPath, value);
-        }
-
-        private string pythonWorkDir;
-        public string PythonWorkDir
-        {
-            get => pythonWorkDir;
-            set => SetProperty(ref pythonWorkDir, value);
-        }*/
 
         private IHighlightingDefinition highlightingDefinition;
         public IHighlightingDefinition HighlightingDefinition
@@ -321,8 +266,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent += OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent += OnRaiseTcpServiceClientDisconnect;
 
-            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
-            //mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
             mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent += RaiseWebViewbMessageReceivedEvent;
@@ -338,8 +281,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent -= OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent -= OnRaiseTcpServiceClientDisconnect;
 
-            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
-            //mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
             mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent -= RaiseWebViewbMessageReceivedEvent;
@@ -460,18 +401,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return isPythonCodeNotExecute;
         }
 
-        /*private void CleanExecuteEditor()
-        {
-            ClearResultText();   
-        }*/
-
-        /*private bool CleanExecuteEditorCanExecute()
-        {
-            bool isPythonCodeNotExecute = !IsPythonCodeExecute;
-            //var isResultNotEmpty = ResultText?.Length > 0;
-            return isPythonCodeNotExecute;// &&  isResultNotEmpty;
-        }*/
-
         private async void RunPythonCode()
         {
 
@@ -479,9 +408,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             
             try
             {
-                //ClearResultText();
-
-
                 var command = new AdamController.WebApi.Client.v1.RequestModel.PythonCommandModel
                 {
                     Command = source
@@ -490,17 +416,10 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 IsPythonCodeExecute = true;
                 
                 _ = await mWebApiService.PythonExecuteAsync(command);
-                
-                //ExtendedCommandExecuteResult executeResult = await mWebApiService.PythonExecuteAsync(command);
-                //UpdateResultInitilizationTimeText(executeResult);
             }
             catch
             {
-                //IsPythonCodeExecute = false;
-            }
-            finally
-            {
-                //IsPythonCodeExecute = false;
+                
             }
         }
 
@@ -629,73 +548,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             IsShowVideo = isShowVideo;
         }
 
-        /*rivate void UpdateResultText(string text, bool isFinishMessage = false)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                if (isFinishMessage)
-                {
-                    ResultText += "\n======================\n";
-                    ResultText += $"<<{mFinishAppExecute}>>\n";
-                }
-
-                if(!isFinishMessage)
-                {
-                    if (ResultText?.Length > 500)
-                    {
-                        if (!mIsWarningStackOwerflowAlreadyShow)
-                        {
-                            string warningMessage = $"\n{mWarningStackOwerflow1}\n{mWarningStackOwerflow2}\n{mWarningStackOwerflow3}\n";
-                            ResultText += warningMessage;
-                            mIsWarningStackOwerflowAlreadyShow = true;
-                        }
-
-                        return;
-                    }
-
-                    ResultText += text;
-                }
-            }));
-        }*/
-
-        /*private void UpdateResultExecutionTimeText(ExtendedCommandExecuteResult executeResult)
-        {
-            
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                ExtendedCommandExecuteResult fixResult = new()
-                {
-                    StandardOutput = executeResult.StandardOutput,
-                    StandardError = executeResult.StandardError,
-
-                    StartTime = executeResult.StartTime,
-                    EndTime = executeResult.EndTime,
-                    RunTime = executeResult.RunTime,
-
-                    ExitCode = executeResult.ExitCode,
-
-                    // The server always returns False
-                    // Therefore, the success of completion is determined by the exit code
-                    Succeesed = executeResult.ExitCode == 0
-                };
-
-                ResultExecutionTime = fixResult;
-                IsPythonCodeExecute = false;
-            }));
-        }*/
-
-        /*private void UpdateResultInitilizationTimeText(ExtendedCommandExecuteResult executeResult)
-        {
-            ResultInitilizationTime = executeResult;
-        }*/
-
-        /*private void ClearResultText()
-        {
-            ResultText = string.Empty;
-            ResultExecutionTime = null;
-            ResultInitilizationTime = null;
-        }*/
-
         private void OnPythonCodeExecuteStatusChange(bool isPythonCodeExecute)
         {
             
@@ -711,10 +563,8 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 return;
             }
 
-            //mIsWarningStackOwerflowAlreadyShow = false;
             mLogger.LogInformation(mCompileLogMessageStartDebug);
             mStatusBarNotificationDelivery.ProgressRingStart = true;
-
 
             if (!Settings.Default.ShadowWorkspaceInDebug) return;
 
@@ -724,20 +574,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }));
         }
 
-        private void UpdatePythonInfo(string pythonVersion = "", string pythonBinPath = "", string pythonWorkDir = "")
-        {
-            if (string.IsNullOrEmpty(pythonVersion))
-            {
-                PythonVersion = string.Empty;
-                //PythonBinPath = string.Empty;
-                //PythonWorkDir = string.Empty;
-                return;
-            }
 
-            PythonVersion = pythonVersion;
-            //PythonBinPath = $"[{pythonBinPath}]";
-            //PythonWorkDir = $"Рабочая дирректория {pythonWorkDir}";
-        }
 
         private async void OpenSupportedFile(OpenFileDialogResult result)
         {
@@ -784,7 +621,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             ReloadWebViewDelegateCommand.RaiseCanExecuteChanged();
             ShowSaveFileDialogDelegateCommand.RaiseCanExecuteChanged();
             ShowOpenFileDialogDelegateCommand.RaiseCanExecuteChanged();
-            //CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
             RunPythonCodeDelegateCommand.RaiseCanExecuteChanged();
             StopPythonCodeExecuteDelegateCommand.RaiseCanExecuteChanged();
             ToZeroPositionDelegateCommand.RaiseCanExecuteChanged();
@@ -794,11 +630,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         {
             mCompileLogMessageStartDebug = mCultureProvider.FindResource("DebuggerMessages.CompileLogMessageStartDebug");
             mCompileLogMessageEndDebug = mCultureProvider.FindResource("DebuggerMessages.CompileLogMessageEndDebug");
-            //mFinishAppExecute = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.FinishAppExecute");
-
-            //mWarningStackOwerflow1 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow1");
-            //mWarningStackOwerflow2 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow2");
-            //mWarningStackOwerflow3 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow3");
 
             mSaveWorkspaceDialogTitle = mCultureProvider.FindResource("ScratchControlViewModel.SaveWorkspaceFileDialog.DialogTitle");
             mSaveScriptFileDialogTitle = mCultureProvider.FindResource("ScratchControlViewModel.SaveScriptFileDialog.DialogTitle");
@@ -834,37 +665,15 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
         }
 
-        private async void OnRaiseTcpServiceCientConnected(object sender)
+        private void OnRaiseTcpServiceCientConnected(object sender)
         {
             IsTcpClientConnected = mCommunicationProvider.IsTcpClientConnected;
-
-            var pythonVersionResult = await mWebApiService.GetPythonVersion();
-            var pythonBinPathResult = await mWebApiService.GetPythonBinDir();
-            var pythonWorkDirResult = await mWebApiService.GetPythonWorkDir();
-
-            string pythonVersion = pythonVersionResult?.StandardOutput?.Replace("\n", "");
-            string pythonBinPath = pythonBinPathResult?.StandardOutput?.Replace("\n", "");
-            string pythonWorkDir = pythonWorkDirResult?.StandardOutput?.Replace("\n", "");
-
-            UpdatePythonInfo(pythonVersion, pythonBinPath, pythonWorkDir);
         }
 
         private void OnRaiseTcpServiceClientDisconnect(object sender, bool isUserRequest)
         {
             IsTcpClientConnected = mCommunicationProvider.IsTcpClientConnected;
-
-            UpdatePythonInfo();
         }
-
-        /*private void OnRaisePythonScriptExecuteStart(object sender)
-        {
-            IsPythonCodeExecute = true;
-        }*/
-
-        /*private void OnRaisePythonStandartOutput(object sender, string message)
-        {
-            UpdateResultText(message);
-        }*/
 
         private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
         {

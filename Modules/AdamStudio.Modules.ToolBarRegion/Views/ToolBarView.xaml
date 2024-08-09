@@ -81,6 +81,16 @@
 
                     </mah:MetroTabItem>
 
+                    <mah:MetroTabItem Header="Python version">
+
+                        <StackPanel Margin="5 5 0 0">
+                            <TextBox BorderThickness="0" Text="{Binding PythonVersion, StringFormat=Python version: {0}, TargetNullValue=Remote source disconected}" />
+                            <TextBox BorderThickness="0" Text="{Binding PythonBinPath, StringFormat=Python bin path: {0}, TargetNullValue=''}" />
+                            <TextBox BorderThickness="0" Text="{Binding PythonWorkDir, StringFormat=Python work dirrectory: {0}, TargetNullValue=''}" />
+                        </StackPanel>
+
+                    </mah:MetroTabItem>
+
                 </TabControl>
 
             </DockPanel>

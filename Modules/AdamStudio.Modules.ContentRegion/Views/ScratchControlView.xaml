@@ -565,11 +565,11 @@
                     <iconPacks:PackIconMaterial Padding="2"  Kind="HomeFloor0"/>
                 </Button>
 
-                <TextBlock Margin="0 0 10 0"
+                <!--<TextBlock Margin="0 0 10 0"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center" 
                            Text="{Binding PythonVersion}"
-                           Style="{DynamicResource MahApps.Styles.TextBlock.Watermark}"/>
+                           Style="{DynamicResource MahApps.Styles.TextBlock.Watermark}"/>-->
                     
             </DockPanel>
 
