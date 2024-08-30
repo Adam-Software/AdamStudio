@@ -26,22 +26,23 @@ using MahApps.Metro.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using AdamStudio.Core.Properties;
-using AdamStudio.Services.Interfaces;
-using AdamStudio.Views;
-using AdamStudio.Controls.CustomControls.Services;
-using AdamStudio.Services.TcpClientDependency;
-using AdamStudio.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Net;
 using Serilog.Core;
+
 using AdamStudio.Controls.CustomControls.RegionAdapters;
 using AdamStudio.Modules.ContentRegion;
 using AdamStudio.Modules.FlayoutsRegion;
 using AdamStudio.Modules.MenuRegion;
 using AdamStudio.Modules.StatusBarRegion;
 using AdamStudio.Modules.ToolBarRegion;
+using AdamStudio.Core.Properties;
+using AdamStudio.Services.Interfaces;
+using AdamStudio.Views;
+using AdamStudio.Controls.CustomControls.Services;
+using AdamStudio.Services.TcpClientDependency;
+using AdamStudio.Services;
 
 #endregion
 
@@ -223,6 +224,7 @@ namespace AdamStudio
 
         private void RegisterService(IContainerRegistry containerRegistry)
         {
+            
             containerRegistry.RegisterServices(services =>
             {
                 ILogWriteEventAwareService logWriteEventAware = Container.Resolve<ILogWriteEventAwareService>();
