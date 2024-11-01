@@ -63,7 +63,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
         }
 
         //?
-        //public string DownRightDirection { get; private set; } = "{\"move\":{\"x\": 0, \"y\": 1, \"z\": 0}}";
+        public string DownRightDirection { get; private set; } = "{\"move\":{\"x\": 0, \"y\": 1, \"z\": 0}}";
 
         //private void Button_KeyDown(object sender, KeyEventArgs e)
         //{

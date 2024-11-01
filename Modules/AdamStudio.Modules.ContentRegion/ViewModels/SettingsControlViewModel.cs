@@ -5,6 +5,7 @@ using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using ControlzEx.Theming;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -45,14 +46,13 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, 
-            IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider, IRegionChangeAwareService subRegionChangeAwareService) : base(regionManager)
+        public SettingsControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            mFlyoutManager = flyoutManager;
-            mThemeManager = themeManager;
-            mCultureProvider = cultureProvider;
-            mWebViewProvider = webViewProvider;
-            mRegionChangeAwareService = subRegionChangeAwareService;
+            mFlyoutManager = serviceProvider.GetService<IFlyoutManager>(); 
+            mThemeManager = serviceProvider.GetService<IThemeManagerService>();
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mWebViewProvider = serviceProvider.GetService<IWebViewProvider>();
+            mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
 
             ChangeSpacingToggleSwitchDelegateCommand = new DelegateCommand(ChangeSpacingToggleSwitch, ChangeSpacingToggleSwitchCanExecute);
             OpenPortSettingsDelegateCommand = new DelegateCommand(OpenPortSettings, OpenPortSettingsCanExecute);

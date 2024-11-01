@@ -5,12 +5,12 @@ using Prism.Regions;
 using System.Windows;
 using System;
 using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AdamStudio.Modules.MenuRegion.ViewModels
 {
     public class MenuRegionViewModel : RegionViewModelBase
     {
-
         #region DelegateCommands
 
         public DelegateCommand CloseAppCommand { get; }    
@@ -24,13 +24,17 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 
         #endregion
 
-        public MenuRegionViewModel(IRegionManager regionManager, IRegionChangeAwareService regionChangeAware) : base(regionManager)
+        #region ~
+
+        public MenuRegionViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            mRegionChangeAware = regionChangeAware;
+            mRegionChangeAware = serviceProvider.GetService<IRegionChangeAwareService>(); 
 
             CloseAppCommand = new DelegateCommand(CloseApp);
             ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
         }
+
+        #endregion
 
         #region Navigation
 

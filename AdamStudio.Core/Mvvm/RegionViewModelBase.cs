@@ -1,4 +1,5 @@
-﻿using Prism.Regions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Prism.Regions;
 using System;
 
 
@@ -15,9 +16,9 @@ namespace AdamStudio.Core.Mvvm
 
         #region ~
 
-        public RegionViewModelBase(IRegionManager regionManager)
+        public RegionViewModelBase(IServiceProvider serviceProvider)
         {
-            RegionManager = regionManager;
+            RegionManager = serviceProvider.GetService<IRegionManager>();
         }
 
         #endregion

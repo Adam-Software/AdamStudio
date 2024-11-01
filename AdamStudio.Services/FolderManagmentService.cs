@@ -1,4 +1,6 @@
 ﻿using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.IO;
@@ -16,8 +18,10 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public FolderManagmentService() 
+        public FolderManagmentService(IServiceProvider serviceProvider) 
         {
+            ILogger<FolderManagmentService> logger = serviceProvider.GetService<ILogger<FolderManagmentService>>();
+            logger.LogTrace("Init FolderManagmentService");
         }
 
         #endregion

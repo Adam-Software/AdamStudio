@@ -1,5 +1,7 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
 using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
@@ -13,10 +15,10 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
 
         #endregion
 
-        public PortSettingsViewModel(ICultureProvider cultureProvider) 
+        public PortSettingsViewModel(IServiceProvider serviceProvider) 
         {
             BorderThickness = 1;
-            mCultureProvider = cultureProvider;
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
         }
 
         protected override void OnChanging(bool isOpening)

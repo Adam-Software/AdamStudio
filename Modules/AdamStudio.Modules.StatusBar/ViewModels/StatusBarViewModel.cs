@@ -4,6 +4,7 @@ using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
 using MahApps.Metro.IconPacks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
@@ -46,21 +47,19 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
         #region ~
 
-        public StatusBarViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, IFlyoutStateChecker flyoutState, ICommunicationProviderService communicationProviderService, 
-                                    IStatusBarNotificationDeliveryService statusBarNotification, ICultureProvider cultureProvider, IControlHelper controlHelper,
-                                    ILogWriteEventAwareService logWriteEventAwareService, ILogger<StatusBarViewModel> logger) : base(regionManager)        {
-            mFlyoutManager = flyoutManager;
-            mCommunicationProviderService = communicationProviderService;
-            mStatusBarNotificationDelivery = statusBarNotification; 
-            mFlyoutState = flyoutState;
-            mCultureProvider = cultureProvider;
-            mControlHelper = controlHelper;
-            mLogWriteEventAwareService = logWriteEventAwareService;
-            mLogger = logger;
-
+        public StatusBarViewModel(IServiceProvider serviceProvider) : base(serviceProvider)        
+        {
+            mLogger = serviceProvider.GetService<ILogger<StatusBarViewModel>>();
+            mFlyoutManager = serviceProvider.GetService<IFlyoutManager>(); 
+            mCommunicationProviderService = serviceProvider.GetService<ICommunicationProviderService>(); 
+            mStatusBarNotificationDelivery = serviceProvider.GetService<IStatusBarNotificationDeliveryService>(); 
+            mFlyoutState = serviceProvider.GetService<IFlyoutStateChecker>(); 
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mLogWriteEventAwareService = serviceProvider.GetService<ILogWriteEventAwareService>();
+          
             OpenNotificationPanelDelegateCommand = new DelegateCommand(OpenNotificationPanel, OpenNotificationPanelCanExecute);
 
-            //LoadResource();
             LoadDefaultFieldValue();
         }
 

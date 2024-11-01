@@ -3,13 +3,12 @@ using AdamStudio.Controls.Enums;
 using AdamStudio.Core;
 using AdamStudio.Core.Extensions;
 using AdamStudio.Core.Model;
-using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
-using AdamStudio.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
-using Prism.Ioc;
+using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Globalization;
@@ -19,7 +18,7 @@ using System.Windows;
 
 namespace AdamStudio.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : BindableBase
     {
         #region DelegateCommands
 
@@ -34,6 +33,7 @@ namespace AdamStudio.ViewModels
         public IRegionChangeAwareService RegionChangeAwareService { get; }
         public IControlHelper ControlHelper { get; }
 
+        private readonly ILogger<MainWindowViewModel> mLoggerService;
         private readonly IRegionManager mRegionManager;
         private readonly IStatusBarNotificationDeliveryService mStatusBarNotification;
         private readonly ICommunicationProviderService mCommunicationProviderService;
@@ -42,28 +42,24 @@ namespace AdamStudio.ViewModels
         private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
-        private readonly ILogger<MainWindowViewModel> mLoggerService;
 
         #endregion
 
         #region ~
 
-        public MainWindowViewModel(ILogger<MainWindowViewModel> loggerService, IRegionManager regionManager, IRegionChangeAwareService regionChangeAwareService, IStatusBarNotificationDeliveryService statusBarNotification, 
-                    ICommunicationProviderService communicationProviderService, IFolderManagmentService folderManagment, IWebApiService webApiService, 
-                    IAvalonEditService avalonEditService, IThemeManagerService themeManager, ICultureProvider cultureProvider, 
-                    IControlHelper controlHelper) 
+        public MainWindowViewModel(IServiceProvider serviceProvider) 
         {
-            mRegionManager = regionManager;
-            mWebApiService = webApiService;
-            RegionChangeAwareService = regionChangeAwareService;
-            mStatusBarNotification = statusBarNotification;
-            mCommunicationProviderService = communicationProviderService;
-            mFolderManagment = folderManagment;
-            mAvalonEditService = avalonEditService;
-            mThemeManager = themeManager;
-            mCultureProvider = cultureProvider;
-            ControlHelper = controlHelper;
-            mLoggerService = loggerService;
+            mRegionManager = serviceProvider.GetService<IRegionManager>(); 
+            mWebApiService = serviceProvider.GetService<IWebApiService>(); 
+            RegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>(); 
+            mStatusBarNotification = serviceProvider.GetService<IStatusBarNotificationDeliveryService>(); 
+            mCommunicationProviderService = serviceProvider.GetService<ICommunicationProviderService>();
+            mFolderManagment = serviceProvider.GetService<IFolderManagmentService>(); 
+            mAvalonEditService = serviceProvider.GetService<IAvalonEditService>();
+            mThemeManager = serviceProvider.GetService<IThemeManagerService>();
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            ControlHelper = serviceProvider.GetService<IControlHelper>(); 
+            mLoggerService = serviceProvider.GetService<ILogger<MainWindowViewModel>>(); 
 
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
@@ -254,8 +250,8 @@ namespace AdamStudio.ViewModels
             mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent += RaiseTcpServiceCientConnectedEvent;
             mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
 
-            System.Windows.Application.Current.MainWindow.Loaded += MainWindowLoaded;
-            System.Windows.Application.Current.MainWindow.Closed += MainWindowClosed; 
+            Application.Current.MainWindow.Loaded += MainWindowLoaded;
+            Application.Current.MainWindow.Closed += MainWindowClosed; 
         }
 
         /// <summary>

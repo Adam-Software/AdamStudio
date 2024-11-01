@@ -3,7 +3,10 @@ using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using MahApps.Metro.IconPacks;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
+using Prism.Regions;
+using System;
 using System.Drawing;
 using System.Windows;
 
@@ -41,12 +44,12 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
 
         #region ~
 
-        public NotificationViewModel(ICommunicationProviderService communicationProvider, IStatusBarNotificationDeliveryService statusBarNotificationDelivery, IFlyoutStateChecker flyoutState, ICultureProvider cultureProvider) 
+        public NotificationViewModel(IServiceProvider serviceProvider) 
         {
-            mCommunicationProvider = communicationProvider;
-            mStatusBarNotificationDeliveryService = statusBarNotificationDelivery;
-            mFlyoutState = flyoutState;
-            mCultureProvider = cultureProvider;
+            mCommunicationProvider = serviceProvider.GetService<ICommunicationProviderService>(); ;
+            mStatusBarNotificationDeliveryService = serviceProvider.GetService<IStatusBarNotificationDeliveryService>(); 
+            mFlyoutState = serviceProvider.GetService<IFlyoutStateChecker>();
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
 
             ConnectButtonDelegateCommand = new(ConnectButton, ConnectButtonCanExecute);
             ReconnectNotificationButtonDelegateCommand = new(ReconnectNotificationButton, ReconnectNotificationButtonCanExecute);

@@ -3,8 +3,11 @@ using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.SystemDialogServiceDependency;
 using AdamStudio.Services.SystemDialogServiceDependency;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
+using Prism.Regions;
 using Prism.Services.Dialogs;
+using System;
 using System.Windows;
 
 namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
@@ -39,13 +42,13 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
 
         #endregion
 
-        public UserFoldersSettingsViewModel(IFolderManagmentService folderManagment, ICultureProvider cultureProvider, ISystemDialogService systemDialogService) 
+        public UserFoldersSettingsViewModel(IServiceProvider serviceProvider) 
         {
             ShowOpenFolderDialogDelegateCommand = new DelegateCommand<string>(ShowOpenFolderDialog, ShowOpenFolderDialogCanExecute);
 
-            mFolderManagment = folderManagment;
-            mCultureProvider = cultureProvider;
-            mSystemDialogService = systemDialogService;
+            mFolderManagment = serviceProvider.GetService<IFolderManagmentService>(); ;
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>(); ;
+            mSystemDialogService = serviceProvider.GetService<ISystemDialogService>(); ;
 
             BorderThickness = 1;
         }

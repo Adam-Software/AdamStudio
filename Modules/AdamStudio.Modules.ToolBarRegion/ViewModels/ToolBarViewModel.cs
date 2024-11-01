@@ -1,7 +1,7 @@
 ﻿using AdamController.WebApi.Client.v1.ResponseModel;
 using AdamStudio.Core.Mvvm;
-using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
@@ -40,20 +40,25 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         #endregion
 
-        public ToolBarViewModel(IRegionManager regionManager, ILogger<ToolBarViewModel> logger, ILogWriteEventAwareService logWriteEventAware, IPythonRemoteRunnerService pythonRemoteRunner, ICultureProvider cultureProvider,
-            ITcpClientService tcpClientService, IWebApiService webApiService) : base(regionManager)
+        #region ~
+
+        public ToolBarViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            mLogger = logger;
-            mLogWriteEventAware = logWriteEventAware;
-            mPythonRemoteRunner = pythonRemoteRunner;
-            mCultureProvider = cultureProvider;
-            mTcpClientService = tcpClientService;
-            mWebApiService = webApiService;
+            mLogger = serviceProvider.GetService<ILogger<ToolBarViewModel>>(); 
+            mLogWriteEventAware = serviceProvider.GetService<ILogWriteEventAwareService>();
+            mPythonRemoteRunner = serviceProvider.GetService<IPythonRemoteRunnerService>(); 
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>(); 
+            mTcpClientService = serviceProvider.GetService<ITcpClientService>(); 
+            mWebApiService = serviceProvider.GetService<IWebApiService>();
 
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
 
             mLogger.LogTrace("Load ~");
         }
+
+        #endregion
+
+        #region Commands method
 
         private void CleanExecuteEditor()
         {
@@ -63,15 +68,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private bool CleanExecuteEditorCanExecute()
         {
-            //bool isPythonCodeNotExecute = !IsPythonCodeExecute;
             bool isResultNotEmpty = ResultText?.Length > 0;
-            return /*isPythonCodeNotExecute &&*/ isResultNotEmpty;
+            return isResultNotEmpty;
         }
 
-        private void RaiseDelegateCommandsCanExecuteChanged()
-        {
-            CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
-        }
+        #endregion
 
         #region Navigation
 
@@ -143,7 +144,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         #endregion
 
-        #region PrivateMethods
+        #region Private Methods
 
         private void UpdateResultText(string text, bool isFinishMessage = false)
         {
@@ -227,14 +228,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private void UpdatePythonInfo(string pythonVersion = null, string pythonBinPath = null, string pythonWorkDir = null)
         {
-            /*if (string.IsNullOrEmpty(pythonVersion))
-            {
-                //PythonVersion = string.Empty;
-                //PythonBinPath = string.Empty;
-                //PythonWorkDir = string.Empty;
-                return;
-            }*/
-
             PythonVersion = pythonVersion;
             PythonBinPath = pythonBinPath;
             PythonWorkDir = pythonWorkDir;
@@ -247,6 +240,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mWarningStackOwerflow1 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow1");
             mWarningStackOwerflow2 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow2");
             mWarningStackOwerflow3 = mCultureProvider.FindResource("DebuggerMessages.ResultMessages.WarningStackOwerflow3");
+        }
+
+        private void RaiseDelegateCommandsCanExecuteChanged()
+        {
+            CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
         }
 
         #endregion

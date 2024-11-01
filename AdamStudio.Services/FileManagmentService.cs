@@ -1,6 +1,10 @@
 ﻿using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Prism.DryIoc;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -17,7 +21,11 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public FileManagmentService() { }
+        public FileManagmentService() 
+        {
+            
+            
+        }
 
         #endregion
 

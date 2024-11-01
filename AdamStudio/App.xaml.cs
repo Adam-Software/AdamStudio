@@ -236,7 +236,6 @@ namespace AdamStudio
                     .WriteTo.File("logs/log-.txt",
                             rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
                             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
-
                     .CreateLogger();
 
                 services.AddLogging(s => s.AddSerilog(mainLogger, dispose: true));

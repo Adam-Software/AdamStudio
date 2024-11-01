@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
@@ -45,6 +46,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region Services
 
+        private readonly ILogger<ScratchControlViewModel> mLogger;
         private readonly ICommunicationProviderService mCommunicationProvider;
         private readonly IPythonRemoteRunnerService mPythonRemoteRunner;
         private readonly IStatusBarNotificationDeliveryService mStatusBarNotificationDelivery;
@@ -56,7 +58,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IControlHelper mControlHelper;
         private readonly IVideoViewProvider mVideoViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
-        private readonly ILogger<ScratchControlViewModel> mLogger;
 
         #endregion
 
@@ -92,25 +93,20 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public ScratchControlViewModel(ILogger<ScratchControlViewModel> logger, IRegionManager regionManager, ICommunicationProviderService communicationProvider, IPythonRemoteRunnerService pythonRemoteRunner, 
-                        IStatusBarNotificationDeliveryService statusBarNotificationDelivery, IWebViewProvider webViewProvider,
-                        IFileManagmentService fileManagment, IWebApiService webApiService, IAvalonEditService avalonEditService,
-                        ICultureProvider cultureProvider, ISystemDialogService systemDialogService, IControlHelper controlHelper,
-                        IVideoViewProvider videoViewProvider, IRegionChangeAwareService regionChangeAwareService) : base(regionManager)
+        public ScratchControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-
-            mLogger = logger;
-            mCommunicationProvider = communicationProvider;
-            mPythonRemoteRunner = pythonRemoteRunner;
-            mStatusBarNotificationDelivery = statusBarNotificationDelivery;
-            mWebViewProvider = webViewProvider;
-            mFileManagment = fileManagment;
-            mWebApiService = webApiService;
-            mCultureProvider = cultureProvider;
-            mSystemDialog = systemDialogService;
-            mControlHelper = controlHelper;
-            mVideoViewProvider = videoViewProvider;
-            mRegionChangeAwareService = regionChangeAwareService;
+            mLogger = serviceProvider.GetService<ILogger<ScratchControlViewModel>>();
+            mCommunicationProvider = serviceProvider.GetService<ICommunicationProviderService>();
+            mPythonRemoteRunner = serviceProvider.GetService<IPythonRemoteRunnerService>();
+            mStatusBarNotificationDelivery = serviceProvider.GetService<IStatusBarNotificationDeliveryService>();
+            mWebViewProvider = serviceProvider.GetService<IWebViewProvider>();
+            mFileManagment = serviceProvider.GetService<IFileManagmentService>();
+            mWebApiService = serviceProvider.GetService<IWebApiService>();
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mSystemDialog = serviceProvider.GetService<ISystemDialogService>();
+            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
+            mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
 
             ShowSaveFileDialogDelegateCommand = new DelegateCommand<string>(ShowSaveFileDialog, ShowSaveFileDialogCanExecute);
             ShowOpenFileDialogDelegateCommand = new DelegateCommand<string>(ShowOpenFileDialog, ShowOpenFileDialogCanExecute);
@@ -125,7 +121,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             DirectionButtonDownDelegateCommand = new DelegateCommand<string>(DirectionButtonDown, DirectionButtonDownCanExecute);
             DirectionButtonUpDelegateCommand = new DelegateCommand<string>(DirectionButtonUp, DirectionButtonUpCanExecute);
 
-            HighlightingDefinition = avalonEditService.GetDefinition(HighlightingName.AdamPython);
+            HighlightingDefinition = serviceProvider.GetService<IAvalonEditService>().GetDefinition(HighlightingName.AdamPython);
 
             Subscribe();
         }
@@ -440,10 +436,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             {
                 await mWebApiService.StopPythonExecute();
             }
-            catch
-            {
-
-            }
+            catch {}
         }
 
         private bool StopPythonCodeExecuteCanExecute()
@@ -461,10 +454,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 await mWebApiService.StopPythonExecute();
                 await mWebApiService.MoveToZeroPosition();
             }
-            catch
-            {
-
-            }
+            catch {}
         }
 
         private bool ToZeroPositionCanExecute()
@@ -573,8 +563,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 await mWebViewProvider.ExecuteJavaScript(Scripts.ShadowEnable);
             }));
         }
-
-
 
         private async void OpenSupportedFile(OpenFileDialogResult result)
         {
