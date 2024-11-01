@@ -1,7 +1,7 @@
-﻿using AdamBlocklyLibrary.Properties;
-using AdamStudio.Services.Interfaces;
+﻿using AdamStudio.Services.Interfaces;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 
@@ -18,9 +18,9 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public AvalonEditService(IFileManagmentService fileManagmentService)
+        public AvalonEditService(IServiceProvider serviceProvider)
         {    
-            mFileManagmentService = fileManagmentService;
+            mFileManagmentService = serviceProvider.GetService<IFileManagmentService>();
             mHighlightingManager = HighlightingManager.Instance;
         }
 

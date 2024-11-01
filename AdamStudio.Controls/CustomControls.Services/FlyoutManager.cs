@@ -1,5 +1,6 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
 using DryIoc;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Regions;
 using System.Windows;
 
@@ -28,10 +29,18 @@ namespace AdamStudio.Controls.CustomControls.Services
         /// </summary>
         /// <param name="container">DryIoc container, generally passed by dependency injection.</param>
         /// <param name="regionManager">Region manager, generally passed by dependency injection.</param>
-        public FlyoutManager(IContainer container, IRegionManager regionManager)
+        //public FlyoutManager(IContainer container, IRegionManager regionManager)
+        //{
+        //    mDryIocContainer = container;
+        //    RegionManager = regionManager;
+
+        //    mFlyouts = new Dictionary<string, IFlyout>();
+        //}
+
+        public FlyoutManager(IServiceProvider serviceProvider)
         {
-            mDryIocContainer = container;
-            RegionManager = regionManager;
+            mDryIocContainer = serviceProvider.GetService<IContainer>();
+            RegionManager = serviceProvider.GetService<IRegionManager>();
 
             mFlyouts = new Dictionary<string, IFlyout>();
         }

@@ -1,5 +1,7 @@
 ﻿using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.UdpClientServiceDependency;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,13 +37,12 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public CommunicationProviderService(ITcpClientService adamTcpClientService, IUdpClientService adamUdpClientService, 
-            IUdpServerService adamUdpServerService, IWebSocketClientService adamWebSocketClientService)
+        public CommunicationProviderService(IServiceProvider serviceProvider)
         {
-            mTcpClientService = adamTcpClientService;
-            mUdpClientService = adamUdpClientService;
-            mUdpServerService = adamUdpServerService;
-            mWebSocketClientService = adamWebSocketClientService;
+            mTcpClientService = serviceProvider.GetService<ITcpClientService>(); 
+            mUdpClientService = serviceProvider.GetService<IUdpClientService>();
+            mUdpServerService = serviceProvider.GetService<IUdpServerService>();
+            mWebSocketClientService = serviceProvider.GetService<IWebSocketClientService>();
 
             Subscribe();
         }
@@ -102,10 +103,6 @@ namespace AdamStudio.Services
 
         #endregion
 
-        #region Private methods
-
-        #endregion
-
         #region Subscriptions
 
         private void Subscribe()
@@ -115,10 +112,8 @@ namespace AdamStudio.Services
             mTcpClientService.RaiseTcpClientDisconnectedEvent += RaiseTcpClientDisconnected;
             
             mUdpClientService.RaiseUdpClientMessageEnqueueEvent += RaiseUdpClientMessageEnqueueEvent;
-
             mUdpServerService.RaiseUdpServerReceivedEvent += RaiseServiceUdpServerReceived;
         }
-
 
         private void Unsubscribe()
         {
@@ -127,7 +122,6 @@ namespace AdamStudio.Services
             mTcpClientService.RaiseTcpClientDisconnectedEvent -= RaiseTcpClientDisconnected;
 
             mUdpClientService.RaiseUdpClientMessageEnqueueEvent -= RaiseUdpClientMessageEnqueueEvent;
-
             mUdpServerService.RaiseUdpServerReceivedEvent -= RaiseServiceUdpServerReceived;
         }
 

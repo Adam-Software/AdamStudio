@@ -74,24 +74,12 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IFileManagmentService, FileManagmentService>();
             containerRegistry.RegisterSingleton<IFolderManagmentService, FolderManagmentService>();
 
-            containerRegistry.RegisterSingleton<IAvalonEditService>(containerRegistry =>
-            {
-                IFileManagmentService fileManagment = containerRegistry.Resolve<IFileManagmentService>();
-                AvalonEditService avalonService = new(fileManagment);
-                return avalonService;
-            });
+            containerRegistry.RegisterSingleton<IAvalonEditService, AvalonEditService>();
 
             containerRegistry.RegisterSingleton<IWebViewProvider, WebViewProvider>();
             containerRegistry.RegisterSingleton<IRegionChangeAwareService, RegionChangeAwareService>();
             containerRegistry.RegisterSingleton<IStatusBarNotificationDeliveryService, StatusBarNotificationDeliveryService>();
-
-            containerRegistry.RegisterSingleton<IFlyoutManager>(containerRegistry =>
-            {
-                DryIoc.IContainer container = containerRegistry.GetContainer();
-                IRegionManager regionManager = containerRegistry.Resolve<IRegionManager>();
-
-                return new FlyoutManager(container, regionManager);
-            });
+            containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
 
             containerRegistry.RegisterSingleton<ITcpClientService>(() =>
             {
@@ -189,26 +177,8 @@ namespace AdamStudio
 
             });
 
-            containerRegistry.RegisterSingleton<ICommunicationProviderService>(containerRegistry =>
-            {
-                ITcpClientService tcpClientService = containerRegistry.Resolve<ITcpClientService>();
-                IUdpClientService udpClientService = containerRegistry.Resolve<IUdpClientService>();
-                IUdpServerService udpServerService = containerRegistry.Resolve<IUdpServerService>();
-                IWebSocketClientService socketClientService = containerRegistry.Resolve<IWebSocketClientService>();
-
-                CommunicationProviderService communicationProvider = new(tcpClientService, udpClientService, udpServerService, socketClientService);
-
-                return communicationProvider;
-            });
-
-            containerRegistry.RegisterSingleton<IPythonRemoteRunnerService>(containerRegistry =>
-            {
-                IUdpClientService udpClient = containerRegistry.Resolve<IUdpClientService>();
-
-                PythonRemoteRunnerService remoteRunnerService = new(udpClient);
-                return remoteRunnerService;
-            });
-
+            containerRegistry.RegisterSingleton<ICommunicationProviderService, CommunicationProviderService>();
+            containerRegistry.RegisterSingleton<IPythonRemoteRunnerService, PythonRemoteRunnerService>();
             containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
             containerRegistry.RegisterSingleton<IControlHelper>(containerRegistry =>
             {
