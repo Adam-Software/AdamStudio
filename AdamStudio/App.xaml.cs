@@ -43,6 +43,7 @@ using AdamStudio.Views;
 using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services;
+using Microsoft.Extensions.Options;
 
 #endregion
 
@@ -182,6 +183,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
             containerRegistry.RegisterSingleton<IControlHelper>(containerRegistry =>
             {
+                
                 bool isVideoShowLastValue = Settings.Default.ShowVideo;
                 return new ControlHelper(isVideoShowLastValue);
             });
