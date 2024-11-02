@@ -33,6 +33,19 @@
 
                         <iconPacks:Codicons Kind="ClearAll"/>
                     </Button>
+                    
+                    <Button VerticalAlignment="Top"
+                            Margin="5 10 5 0"
+                            Command="{Binding EndOfHorizontalScrollReachedCommand}">
+
+                        <iconPacks:Codicons Kind="ArrowDown"/>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
 
                 </StackPanel>
 
@@ -50,8 +63,10 @@
 
                     <mah:MetroTabItem Header="{DynamicResource ScratchControlView.MetroTabItem.Header.Result}">
 
-                        <ScrollViewer DockPanel.Dock="Right" Name="ResultScrollViewer" VerticalScrollBarVisibility="Auto">
-
+                        <ScrollViewer DockPanel.Dock="Right" 
+                                      x:Name="ResultScrollViewer" 
+                                      VerticalScrollBarVisibility="Auto"
+>
 
                             <TextBox x:Name="TextResulEditor"
                                      Margin="0 0 0 0"
@@ -59,17 +74,16 @@
                                      HorizontalScrollBarVisibility="Auto"
                                      VerticalScrollBarVisibility="Auto"                 
                                      IsReadOnly="True"
-                                     Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                     mah:TextBoxHelper.IsSpellCheckContextMenuEnabled="True"
+                                     Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <in:Interaction.Triggers>
-                                    <in:EventTrigger EventName="TextChanged">
-                                        <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
-                                    </in:EventTrigger>
-
-                                </in:Interaction.Triggers>
-
-                            </TextBox>
                         </ScrollViewer>
+
+                        <in:Interaction.Triggers>
+                            <in:EventTrigger EventName="TextChanged">
+                                <ei:CallMethodAction MethodName="ScrollToEnd" TargetObject="{Binding ElementName=ResultScrollViewer}"/>
+                            </in:EventTrigger>
+                        </in:Interaction.Triggers>
 
                     </mah:MetroTabItem>
 

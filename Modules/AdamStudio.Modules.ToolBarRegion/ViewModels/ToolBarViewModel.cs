@@ -55,7 +55,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mFlyoutStateChecker = serviceProvider.GetService<IFlyoutStateChecker>();
 
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
-
             mLogger.LogTrace("Load ~");
         }
 
