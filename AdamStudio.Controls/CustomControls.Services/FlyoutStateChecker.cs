@@ -3,10 +3,10 @@ namespace AdamStudio.Controls.CustomControls.Services
 {
     public class FlyoutStateChecker : IFlyoutStateChecker
     {
-        public event IsNotificationFlyoutOpenedStateChangeEventHandler IsNotificationFlyoutOpenedStateChangeEvent;
+        public event IsFlyoutsOpenedStateChangeEventHandler IsFlyoutsOpenedStateChangeEvent;
 
         private bool isNotificationFlyoutOpened;
-        public bool IsNotificationFlyoutOpened 
+        public bool IsFlyoutsOpened 
         { 
             get {  return isNotificationFlyoutOpened; }
             set 
@@ -21,7 +21,7 @@ namespace AdamStudio.Controls.CustomControls.Services
 
         protected void OnNotificationFlyoutOpenedStateChangeEvent()
         {
-            IsNotificationFlyoutOpenedStateChangeEventHandler raiseEvent = IsNotificationFlyoutOpenedStateChangeEvent;
+            IsFlyoutsOpenedStateChangeEventHandler raiseEvent = IsFlyoutsOpenedStateChangeEvent;
             raiseEvent?.Invoke(this);
         }
     }

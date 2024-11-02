@@ -80,7 +80,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
         private bool OpenNotificationPanelCanExecute()
         {
-            return !mFlyoutState.IsNotificationFlyoutOpened;
+            return !mFlyoutState.IsFlyoutsOpened;
         }
 
         #endregion
@@ -253,7 +253,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent += RaiseNewCompileLogMessageEvent;
             mStatusBarNotificationDelivery.RaiseUpdateNotificationCounterEvent += RaiseUpdateNotificationCounterEvent;
 
-            mFlyoutState.IsNotificationFlyoutOpenedStateChangeEvent += IsOpenedStateChangeEvent;
+            mFlyoutState.IsFlyoutsOpenedStateChangeEvent += IsOpenedStateChangeEvent;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent += RaiseCurrentAppCultureLoadOrChangeEvent;
             mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
@@ -270,7 +270,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mStatusBarNotificationDelivery.RaiseChangeProgressRingStateEvent -= RaiseChangeProgressRingStateEvent;
             mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent -= RaiseNewCompileLogMessageEvent;
 
-            mFlyoutState.IsNotificationFlyoutOpenedStateChangeEvent -= IsOpenedStateChangeEvent;
+            mFlyoutState.IsFlyoutsOpenedStateChangeEvent -= IsOpenedStateChangeEvent;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent -= RaiseCurrentAppCultureLoadOrChangeEvent;
             mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;

@@ -1,4 +1,5 @@
 ﻿using AdamController.WebApi.Client.v1.ResponseModel;
+using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private readonly ICultureProvider mCultureProvider;
         private readonly ITcpClientService mTcpClientService;
         private readonly IWebApiService mWebApiService;
+        private readonly IFlyoutStateChecker mFlyoutStateChecker;
 
         #endregion
 
@@ -50,6 +52,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mCultureProvider = serviceProvider.GetService<ICultureProvider>(); 
             mTcpClientService = serviceProvider.GetService<ITcpClientService>(); 
             mWebApiService = serviceProvider.GetService<IWebApiService>();
+            mFlyoutStateChecker = serviceProvider.GetService<IFlyoutStateChecker>();
 
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
 
@@ -132,15 +135,24 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             get => isPythonCodeExecute;
             set
             {
-                bool isNewValue = SetProperty(ref isPythonCodeExecute, value);
-
-                /*if (isNewValue)
-                {
-                    //OnPythonCodeExecuteStatusChange(IsPythonCodeExecute);
-                    RaiseDelegateCommandsCanExecuteChanged();
-                }*/
+                SetProperty(ref isPythonCodeExecute, value);
             }
         }
+
+        private bool mResultButtonIsChecked;
+        public bool ResultButtonIsChecked
+        {
+            get { return mResultButtonIsChecked; }
+            set { SetProperty(ref mResultButtonIsChecked, value); }
+        }
+
+        private bool mLogsButtonIsChecked;
+        public bool LogsButtonIsChecked
+        {
+            get { return mLogsButtonIsChecked; }
+            set { SetProperty(ref mLogsButtonIsChecked, value); }
+        }
+
 
         #endregion
 
@@ -298,13 +310,21 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private void RaiseTcpClientDisconnectedEvent(object sender)
         {
-            UpdatePythonInfo();
+           
+        }
+
+        private void IsNotificationFlyoutOpenedStateChangeEvent(object sender)
+        {
+            if (mFlyoutStateChecker.IsFlyoutsOpened)
+            {
+                LogsButtonIsChecked = false;
+                ResultButtonIsChecked = false;
+            }
         }
 
         #endregion
 
         #region Subscribes
-
         private void Subscribe()
         {
             mTcpClientService.RaiseTcpCientConnectedEvent += RaiseTcpCientConnectedEvent;
@@ -317,6 +337,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent += RaiseCurrentAppCultureLoadOrChangeEvent;
+
+            mFlyoutStateChecker.IsFlyoutsOpenedStateChangeEvent += IsNotificationFlyoutOpenedStateChangeEvent;
         }
 
         private void Unsubscribe()
@@ -331,6 +353,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent -= RaiseCurrentAppCultureLoadOrChangeEvent;
+
+            mFlyoutStateChecker.IsFlyoutsOpenedStateChangeEvent -= IsNotificationFlyoutOpenedStateChangeEvent;
         }
 
         #endregion

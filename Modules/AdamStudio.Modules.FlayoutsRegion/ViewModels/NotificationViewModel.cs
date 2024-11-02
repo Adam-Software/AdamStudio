@@ -5,9 +5,7 @@ using AdamStudio.Services.Interfaces;
 using MahApps.Metro.IconPacks;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
-using Prism.Regions;
 using System;
-using System.Drawing;
 using System.Windows;
 
 namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
@@ -67,7 +65,7 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
                 LoadResources();
                 LoadFlyoutParametrs();
                
-                mFlyoutState.IsNotificationFlyoutOpened = true;
+                mFlyoutState.IsFlyoutsOpened = true;
                 
                 Subscribe();
 
@@ -78,7 +76,7 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
             
             if (!isOpening)
             {
-                mFlyoutState.IsNotificationFlyoutOpened = false;
+                mFlyoutState.IsFlyoutsOpened = false;
 
                 Unsubscribe();
 

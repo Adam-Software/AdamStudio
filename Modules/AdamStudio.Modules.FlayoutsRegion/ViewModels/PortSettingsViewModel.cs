@@ -1,4 +1,5 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
+using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,6 +13,7 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
         #region Services
 
         private readonly ICultureProvider mCultureProvider;
+        private readonly IFlyoutStateChecker mFlyoutState;
 
         #endregion
 
@@ -19,6 +21,7 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
         {
             BorderThickness = 1;
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mFlyoutState = serviceProvider.GetService<IFlyoutStateChecker>();
         }
 
         protected override void OnChanging(bool isOpening)
@@ -27,6 +30,13 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
             {
                 Header = mCultureProvider.FindResource("PortSettingsView.ViewModel.Flyout.Header");
                 BorderBrush = Application.Current.TryFindResource("MahApps.Brushes.Text").ToString();
+                mFlyoutState.IsFlyoutsOpened = true;
+                return;
+            }
+
+            if (!isOpening)
+            {
+                mFlyoutState.IsFlyoutsOpened = false;
                 return;
             }
         }

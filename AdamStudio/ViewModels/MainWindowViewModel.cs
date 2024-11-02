@@ -42,6 +42,7 @@ namespace AdamStudio.ViewModels
         private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
+        private readonly IFlyoutManager mFlyoutManager;
 
         #endregion
 
@@ -49,6 +50,7 @@ namespace AdamStudio.ViewModels
 
         public MainWindowViewModel(IServiceProvider serviceProvider) 
         {
+            mLoggerService = serviceProvider.GetService<ILogger<MainWindowViewModel>>();
             mRegionManager = serviceProvider.GetService<IRegionManager>(); 
             mWebApiService = serviceProvider.GetService<IWebApiService>(); 
             RegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>(); 
@@ -59,7 +61,8 @@ namespace AdamStudio.ViewModels
             mThemeManager = serviceProvider.GetService<IThemeManagerService>();
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             ControlHelper = serviceProvider.GetService<IControlHelper>(); 
-            mLoggerService = serviceProvider.GetService<ILogger<MainWindowViewModel>>(); 
+            mFlyoutManager = serviceProvider.GetService<IFlyoutManager>();
+
 
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
@@ -124,7 +127,11 @@ namespace AdamStudio.ViewModels
                     ControlHelper.CurrentBlocklyViewMode = BlocklyViewMode.MiddleScreen;
 
                 if (currentViewMode == BlocklyViewMode.MiddleScreen)
+                {
                     ControlHelper.CurrentBlocklyViewMode = BlocklyViewMode.FullScreen;
+                    mFlyoutManager.CloseFlyout(FlyoutNames.FlyoutNotification, true);
+                }
+                    
             }
         }
 

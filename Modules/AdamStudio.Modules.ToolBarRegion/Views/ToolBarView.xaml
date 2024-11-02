@@ -141,12 +141,14 @@
                           Content="Результат"  
                           Width="120"
                           HorizontalAlignment="Center"
+                          IsChecked="{Binding ResultButtonIsChecked}"
                           Style="{StaticResource MahApps.Styles.ToggleButton.ExpanderHeader.Down.DataGrid.GroupItem}"/>
 
             <ToggleButton x:Name="LogsButton"
                           Content="Логи"  
                           Width="120"
                           HorizontalAlignment="Center"
+                          IsChecked="{Binding LogsButtonIsChecked}"
                           Style="{StaticResource MahApps.Styles.ToggleButton.ExpanderHeader.Down.DataGrid.GroupItem}"/>
 
         </StackPanel>
