@@ -225,11 +225,11 @@ namespace AdamStudio.ViewModels
         /// <summary>
         /// Register highlighting for AvalonEdit. You need to call before loading the regions
         /// </summary>
-        private void LoadCustomAvalonEditHighlighting()
-        {
-            mAvalonEditService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
-            mLoggerService.LogInformation("Loaded highlighting");
-        }
+        //private void LoadCustomAvalonEditHighlighting()
+        //{
+        //    mAvalonEditService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
+        //    mLoggerService.LogInformation("Loaded highlighting");
+        //}
 
         private void LoadAppTheme()
         {
@@ -291,7 +291,7 @@ namespace AdamStudio.ViewModels
             //Loaded resource 
             ShowView(ViewNames.ScratchView);
             
-            LoadCustomAvalonEditHighlighting();
+            //LoadCustomAvalonEditHighlighting();
             LoadAppTheme();
 
             if (Settings.Default.AutoStartTcpConnect)

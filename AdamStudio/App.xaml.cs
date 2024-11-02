@@ -44,6 +44,8 @@ using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services;
 using Microsoft.Extensions.Options;
+using ICSharpCode.AvalonEdit.Highlighting;
+using AdamStudio.Core;
 
 #endregion
 
@@ -74,9 +76,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<ICultureProvider, CultureProvider>();
             containerRegistry.RegisterSingleton<IFileManagmentService, FileManagmentService>();
             containerRegistry.RegisterSingleton<IFolderManagmentService, FolderManagmentService>();
-
             containerRegistry.RegisterSingleton<IAvalonEditService, AvalonEditService>();
-
             containerRegistry.RegisterSingleton<IWebViewProvider, WebViewProvider>();
             containerRegistry.RegisterSingleton<IRegionChangeAwareService, RegionChangeAwareService>();
             containerRegistry.RegisterSingleton<IStatusBarNotificationDeliveryService, StatusBarNotificationDeliveryService>();
@@ -192,6 +192,13 @@ namespace AdamStudio
 
             RegisterDialogs(containerRegistry);
             RegisterService(containerRegistry);
+            RegisterAvalonHighlightingDefinition();
+        }
+
+        private void RegisterAvalonHighlightingDefinition()
+        {
+            IAvalonEditService avalonService = Container.Resolve<IAvalonEditService>();
+            avalonService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
         }
 
         private void RegisterService(IContainerRegistry containerRegistry)

@@ -41,7 +41,7 @@ namespace AdamStudio.Services
         {
             var xml = mFileManagmentService.ReadTextAsXml(xmlByteArray);
             var definition = HighlightingLoader.Load(xml, mHighlightingManager);
-            mHighlightingManager.RegisterHighlighting(highlightingName, Array.Empty<string>(), definition);
+            mHighlightingManager.RegisterHighlighting(highlightingName, [], definition);
             
         }
 
