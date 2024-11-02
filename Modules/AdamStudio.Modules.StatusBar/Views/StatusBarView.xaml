@@ -9,8 +9,12 @@
 
     <Grid>
 
-        <StatusBar Style="{StaticResource MahApps.Styles.StatusBar}" 
-                   Background="{DynamicResource MahApps.Brushes.Accent3}" >
+        <Border BorderThickness="0 1 0 0"/>
+        
+        <StatusBar Margin="0 1 0 0"
+                   Style="{StaticResource MahApps.Styles.StatusBar}" 
+                   Background="{DynamicResource MahApps.Brushes.Accent3}" 
+                   HorizontalContentAlignment="Center">
 
             <!--#region  Item temlate -->
 
@@ -33,11 +37,6 @@
             </StatusBar.ItemsPanel>
 
             <!--#endregion-->
-
-            <Border Margin="-2 -13 0 13"
-                    Grid.Column="0"
-                    Width="30"
-                    BorderThickness="0.5" />
 
             <mah:ProgressRing Padding="2"
                               Grid.Column="0"
@@ -108,25 +107,20 @@
             <StatusBarItem  Grid.Column="7">
 
                 <Button Command="{Binding OpenNotificationPanelDelegateCommand}"
-                            Background="Transparent"
-                            Margin="0"
-                            Padding="0"
-                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                            Style="{StaticResource MahApps.Styles.Button.ToolBar}">
+                        Background="Transparent"
+                        Padding="10 0 10 0"
+                        Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                        Style="{StaticResource MahApps.Styles.Button.ToolBar}">
 
                     <StackPanel Orientation="Horizontal">
 
                         <mah:Badged BadgeBackground="Red"
-                                        BadgePlacementMode="TopRight"
-                                        Badge="{Binding NotificationBadge}">
-
-
+                                    BadgeBorderThickness="3"
+                                    BadgePlacementMode="TopRight"
+                                    Badge="{Binding NotificationBadge}">
                             <iconPacks:PackIconBootstrapIcons Kind="Bell" />
                         </mah:Badged>
                     </StackPanel>
-
-
-
                 </Button>
 
             </StatusBarItem>

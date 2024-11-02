@@ -111,7 +111,7 @@
     <!--#region Flayouts -->
 
     <mah:MetroWindow.Flyouts>
-        <customusercontrol:FlyoutContainer Margin="0 25 0 25" 
+        <customusercontrol:FlyoutContainer Margin="0 25 -1 24" 
                                            prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
     </mah:MetroWindow.Flyouts>
 
@@ -130,7 +130,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
     
-        <Border BorderThickness="1" />
+        <Border BorderThickness="0 1 0 1"  />
 
         <mah:MetroContentControl Grid.Column="0"
                                  Grid.Row="0"

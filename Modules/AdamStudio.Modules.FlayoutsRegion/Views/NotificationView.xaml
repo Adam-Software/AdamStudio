@@ -9,7 +9,7 @@
 
         <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
 
-            <Grid Width="400" Margin="25 0 0 25">
+            <Grid Width="400" Margin="25 0 25 25">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="2*"/>
@@ -34,7 +34,8 @@
                 <Border Grid.Row="0" 
                         Visibility="{Binding FailConnectNotificationVisibility}"
                         BorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}" 
-                        BorderThickness="3">
+                        
+                        BorderThickness="1">
 
                     <Grid>
                         <Grid.RowDefinitions>
