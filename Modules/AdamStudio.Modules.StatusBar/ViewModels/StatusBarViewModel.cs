@@ -338,7 +338,5 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         }
 
         #endregion
-
-
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core.Properties;
+using AdamStudio.Modules.ContentRegion.ViewModels;
+using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.WebViewProviderDependency;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
 using System;
@@ -11,7 +14,6 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using Unosquare.FFME.Common;
 
 namespace AdamStudio.Modules.ContentRegion.Views
@@ -20,12 +22,11 @@ namespace AdamStudio.Modules.ContentRegion.Views
     {
         #region Services
 
-        private readonly IWebViewProvider mWebViewProvider;
-        private readonly IStatusBarNotificationDeliveryService mStatusBarNotification;
-        private readonly IControlHelper mControlHelper;
-        private readonly IWebSocketClientService mWebSocketClient;
-        private readonly IVideoViewProvider mVideoViewProvider;
         private readonly ILogger<ScratchControlView> mLogger;
+        private readonly IWebViewProvider mWebViewProvider;
+        private readonly IControlHelper mControlHelper;
+        private readonly IVideoViewProvider mVideoViewProvider;
+        
 
         #endregion
 
@@ -35,16 +36,17 @@ namespace AdamStudio.Modules.ContentRegion.Views
 
         #endregion
 
-        public ScratchControlView(ILogger<ScratchControlView> logger, IWebViewProvider webViewProvider, IStatusBarNotificationDeliveryService statusBarNotification, 
-                        IFolderManagmentService folderManagment, IControlHelper controlHelper, IWebSocketClientService webSocketClient, IVideoViewProvider videoViewProvider)
+        public ScratchControlView(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             InitializeWebViewCore();
 
-            mLogger = logger;
-            mWebViewProvider = webViewProvider;
-            mStatusBarNotification = statusBarNotification;
-            mControlHelper = controlHelper;
+            mLogger = serviceProvider.GetService<ILogger<ScratchControlView>>(); 
+            mWebViewProvider = serviceProvider.GetService<IWebViewProvider>(); 
+            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
+
+            IFolderManagmentService folderManagment = serviceProvider.GetService<IFolderManagmentService>();
 
             mPathToSource = Path.Combine(folderManagment.CommonDirAppData, "BlocklySource");
 
@@ -59,12 +61,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
             MainGrid.SizeChanged += MainGridSizeChanged;
             SourceEditor.SizeChanged += TextResulEditorSizeChanged;
 
-            /* service event */
             mControlHelper.RaiseBlocklyColumnWidthChangeEvent += RaiseBlocklyColumnWidthChangeEvent;
-
-            /* video */
-            mWebSocketClient = webSocketClient;
-            mVideoViewProvider = videoViewProvider;
 
             VideoView.MediaOpening += VideoViewMediaOpening;
             VideoView.VideoFrameDecoded += VideoViewVideoFrameDecoded;
