@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamController.WebApi.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Controls", "AdamStudio.Controls\AdamStudio.Controls.csproj", "{1BADFDB1-D66E-4580-8EAF-CAEE37761640}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Modules.ToolBarRegion", "Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj", "{AA601C7F-2233-47FE-911E-8221E8B861C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{1BADFDB1-D66E-4580-8EAF-CAEE37761640}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BADFDB1-D66E-4580-8EAF-CAEE37761640}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BADFDB1-D66E-4580-8EAF-CAEE37761640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA601C7F-2233-47FE-911E-8221E8B861C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA601C7F-2233-47FE-911E-8221E8B861C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA601C7F-2233-47FE-911E-8221E8B861C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA601C7F-2233-47FE-911E-8221E8B861C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{D17BE826-5C86-4EAC-8424-534F9CF3DFE0} = {BF38E868-9FEB-4645-9B2B-15AC47844075}
 		{941A4E7D-6A53-44F8-876C-6B33AAEDDA89} = {511F4919-C2FC-4775-92A4-C446E51B49DB}
 		{771220FE-2F25-441B-815E-7DD63918BA95} = {511F4919-C2FC-4775-92A4-C446E51B49DB}
+		{AA601C7F-2233-47FE-911E-8221E8B861C8} = {BF38E868-9FEB-4645-9B2B-15AC47844075}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D00A029C-930D-44A8-8257-721FCA9202F6}

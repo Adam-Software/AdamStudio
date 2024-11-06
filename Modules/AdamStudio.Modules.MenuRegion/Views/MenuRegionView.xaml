@@ -20,14 +20,14 @@
                   Style="{DynamicResource MahApps.Styles.MenuItem}">
 
             <MenuItem Header="{DynamicResource MainMenu.View.ScratchEditorHeader}" 
-                          Command="{Binding ShowRegionCommand}"
-                          CommandParameter="{x:Static core:SubRegionNames.SubRegionScratch}"
-                          IsChecked="{Binding IsCheckedScratchMenuItem}" />
+                      Command="{Binding ShowRegionCommand}"
+                      CommandParameter="{x:Static core:ViewNames.ScratchView}"
+                      IsChecked="{Binding IsCheckedScratchMenuItem}" />
 
             <MenuItem Header="{DynamicResource MainMenu.View.VisualSettingsHeader}" 
-                          Command="{Binding ShowRegionCommand}"
-                          CommandParameter="{x:Static core:SubRegionNames.SubRegionVisualSettings}" 
-                          IsChecked="{Binding IsCheckedVisualSettingsMenuItem}"/>
+                      Command="{Binding ShowRegionCommand}"
+                      CommandParameter="{x:Static core:ViewNames.SettingsView}" 
+                      IsChecked="{Binding IsCheckedVisualSettingsMenuItem}"/>
 
         </MenuItem>
 

@@ -5,6 +5,7 @@ using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using ControlzEx.Theming;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -32,6 +33,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
         private readonly IWebViewProvider mWebViewProvider;
+        private readonly IRegionChangeAwareService mRegionChangeAwareService;
 
         #endregion
 
@@ -44,13 +46,13 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager, 
-            IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider) : base(regionManager)
+        public SettingsControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            mFlyoutManager = flyoutManager;
-            mThemeManager = themeManager;
-            mCultureProvider = cultureProvider;
-            mWebViewProvider = webViewProvider;
+            mFlyoutManager = serviceProvider.GetService<IFlyoutManager>(); 
+            mThemeManager = serviceProvider.GetService<IThemeManagerService>();
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mWebViewProvider = serviceProvider.GetService<IWebViewProvider>();
+            mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
 
             ChangeSpacingToggleSwitchDelegateCommand = new DelegateCommand(ChangeSpacingToggleSwitch, ChangeSpacingToggleSwitchCanExecute);
             OpenPortSettingsDelegateCommand = new DelegateCommand(OpenPortSettings, OpenPortSettingsCanExecute);
@@ -113,13 +115,15 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            base.OnNavigatedTo(navigationContext);
+            mRegionChangeAwareService.RegionNavigationTargetName = ViewNames.SettingsView;
 
             ThemesCollection = mThemeManager.AppThemesCollection;
             SelectedTheme = mThemeManager.GetCurrentAppTheme();
 
             LanguageApp = mCultureProvider.SupportAppCultures;
             SelectedLanguageApp = mCultureProvider.CurrentAppCulture;
+
+            base.OnNavigatedTo(navigationContext);
         }
 
         public override void Destroy()

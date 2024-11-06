@@ -1,4 +1,4 @@
-﻿<Application x:Class="AdamStudio.App"
+﻿<prism:PrismApplication x:Class="AdamStudio.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
@@ -51,10 +51,7 @@
             
             <!--#endregion-->
 
-
-
-
         </ResourceDictionary>
             
     </Application.Resources>
-</Application>
+</prism:PrismApplication>

@@ -17,7 +17,7 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public FileManagmentService() { }
+        public FileManagmentService() {}
 
         #endregion
 

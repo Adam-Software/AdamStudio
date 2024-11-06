@@ -17,16 +17,13 @@ namespace AdamStudio.Modules.ContentRegion
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            mRegionManager.RequestNavigate(RegionNames.ContentRegion, nameof(ContentRegionView));
+            mRegionManager.RequestNavigate(RegionNames.ContentRegion, nameof(ScratchControlView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ContentRegionView>(nameof(ContentRegionView));
-
-            containerRegistry.RegisterForNavigation<ScratchControlView>(nameof(ScratchControlView));
-            containerRegistry.RegisterForNavigation<ComputerVisionControlView>(nameof(ComputerVisionControlView));
-            containerRegistry.RegisterForNavigation<SettingsControlView>(nameof(SettingsControlView));
+            containerRegistry.RegisterForNavigation<ScratchControlView>(ViewNames.ScratchView);
+            containerRegistry.RegisterForNavigation<SettingsControlView>(ViewNames.SettingsView);
         }
     }
 }

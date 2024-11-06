@@ -4,7 +4,8 @@ using AdamController.WebApi.Client.v1.ResponseModel;
 using AdamController.WebApi.Client.Common;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AdamStudio.Services
 {
@@ -44,10 +45,10 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public PythonRemoteRunnerService(IUdpClientService udpClientService) 
+        public PythonRemoteRunnerService(IServiceProvider serviceProvider) 
         {
-            mUdpClientService = udpClientService;
-            
+            mUdpClientService = serviceProvider.GetService<IUdpClientService>(); ;
+
             Subscribe();
 
             mRegex = MyRegex();
@@ -55,7 +56,6 @@ namespace AdamStudio.Services
 
 
         #endregion
-
 
         #region Public method
 

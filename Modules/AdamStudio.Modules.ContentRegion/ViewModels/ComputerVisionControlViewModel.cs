@@ -1,6 +1,7 @@
 ﻿using AdamStudio.Core.Model;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -26,11 +27,10 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region ~
 
-        public ComputerVisionControlViewModel(IRegionManager regionManager, ICommunicationProviderService communicationProvider, 
-                                                IWebApiService webApiService, IVideoViewProvider videoViewProvider) : base(regionManager)
+        public ComputerVisionControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            mCommunicationProvider = communicationProvider;
-            mWebApiService = webApiService;
+            mCommunicationProvider = serviceProvider.GetService<ICommunicationProviderService>();
+            mWebApiService = serviceProvider.GetService<IWebApiService>();
         }
 
         #endregion

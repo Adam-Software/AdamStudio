@@ -11,7 +11,6 @@ namespace AdamStudio.Services
 
         public event ChangeProgressRingStateEventHandler RaiseChangeProgressRingStateEvent;
         public event NewCompileLogMessageEventHandler RaiseNewCompileLogMessageEvent;
-        public event NewAppLogMessageEventHandler RaiseNewAppLogMessageEvent;
         public event UpdateNotificationCounterEventHandler RaiseUpdateNotificationCounterEvent;
 
         #endregion
@@ -49,19 +48,6 @@ namespace AdamStudio.Services
                 if (isNewValue)
                     OnRaiseNewCompileLogMessageEvent(CompileLogMessage);
             }
-        }
-       
-        private string appLogMessage = string.Empty;
-        public string AppLogMessage 
-        { 
-            get => appLogMessage; 
-            set 
-            {
-                bool isNewValue = SetProperty(ref appLogMessage, value);
-
-                if (isNewValue)
-                    OnRaiseNewAppLogMessageEvent(AppLogMessage);
-            } 
         }
 
         private int notificationCounter;
@@ -104,12 +90,6 @@ namespace AdamStudio.Services
         protected virtual void OnRaiseNewCompileLogMessageEvent(string message) 
         {
             NewCompileLogMessageEventHandler raiseEvent = RaiseNewCompileLogMessageEvent;
-            raiseEvent?.Invoke(this, message);
-        }
-
-        protected virtual void OnRaiseNewAppLogMessageEvent(string message)
-        {
-            NewAppLogMessageEventHandler raiseEvent = RaiseNewAppLogMessageEvent;
             raiseEvent?.Invoke(this, message);
         }
 

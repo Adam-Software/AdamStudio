@@ -3,28 +3,28 @@ using Prism.Mvvm;
 
 namespace AdamStudio.Services
 {
-    public class SubRegionChangeAwareService : BindableBase, ISubRegionChangeAwareService
+    public class RegionChangeAwareService : BindableBase, IRegionChangeAwareService
     {
         #region Events
 
-        public event SubRegionChangeEventHandler RaiseSubRegionChangeEvent;
+        public event RegionChangeEventHandler RaiseRegionChangeEvent;
 
         #endregion
 
         #region ~
-        public SubRegionChangeAwareService() { }
+        public RegionChangeAwareService() { }
 
         #endregion
 
         #region Public fields
 
-        private string insideRegionNavigationRequestName;
-        public string InsideRegionNavigationRequestName
+        private string regionNavigationRequestName;
+        public string RegionNavigationTargetName
         {
-            get { return insideRegionNavigationRequestName; }
+            get { return regionNavigationRequestName; }
             set
             {
-                bool isNewValue = SetProperty(ref insideRegionNavigationRequestName, value);
+                bool isNewValue = SetProperty(ref regionNavigationRequestName, value);
                 
                 if (isNewValue) 
                     OnRaiseRegionChangeEvent();
@@ -39,7 +39,7 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseRegionChangeEvent()
         {
-            SubRegionChangeEventHandler raiseEvent = RaiseSubRegionChangeEvent;
+            RegionChangeEventHandler raiseEvent = RaiseRegionChangeEvent;
             raiseEvent?.Invoke(this);
         }
 

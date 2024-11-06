@@ -56,7 +56,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;
-Filename: "{tmp}\7za.exe"; Parameters: "x ""{tmp}\BlocklySource.zip"" -o""{commonappdata}\AdamController\BlocklySource"" * -r -aoa"; Flags: runasoriginaluser runhidden;
+Filename: "{tmp}\7za.exe"; Parameters: "x ""{tmp}\BlocklySource.zip"" -o""{commonappdata}\{#MyAppName}\BlocklySource"" * -r -aoa"; Flags: runasoriginaluser runhidden;
 Filename: "{tmp}\MicrosoftEdgeWebView2RuntimeInstaller.125.0.2535.51.X64.exe"; Parameters: "/silent /install";
 Filename: "{tmp}\VC_redist.14.29.30135.0.x64.exe"; Parameters: "/install /quiet /norestart"; 
 Filename: "{tmp}\windowsdesktop-runtime-8.0.5-win-x64.exe"; Parameters: "/install /quiet /norestart"; 

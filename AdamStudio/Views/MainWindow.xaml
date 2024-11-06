@@ -8,7 +8,7 @@
                   xmlns:prism="http://prismlibrary.com/" 
                   xmlns:customusercontrol="clr-namespace:AdamStudio.Controls.CustomControls;assembly=AdamStudio.Controls"
                   prism:ViewModelLocator.AutoWireViewModel="True"
-                  xmlns:converters="clr-namespace:AdamStudio.Core.Converters;assembly=AdamStudio.Core"
+                  xmlns:converters="clr-namespace:AdamStudio.Core.Converters;assembly=AdamStudio.Core" xmlns:controlzex="urn:controlzex"
                   WindowTitleBrush="{DynamicResource MahApps.Brushes.Control.Background}"
                   NonActiveWindowTitleBrush="{DynamicResource MahApps.Brushes.Control.Background}"
                   NonActiveBorderBrush="{DynamicResource MahApps.Brushes.Text}"
@@ -32,7 +32,8 @@
         <mah:WindowCommands ShowLastSeparator="False">
             <StackPanel Orientation="Horizontal" >
                 
-                <ContentControl Margin="5 0 10 0" prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" />
+                <ContentControl Margin="5 0 10 0" 
+                                prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" />
 
             </StackPanel> 
         </mah:WindowCommands>
@@ -84,6 +85,7 @@
                     <iconPacks:PackIconModern Padding="0 3 0 3" Kind="ChevronRight" />
                 </Button>
 
+                <!-- DeactivateViewDelegateCommand -->
                 <Button Margin="20 0 5 0"
                         Command="{Binding SwitchToVideoDelegateCommand}"
                         Style="{DynamicResource  MahApps.Styles.Button.Chromeless}">
@@ -97,7 +99,7 @@
                         Command="{Binding SwitchToSettingsViewDelegateCommand}"
                         Style="{DynamicResource  MahApps.Styles.Button.Chromeless}">
 
-                    <iconPacks:PackIconControl Kind="{Binding SubRegionChangeAwareService.InsideRegionNavigationRequestName, 
+                    <iconPacks:PackIconControl Kind="{Binding RegionChangeAwareService.RegionNavigationTargetName, 
                                                Converter={StaticResource StringToViewRegionIconsConverter}}"/>
 
                 </Button>
@@ -105,11 +107,12 @@
             </StackPanel>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
-
+    
     <!--#region Flayouts -->
 
     <mah:MetroWindow.Flyouts>
-        <customusercontrol:FlyoutContainer Margin="0 25 0 25" prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
+        <customusercontrol:FlyoutContainer Margin="0 25 -1 24" 
+                                           prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
     </mah:MetroWindow.Flyouts>
 
     <!--#endregion-->
@@ -120,26 +123,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+    
+        <Border BorderThickness="0 1 0 1"  />
 
+        <mah:MetroContentControl Grid.Column="0"
+                                 Grid.Row="0"
+                                 x:Name="ContentRegion"
+                                 prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 
-        <!-- Menu open blocked because the language does not change on the fly, only after restarting the application #49 p.1
-             To unlock, delete the parameters: CompactPaneLength="30" and MaximumOpenPaneLength="30"
-        -->
+        <ContentControl Grid.Row="1" 
+                        prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolBarRegion}" />
 
-        <Border BorderThickness="1" />
-        
-        <ContentControl Grid.Column="0"
-                        Grid.Row="0"         
-                        prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
-
-        <ContentControl  Grid.ColumnSpan="5" Grid.Row="1" 
-                         Height="25"
-                         prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" />
+        <ContentControl Grid.Row="2" 
+                        Height="25"  
+                        prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" />
 
 
     </Grid>

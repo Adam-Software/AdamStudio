@@ -6,7 +6,6 @@ using System.Threading;
 
 namespace AdamStudio.Services
 {
-
     public class TcpClientService : NetCoreServer.TcpClient, ITcpClientService
     {
         #region Events

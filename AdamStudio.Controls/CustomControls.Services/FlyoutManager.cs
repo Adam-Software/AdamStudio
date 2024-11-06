@@ -1,5 +1,6 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
 using DryIoc;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Regions;
 using System.Windows;
 
@@ -28,10 +29,18 @@ namespace AdamStudio.Controls.CustomControls.Services
         /// </summary>
         /// <param name="container">DryIoc container, generally passed by dependency injection.</param>
         /// <param name="regionManager">Region manager, generally passed by dependency injection.</param>
-        public FlyoutManager(IContainer container, IRegionManager regionManager)
+        //public FlyoutManager(IContainer container, IRegionManager regionManager)
+        //{
+        //    mDryIocContainer = container;
+        //    RegionManager = regionManager;
+
+        //    mFlyouts = new Dictionary<string, IFlyout>();
+        //}
+
+        public FlyoutManager(IServiceProvider serviceProvider)
         {
-            mDryIocContainer = container;
-            RegionManager = regionManager;
+            mDryIocContainer = serviceProvider.GetService<IContainer>();
+            RegionManager = serviceProvider.GetService<IRegionManager>();
 
             mFlyouts = new Dictionary<string, IFlyout>();
         }
@@ -148,7 +157,7 @@ namespace AdamStudio.Controls.CustomControls.Services
         /// <returns>The result of the identified flyout's CanOpen method.</returns>
         public bool OpenFlyout(string key, FlyoutParameters flyoutParameters, bool forceOpen)
         {
-            var flyoutToActivate = mFlyouts[key];
+            IFlyout flyoutToActivate = mFlyouts[key];
             bool canOpen = flyoutToActivate.CanOpen(flyoutParameters);
 
             if (!forceOpen && !canOpen)
@@ -210,13 +219,13 @@ namespace AdamStudio.Controls.CustomControls.Services
         /// <returns>The results of the indentified flyouts CanClose method.</returns>
         public bool CloseFlyout(string key, FlyoutParameters flyoutParameters, bool forceClose)
         {
-            var flyoutToClose = mFlyouts[key];
+            IFlyout flyoutToClose = mFlyouts[key];
             bool canClose = flyoutToClose.CanClose(flyoutParameters);
 
             if (!forceClose && !canClose)
                 return false;
 
-            flyoutToClose.Open(flyoutParameters);
+            flyoutToClose.Close(flyoutParameters);
 
             return canClose;
         }

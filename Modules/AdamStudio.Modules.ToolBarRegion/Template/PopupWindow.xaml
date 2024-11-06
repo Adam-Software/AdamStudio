@@ -1,0 +1,65 @@
+﻿<UserControl x:Name="popupWindow"
+             x:Class="AdamStudio.Modules.ToolBarRegion.Template.PopupWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AdamStudio.Modules.ToolBarRegion.Template"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+             xmlns:controlzex="urn:controlzex">
+    
+        <controlzex:PopupEx x:Name="PopupExWindow"
+                            StaysOpen="True"
+                            Placement="Top"
+                            MaxHeight="700"
+                            CloseOnMouseLeftButtonDown="False"
+                            Height="{Binding Height, ElementName=popupWindow, Mode=TwoWay}"
+                            Width="{Binding Width, ElementName=popupWindow}"
+                            IsOpen="{Binding IsOpen,  ElementName=popupWindow}"
+                            >
+
+
+        <DockPanel LastChildFill="True" 
+                       Background="{DynamicResource MahApps.Brushes.Window.Background}">
+
+            <Thumb DockPanel.Dock="Top"
+                   Height="2"
+                   BorderBrush="White"
+                   Background="{DynamicResource MahApps.Brushes.Text}"
+                   Cursor="SizeNS"
+                   DragDelta="ThumbDragDelta"/>
+
+            <Border DockPanel.Dock="Top" 
+                    BorderThickness="0 0 0 1" 
+                    BorderBrush="{DynamicResource MahApps.Brushes.Text}">
+
+                <Grid DockPanel.Dock="Top">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ContentControl x:Name="Con" Grid.Column="0" 
+                                    Template="{Binding PopupWindowTemplate, ElementName=popupWindow}"
+                                    />
+                    
+                    <DockPanel Grid.Column="1">
+
+                        <Button DockPanel.Dock="Top" 
+                                VerticalAlignment="Top"
+                                Margin="5 5 5 0"
+                                Click="CloseButtonClick"
+                                Style="{DynamicResource MahApps.Styles.Button.Chromeless}">
+
+                            <iconPacks:PackIconEvaIcons Kind="Close" Width="10" Height="10"  />
+
+                        </Button>
+                    </DockPanel>
+
+                </Grid>
+            </Border>
+        </DockPanel>
+    </controlzex:PopupEx>
+
+</UserControl>
