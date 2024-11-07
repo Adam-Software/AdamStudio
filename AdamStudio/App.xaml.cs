@@ -83,46 +83,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IStatusBarNotificationDeliveryService, StatusBarNotificationDeliveryService>();
             containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
             containerRegistry.RegisterSingleton<ITcpClientService, TcpClientService>();
-
-            /*containerRegistry.RegisterSingleton<ITcpClientService>(() =>
-            {
-                TcpClientOption option = new()
-                {
-                    ReconnectCount = Settings.Default.ReconnectQtyComunicateTcpClient,
-                    ReconnectTimeout = Settings.Default.ReconnectTimeoutComunicateTcpClient
-                };
-
-                string ip = Settings.Default.ServerIP;
-                int port = Settings.Default.TcpConnectStatePort;
-
-                TcpClientService client;
-
-                if (!string.IsNullOrEmpty(ip))
-                {
-                    client = new(ip, port, option);
-                }
-                else
-                {
-                    client = new("127.0.0.1", port, option);
-                }
-
-
-                return client;
-            });*/
-
-            containerRegistry.RegisterSingleton<IUdpClientService>(() =>
-            {
-                IPAddress ip = IPAddress.Any;
-                int port = int.Parse(Settings.Default.MessageDataExchangePort);
-
-                UdpClientService client = new(ip, port)
-                {
-                    OptionDualMode = true,
-                    OptionReuseAddress = true
-                };
-
-                return client;
-            });
+            containerRegistry.RegisterSingleton<IUdpClientService, UdpClientService>();
 
             containerRegistry.RegisterSingleton<IUdpServerService>(() =>
             {

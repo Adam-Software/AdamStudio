@@ -1,5 +1,7 @@
 ﻿using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.TcpClientDependency;
+using AdamStudio.Services.UdpClientServiceDependency;
+using System.Net;
 
 namespace AdamStudio.Core.Properties
 {
@@ -32,6 +34,19 @@ namespace AdamStudio.Core.Properties
 
                 return tcpCllientSettings;
             } 
+        }
+
+        public UdpClientSettings UdpClientSettings
+        {
+            get
+            {
+                IPAddress ip = IPAddress.Any;
+                int port = int.Parse(Settings.Default.MessageDataExchangePort);
+
+                UdpClientSettings udpClientSettings = new(ip, port);
+
+                return udpClientSettings;
+            }
         }
 
         #endregion
