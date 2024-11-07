@@ -119,10 +119,10 @@ namespace AdamStudio.Services
             CultureInfo en = new(cEnString);
             CultureInfo ru = new(cRuString);
 
-            List<CultureInfo> cultureInfos = new()
-            {
+            List<CultureInfo> cultureInfos =
+            [
                 ru, en
-            };
+            ];
 
             return cultureInfos;
         }

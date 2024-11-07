@@ -10,12 +10,6 @@ namespace AdamStudio.Services
 {
     public class FolderManagmentService : IFolderManagmentService
     {
-        #region Var
-
-        private readonly string mAssemblyTitle = Assembly.GetEntryAssembly().GetName().Name;
-
-        #endregion
-
         #region ~
 
         public FolderManagmentService(IServiceProvider serviceProvider) 
@@ -28,25 +22,21 @@ namespace AdamStudio.Services
 
         #region Public fields
 
+        public string AssemblyTitle => Assembly.GetEntryAssembly().GetName().Name;
+
         public string MyDocumentsUserDir => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public string SpecialProgramDocumentsDir => MyDocumentsUserDir + Path.DirectorySeparatorChar + "AdamStudio";
+        public string SpecialProgramDocumentsDir => MyDocumentsUserDir + Path.DirectorySeparatorChar + AssemblyTitle;
 
         public string SavedWorkspaceDocumentsDir => SpecialProgramDocumentsDir + Path.DirectorySeparatorChar + "MyWorkspaces";
 
-        //public string SavedToolboxDocumentsDir => SpecialProgramDocumentsDir + Path.DirectorySeparatorChar + "MyToolboxes";
-
-        //public string SavedUserCustomBlocksDocumentsDir => SpecialProgramDocumentsDir + Path.DirectorySeparatorChar + "MyBlocks";
-
         public string SavedUserScriptsDocumentsDir => SpecialProgramDocumentsDir + Path.DirectorySeparatorChar + "MyScripts";
 
-        //public string SavedResultsNetworkTestsDir => SpecialProgramDocumentsDir + Path.DirectorySeparatorChar + "NetworkResultsTests";
+        public string DirAppData => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + AssemblyTitle;
 
-        public string DirAppData => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mAssemblyTitle;
+        public string DirFileAppSessionData => Path.Combine(DirAppData, string.Format(CultureInfo.InvariantCulture, "{0}.App.session", AssemblyTitle));
 
-        public string DirFileAppSessionData => Path.Combine(DirAppData, string.Format(CultureInfo.InvariantCulture, "{0}.App.session", mAssemblyTitle));
-
-        public string CommonDirAppData => Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + Assembly.GetEntryAssembly().GetName().Name;
+        public string CommonDirAppData => Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + AssemblyTitle;
 
         #endregion
 
@@ -71,22 +61,10 @@ namespace AdamStudio.Services
                     _ = Directory.CreateDirectory(SavedWorkspaceDocumentsDir);
                 }
 
-                //if (!Directory.Exists(SavedToolboxDocumentsDir))
-                //{
-                //    _ = Directory.CreateDirectory(SavedToolboxDocumentsDir);
-                //}
-                //if (!Directory.Exists(SavedUserCustomBlocksDocumentsDir))
-                //{
-                //    _ = Directory.CreateDirectory(SavedUserCustomBlocksDocumentsDir);
-                //}
                 if (!Directory.Exists(SavedUserScriptsDocumentsDir))
                 {
                     _ = Directory.CreateDirectory(SavedUserScriptsDocumentsDir);
                 }
-                //if (!Directory.Exists(SavedResultsNetworkTestsDir))
-                //{
-                //    _ = Directory.CreateDirectory(SavedResultsNetworkTestsDir);
-                //}
             }
             catch
             {

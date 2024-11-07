@@ -93,7 +93,7 @@ namespace AdamStudio.ViewModels
 
         #region Public fields
 
-        public string WindowTitle => $"AdamStudio {Assembly.GetExecutingAssembly().GetName().Version}";
+        public string WindowTitle => $"{mFolderManagment.AssemblyTitle} {Assembly.GetExecutingAssembly().GetName().Version}";
 
         #endregion
 
@@ -235,6 +235,7 @@ namespace AdamStudio.ViewModels
         /// </summary>
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            /// MOVE TO App.xaml
             LoadDefaultCultureInfo();
 
             if (Settings.Default.CreateUserDirrectory)
@@ -248,7 +249,6 @@ namespace AdamStudio.ViewModels
             LoadAppTheme();
 
             if (Settings.Default.AutoStartTcpConnect)
-                /// MOVE TO App.xaml
                 mCommunicationProviderService.ConnectAllAsync();
         }
 

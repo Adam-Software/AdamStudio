@@ -49,7 +49,6 @@ namespace AdamStudio.Services
             return mBaseApi.PythonCommand.ExecuteAsync(command);
         }
 
-
         public Task<ExtendedCommandExecuteResult> StopPythonExecute()
         {
             return mBaseApi.PythonCommand.StopExecuteAsync();
