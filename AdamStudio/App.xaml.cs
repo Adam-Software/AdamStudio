@@ -71,6 +71,7 @@ namespace AdamStudio
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IServiceSettings, DefaultServiceSettings>();
             containerRegistry.RegisterSingleton<ILogWriteEventAwareService, LogWriteEventAwareService>();
             containerRegistry.RegisterSingleton<IFlyoutStateChecker, FlyoutStateChecker>();
             containerRegistry.RegisterSingleton<ICultureProvider, CultureProvider>();
@@ -81,8 +82,9 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IRegionChangeAwareService, RegionChangeAwareService>();
             containerRegistry.RegisterSingleton<IStatusBarNotificationDeliveryService, StatusBarNotificationDeliveryService>();
             containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
+            containerRegistry.RegisterSingleton<ITcpClientService, TcpClientService>();
 
-            containerRegistry.RegisterSingleton<ITcpClientService>(() =>
+            /*containerRegistry.RegisterSingleton<ITcpClientService>(() =>
             {
                 TcpClientOption option = new()
                 {
@@ -106,7 +108,7 @@ namespace AdamStudio
 
 
                 return client;
-            });
+            });*/
 
             containerRegistry.RegisterSingleton<IUdpClientService>(() =>
             {

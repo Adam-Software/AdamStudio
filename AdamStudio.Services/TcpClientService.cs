@@ -1,5 +1,5 @@
 ﻿using AdamStudio.Services.Interfaces;
-using AdamStudio.Services.TcpClientDependency;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Sockets;
 using System.Threading;
@@ -31,7 +31,7 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public TcpClientService(string address, int port, TcpClientOption option) : base(address, port) 
+        /*public TcpClientService(string ip, int port, TcpClientOption option) : base(ip, port) 
         {
             ReconnectCount = option.ReconnectCount;
             ReconnectTimeout = option.ReconnectTimeout;
@@ -39,6 +39,16 @@ namespace AdamStudio.Services
             RenewVariable(true);
             //it must be in renew variable method, but this called status wrong update
             //mReconnectCount = ReconnectCount;
+        }*/
+
+        public TcpClientService(IServiceProvider serviceProvider) : base(serviceProvider.GetService<IServiceSettings>().TcpCllientSettings.Ip, serviceProvider.GetService<IServiceSettings>().TcpCllientSettings.Port)
+        {
+            var option = serviceProvider.GetService<IServiceSettings>().TcpCllientSettings.Option;
+
+            ReconnectCount = option.ReconnectCount;
+            ReconnectTimeout = option.ReconnectTimeout;
+
+            RenewVariable(true);
         }
 
         #endregion
