@@ -1,5 +1,7 @@
 ﻿using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using NetCoreServer;
+using System;
 using System.Net;
 
 namespace AdamStudio.Services
@@ -14,7 +16,11 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public UdpServerService(IPAddress address, int port) : base(address, port){}
+        public UdpServerService(IServiceProvider serviceProvider) : base(serviceProvider.GetService<IServiceSettings>().UdpServerSettings.IpAddress, serviceProvider.GetService<IServiceSettings>().UdpServerSettings.Port)
+        {
+            OptionDualMode = true;
+            OptionReuseAddress = true;
+        }
 
         #endregion
 

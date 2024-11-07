@@ -84,21 +84,9 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
             containerRegistry.RegisterSingleton<ITcpClientService, TcpClientService>();
             containerRegistry.RegisterSingleton<IUdpClientService, UdpClientService>();
+            containerRegistry.RegisterSingleton<IUdpServerService, UdpServerService>();
 
-            containerRegistry.RegisterSingleton<IUdpServerService>(() =>
-            {
-                IPAddress ip = IPAddress.Any;
-                int port = Settings.Default.LogServerPort;
-
-                UdpServerService server = new(ip, port)
-                {
-                    OptionDualMode = true,
-                    OptionReuseAddress = true
-                };
-
-                return server;
-            });
-
+   
             containerRegistry.RegisterSingleton<IWebSocketClientService>(() =>
             {
                 string ip = Settings.Default.ServerIP;

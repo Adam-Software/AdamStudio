@@ -1,6 +1,7 @@
 ﻿using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services.UdpClientServiceDependency;
+using AdamStudio.Services.UdpServerServiceDependency;
 using System.Net;
 
 namespace AdamStudio.Core.Properties
@@ -46,6 +47,19 @@ namespace AdamStudio.Core.Properties
                 UdpClientSettings udpClientSettings = new(ip, port);
 
                 return udpClientSettings;
+            }
+        }
+
+        public UdpServerSettings UdpServerSettings 
+        {
+            get
+            {
+                IPAddress ip = IPAddress.Any;
+                int port = Settings.Default.LogServerPort;
+
+                UdpServerSettings udpServerSettings = new( ip, port);
+
+                return udpServerSettings;
             }
         }
 
