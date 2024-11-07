@@ -1,6 +1,7 @@
 ﻿using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services.UdpClientServiceDependency;
 using AdamStudio.Services.UdpServerServiceDependency;
+using AdamStudio.Services.WebApiServiceDependency;
 using AdamStudio.Services.WebSocketClientDependency;
 
 namespace AdamStudio.Services.Interfaces
@@ -11,5 +12,6 @@ namespace AdamStudio.Services.Interfaces
         public UdpClientSettings UdpClientSettings { get; }
         public UdpServerSettings UdpServerSettings { get; }
         public WebSocketClientSettings WebSocketClientSettings { get; }
+        public WebApiSettings WebApiSettings { get; }
     }
 }

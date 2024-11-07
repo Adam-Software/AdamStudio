@@ -4,6 +4,8 @@ using AdamController.WebApi.Client.v1.RequestModel;
 using AdamController.WebApi.Client.v1.ResponseModel;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using AdamStudio.Services.WebApiServiceDependency;
 
 namespace AdamStudio.Services
 {
@@ -18,11 +20,12 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public WebApiService(string ip, int port, string login, string password) 
+        public WebApiService(IServiceProvider serviceProvider)
         {
-            Uri defaultUri = new($"http://{ip}:{port}");
-            mBaseApi = new BaseApi(defaultUri, login, password);
+            WebApiSettings settings = serviceProvider.GetService<IServiceSettings>().WebApiSettings;
 
+            Uri defaultUri = new($"http://{settings.Ip}:{settings.Port}");
+            mBaseApi = new BaseApi(defaultUri, settings.Login, settings.Password);
         }
 
         #endregion
@@ -66,6 +69,4 @@ namespace AdamStudio.Services
 
         #endregion
     }
-
-
 }

@@ -2,6 +2,7 @@
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services.UdpClientServiceDependency;
 using AdamStudio.Services.UdpServerServiceDependency;
+using AdamStudio.Services.WebApiServiceDependency;
 using AdamStudio.Services.WebSocketClientDependency;
 using System;
 using System.Net;
@@ -10,10 +11,6 @@ namespace AdamStudio.Core.Properties
 {
     public class DefaultServiceSettings : IServiceSettings
     {
-        public DefaultServiceSettings() 
-        {
-        }
-
         #region Fields
 
         public TcpCllientSettings TcpCllientSettings 
@@ -79,6 +76,22 @@ namespace AdamStudio.Core.Properties
                 }
 
                 return new WebSocketClientSettings(uri);
+            }
+        }
+
+        public WebApiSettings WebApiSettings
+        {
+            get
+            {
+                string ip = Settings.Default.ServerIP;
+                int port = Settings.Default.ApiPort;
+                string login = Settings.Default.ApiLogin;
+                string password = Settings.Default.ApiPassword;
+
+                if (string.IsNullOrEmpty(ip))
+                    ip = "127.0.0.1";
+
+                return new WebApiSettings(ip, port, login, password);
             }
         }
 
