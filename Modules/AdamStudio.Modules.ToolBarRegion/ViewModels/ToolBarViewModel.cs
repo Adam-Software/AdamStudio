@@ -1,5 +1,7 @@
 ﻿using AdamController.WebApi.Client.v1.ResponseModel;
 using AdamStudio.Controls.CustomControls.Services;
+using AdamStudio.Core.Extensions;
+using AdamStudio.Core.Model;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -26,9 +29,10 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private readonly ILogWriteEventAwareService mLogWriteEventAware;
         private readonly IPythonRemoteRunnerService mPythonRemoteRunner;
         private readonly ICultureProvider mCultureProvider;
-        private readonly ITcpClientService mTcpClientService;
+        private readonly ICommunicationProviderService mCommunicationProviderService;
         private readonly IWebApiService mWebApiService;
         private readonly IFlyoutStateChecker mFlyoutStateChecker;
+       
 
         #endregion
 
@@ -49,11 +53,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mLogger = serviceProvider.GetService<ILogger<ToolBarViewModel>>(); 
             mLogWriteEventAware = serviceProvider.GetService<ILogWriteEventAwareService>();
             mPythonRemoteRunner = serviceProvider.GetService<IPythonRemoteRunnerService>(); 
-            mCultureProvider = serviceProvider.GetService<ICultureProvider>(); 
-            mTcpClientService = serviceProvider.GetService<ITcpClientService>(); 
+            mCultureProvider = serviceProvider.GetService<ICultureProvider>();
+            mCommunicationProviderService = serviceProvider.GetService<ICommunicationProviderService>();
             mWebApiService = serviceProvider.GetService<IWebApiService>();
             mFlyoutStateChecker = serviceProvider.GetService<IFlyoutStateChecker>();
-
+            
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
             mLogger.LogTrace("Load ~");
         }
@@ -101,11 +105,18 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         #region Public fields
 
-        private string logs;
+        private string applicationLogs;
         public string ApplicationLogs
         {
-            get => logs;
-            set => SetProperty(ref logs, value);
+            get => applicationLogs;
+            set => SetProperty(ref applicationLogs, value);
+        }
+
+        private string compilerLogs;
+        public string CompilerLogs
+        {
+            get => compilerLogs;
+            set => SetProperty(ref compilerLogs, value);
         }
 
         private string resultText;
@@ -132,24 +143,21 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         public bool IsPythonCodeExecute
         {
             get => isPythonCodeExecute;
-            set
-            {
-                SetProperty(ref isPythonCodeExecute, value);
-            }
+            set => SetProperty(ref isPythonCodeExecute, value);
         }
 
         private bool mResultButtonIsChecked;
         public bool ResultButtonIsChecked
         {
-            get { return mResultButtonIsChecked; }
-            set { SetProperty(ref mResultButtonIsChecked, value); }
+            get => mResultButtonIsChecked; 
+            set => SetProperty(ref mResultButtonIsChecked, value); 
         }
 
         private bool mLogsButtonIsChecked;
         public bool LogsButtonIsChecked
         {
-            get { return mLogsButtonIsChecked; }
-            set { SetProperty(ref mLogsButtonIsChecked, value); }
+            get => mLogsButtonIsChecked; 
+            set => SetProperty(ref mLogsButtonIsChecked, value);
         }
 
 
@@ -296,6 +304,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private async void RaiseTcpCientConnectedEvent(object sender)
         {
+            _ = await mWebApiService.StopPythonExecute();
+
             var pythonVersionResult = await mWebApiService.GetPythonVersion();
             var pythonBinPathResult = await mWebApiService.GetPythonBinDir();
             var pythonWorkDirResult = await mWebApiService.GetPythonWorkDir();
@@ -307,9 +317,24 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             UpdatePythonInfo(pythonVersion, pythonBinPath, pythonWorkDir);
         }
 
-        private void RaiseTcpClientDisconnectedEvent(object sender)
+        private void RaiseTcpClientDisconnectedEvent(object sender, bool isUserRequest)
         {
-           
+            
+        }
+
+        private void RaiseUdpServiceServerReceivedEvent(object sender, string message)
+        {
+            try
+            {
+                SyslogMessageModel syslogMessage = message.Parse();
+                var messageString = syslogMessage.ToString();
+
+                CompilerLogs += $"{messageString}\n";
+            }
+            catch
+            {
+                // If you couldn't read the message, it's okay, no one needs to know about it.
+            }
         }
 
         private void IsNotificationFlyoutOpenedStateChangeEvent(object sender)
@@ -326,8 +351,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         #region Subscribes
         private void Subscribe()
         {
-            mTcpClientService.RaiseTcpCientConnectedEvent += RaiseTcpCientConnectedEvent;
-            mTcpClientService.RaiseTcpClientDisconnectedEvent += RaiseTcpClientDisconnectedEvent;
+            //mTcpClientService.RaiseTcpCientConnectedEvent += RaiseTcpCientConnectedEvent;
+            //mTcpClientService.RaiseTcpClientDisconnectedEvent += RaiseTcpClientDisconnectedEvent;
+            mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent += RaiseTcpCientConnectedEvent;
+            mCommunicationProviderService.RaiseTcpServiceClientDisconnectEvent += RaiseTcpClientDisconnectedEvent;
+            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
 
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
 
@@ -338,12 +366,18 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent += RaiseCurrentAppCultureLoadOrChangeEvent;
 
             mFlyoutStateChecker.IsFlyoutsOpenedStateChangeEvent += IsNotificationFlyoutOpenedStateChangeEvent;
+
+
         }
+
 
         private void Unsubscribe()
         {
-            mTcpClientService.RaiseTcpCientConnectedEvent -= RaiseTcpCientConnectedEvent;
-            mTcpClientService.RaiseTcpClientDisconnectedEvent -= RaiseTcpClientDisconnectedEvent;
+            //mTcpClientService.RaiseTcpCientConnectedEvent -= RaiseTcpCientConnectedEvent;
+            //mTcpClientService.RaiseTcpClientDisconnectedEvent -= RaiseTcpClientDisconnectedEvent;
+            mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent -= RaiseTcpCientConnectedEvent;
+            mCommunicationProviderService.RaiseTcpServiceClientDisconnectEvent -= RaiseTcpClientDisconnectedEvent;
+            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
 
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;
 

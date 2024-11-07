@@ -11,7 +11,6 @@
 
     <!--View MenuItem Header-->
     <system:String x:Key="MainMenu.View.ScratchEditorHeader">Scratch editor</system:String>
-    <system:String x:Key="MainMenu.View.ComputerVisionHeader">Computer vision</system:String>
     <system:String x:Key="MainMenu.View.VisualSettingsHeader">Settings</system:String>
 
 </ResourceDictionary>

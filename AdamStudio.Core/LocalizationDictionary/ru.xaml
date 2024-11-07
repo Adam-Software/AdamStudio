@@ -2,12 +2,11 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/MainMenu.ru.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/HamburgerMenu.ru.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/DebuggerMessages.ru.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/SettingsControlView.ru.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/ScratchControlView.ru.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/ComputerVisionControlView.ru.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/StatusBarViewModel.ru.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/ToolBarViewModel.ru.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/ScratchControlViewModel.ru.xaml"/>
 
         <ResourceDictionary Source="pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/DictonaryCollection/Flyout/NotificationView.ru.xaml"/>

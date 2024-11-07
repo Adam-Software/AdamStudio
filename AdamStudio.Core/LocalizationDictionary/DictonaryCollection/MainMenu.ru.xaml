@@ -12,7 +12,6 @@
     
     <!--View MenuItem Header-->
     <system:String x:Key="MainMenu.View.ScratchEditorHeader">Скретч редактор</system:String>
-    <system:String x:Key="MainMenu.View.ComputerVisionHeader">Компьютерное зрение</system:String>
     <system:String x:Key="MainMenu.View.VisualSettingsHeader">Настройки</system:String>
 
 </ResourceDictionary>

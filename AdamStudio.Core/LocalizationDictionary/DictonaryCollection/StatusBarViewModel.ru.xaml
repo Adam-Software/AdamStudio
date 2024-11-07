@@ -6,8 +6,7 @@
     <system:String x:Key="StatusBarViewModel.TextOnStatusConnectToolbarConnected">Адам: подключен</system:String>
     <system:String x:Key="StatusBarViewModel.TextOnStatusConnectToolbarReconnected">Адам: переподключение</system:String>
 
-    <system:String x:Key="StatusBarViewModel.CompileLogStatusBar">Лог робота</system:String>
-    <system:String x:Key="StatusBarViewModel.AppLogStatusBar">Лог приложения</system:String>
+    <system:String x:Key="StatusBarViewModel.AppLogStatusBar">Логи приложения</system:String>
 
     <system:String x:Key="StatusBarViewModel.ChangAppLanguage.LogMessage">Язык приложения изменен</system:String>
 

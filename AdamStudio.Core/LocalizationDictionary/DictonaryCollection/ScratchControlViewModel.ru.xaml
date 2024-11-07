@@ -16,7 +16,6 @@
 
     <system:String x:Key="ScratchControlViewModel.OpenFileDialog.ExtensionNotSupported1">Расширение</system:String>
     <system:String x:Key="ScratchControlViewModel.OpenFileDialog.ExtensionNotSupported2">не поддерживается</system:String>
-
     <system:String x:Key="ScratchControlViewModel.OpenFileDialog.FileOpened.LogMessage">Открыт файл</system:String>
 
 

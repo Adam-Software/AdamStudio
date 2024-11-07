@@ -38,8 +38,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         private string mTextOnStatusConnectToolbarDisconnected;
         private string mTextOnStatusConnectToolbarConnected;
         private string mTextOnStatusConnectToolbarReconnected;
-
-        private string mCompileLogStatusBar;
         private string mAppLogStatusBar;
         private string mChangAppLanguageLogMessage;
 
@@ -115,13 +113,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             set { SetProperty(ref progressRingStart, value); }
         }
 
-        private string compileLogStatusBar; 
-        public string CompileLogStatusBar
-        {
-            get { return compileLogStatusBar; }
-            set { SetProperty(ref compileLogStatusBar, value); }
-        }
-
         private string appLogStatusBar; 
         public string AppLogStatusBar
         {
@@ -181,9 +172,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
                 if (isNewValue)
                     UpdateStatusConnectToolbar();
             }
-
         }
-
 
         #endregion
 
@@ -191,7 +180,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 
         private void LoadDefaultFieldValue()
         {
-            CompileLogStatusBar = mCompileLogStatusBar;
             AppLogStatusBar = mAppLogStatusBar;
             TextOnStatusConnectToolbar = mTextOnStatusConnectToolbarDisconnected;
             ConnectIcon = PackIconModernKind.Connect;
@@ -215,10 +203,8 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mTextOnStatusConnectToolbarConnected = mCultureProvider.FindResource("StatusBarViewModel.TextOnStatusConnectToolbarConnected");
             mTextOnStatusConnectToolbarReconnected = mCultureProvider.FindResource("StatusBarViewModel.TextOnStatusConnectToolbarReconnected");
 
-            mCompileLogStatusBar = mCultureProvider.FindResource("StatusBarViewModel.CompileLogStatusBar");
             mAppLogStatusBar = mCultureProvider.FindResource("StatusBarViewModel.AppLogStatusBar");
-
-            
+ 
             mChangAppLanguageLogMessage = mCultureProvider.FindResource("StatusBarViewModel.ChangAppLanguage.LogMessage");
         }
 
@@ -250,7 +236,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mCommunicationProviderService.RaiseTcpServiceClientReconnectedEvent += RaiseTcpServiceClientReconnectedEvent;
 
             mStatusBarNotificationDelivery.RaiseChangeProgressRingStateEvent += RaiseChangeProgressRingStateEvent;
-            mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent += RaiseNewCompileLogMessageEvent;
             mStatusBarNotificationDelivery.RaiseUpdateNotificationCounterEvent += RaiseUpdateNotificationCounterEvent;
 
             mFlyoutState.IsFlyoutsOpenedStateChangeEvent += IsOpenedStateChangeEvent;
@@ -268,7 +253,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mCommunicationProviderService.RaiseTcpServiceClientReconnectedEvent -= RaiseTcpServiceClientReconnectedEvent;
 
             mStatusBarNotificationDelivery.RaiseChangeProgressRingStateEvent -= RaiseChangeProgressRingStateEvent;
-            mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent -= RaiseNewCompileLogMessageEvent;
+            //mStatusBarNotificationDelivery.RaiseNewCompileLogMessageEvent -= RaiseNewCompileLogMessageEvent;
 
             mFlyoutState.IsFlyoutsOpenedStateChangeEvent -= IsOpenedStateChangeEvent;
 
@@ -306,10 +291,10 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             ProgressRingStart = newState;
         }
 
-        private void RaiseNewCompileLogMessageEvent(object sender, string message)
+        /*private void RaiseNewCompileLogMessageEvent(object sender, string message)
         {
-            CompileLogStatusBar = message;
-        }
+            //CompileLogStatusBar = message;
+        }*/
 
         private void RaiseNewAppLogMessageEvent(object sender, string message)
         {

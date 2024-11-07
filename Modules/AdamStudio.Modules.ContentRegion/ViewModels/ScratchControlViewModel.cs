@@ -399,7 +399,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         private async void RunPythonCode()
         {
-
             string source = SourceTextEditor;
             
             try

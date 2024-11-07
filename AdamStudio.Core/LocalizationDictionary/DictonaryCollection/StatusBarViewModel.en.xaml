@@ -6,8 +6,7 @@
     <system:String x:Key="StatusBarViewModel.TextOnStatusConnectToolbarConnected">Adam: connect</system:String>
     <system:String x:Key="StatusBarViewModel.TextOnStatusConnectToolbarReconnected">Adam: reconnect</system:String>
 
-    <system:String x:Key="StatusBarViewModel.CompileLogStatusBar">Robot log</system:String>
-    <system:String x:Key="StatusBarViewModel.AppLogStatusBar">App log</system:String>
+    <system:String x:Key="StatusBarViewModel.AppLogStatusBar">Application logs</system:String>
 
     <system:String x:Key="StatusBarViewModel.ChangAppLanguage.LogMessage">The application language has been changed</system:String>
 

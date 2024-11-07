@@ -1,8 +1,6 @@
 ﻿using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Controls.Enums;
 using AdamStudio.Core;
-using AdamStudio.Core.Extensions;
-using AdamStudio.Core.Model;
 using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,11 +33,8 @@ namespace AdamStudio.ViewModels
 
         private readonly ILogger<MainWindowViewModel> mLoggerService;
         private readonly IRegionManager mRegionManager;
-        private readonly IStatusBarNotificationDeliveryService mStatusBarNotification;
         private readonly ICommunicationProviderService mCommunicationProviderService;
         private readonly IFolderManagmentService mFolderManagment;
-        private readonly IWebApiService mWebApiService;
-        private readonly IAvalonEditService mAvalonEditService;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
         private readonly IFlyoutManager mFlyoutManager;
@@ -52,17 +47,13 @@ namespace AdamStudio.ViewModels
         {
             mLoggerService = serviceProvider.GetService<ILogger<MainWindowViewModel>>();
             mRegionManager = serviceProvider.GetService<IRegionManager>(); 
-            mWebApiService = serviceProvider.GetService<IWebApiService>(); 
             RegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>(); 
-            mStatusBarNotification = serviceProvider.GetService<IStatusBarNotificationDeliveryService>(); 
             mCommunicationProviderService = serviceProvider.GetService<ICommunicationProviderService>();
             mFolderManagment = serviceProvider.GetService<IFolderManagmentService>(); 
-            mAvalonEditService = serviceProvider.GetService<IAvalonEditService>();
             mThemeManager = serviceProvider.GetService<IThemeManagerService>();
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             ControlHelper = serviceProvider.GetService<IControlHelper>(); 
             mFlyoutManager = serviceProvider.GetService<IFlyoutManager>();
-
 
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
@@ -131,7 +122,6 @@ namespace AdamStudio.ViewModels
                     ControlHelper.CurrentBlocklyViewMode = BlocklyViewMode.FullScreen;
                     mFlyoutManager.CloseFlyout(FlyoutNames.FlyoutNotification, true);
                 }
-                    
             }
         }
 
@@ -209,28 +199,6 @@ namespace AdamStudio.ViewModels
             }
         }
 
-        private void ParseSyslogMessage(string message)
-        {
-            try
-            {
-                SyslogMessageModel syslogMessage = message.Parse();
-                mStatusBarNotification.CompileLogMessage = $"{syslogMessage.TimeStamp:T} {syslogMessage.Message}";   
-            }
-            catch
-            {
-                // If you couldn't read the message, it's okay, no one needs to know about it.
-            }
-        }
-
-        /// <summary>
-        /// Register highlighting for AvalonEdit. You need to call before loading the regions
-        /// </summary>
-        //private void LoadCustomAvalonEditHighlighting()
-        //{
-        //    mAvalonEditService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
-        //    mLoggerService.LogInformation("Loaded highlighting");
-        //}
-
         private void LoadAppTheme()
         {
             var appThemeName = Settings.Default.AppThemeName;
@@ -254,20 +222,7 @@ namespace AdamStudio.ViewModels
         /// </summary>
         private void Subscribe()
         {
-            mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent += RaiseTcpServiceCientConnectedEvent;
-            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
-
             Application.Current.MainWindow.Loaded += MainWindowLoaded;
-            Application.Current.MainWindow.Closed += MainWindowClosed; 
-        }
-
-        /// <summary>
-        /// #20
-        /// </summary>
-        private void Unsubscribe()
-        {
-            mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent -= RaiseTcpServiceCientConnectedEvent;
-            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent -= RaiseUdpServiceServerReceivedEvent;
         }
 
         #endregion
@@ -290,33 +245,11 @@ namespace AdamStudio.ViewModels
 
             //Loaded resource 
             ShowView(ViewNames.ScratchView);
-            
-            //LoadCustomAvalonEditHighlighting();
             LoadAppTheme();
 
             if (Settings.Default.AutoStartTcpConnect)
+                /// MOVE TO App.xaml
                 mCommunicationProviderService.ConnectAllAsync();
-        }
-
-
-        private void MainWindowClosed(object sender, EventArgs e)
-        {
-            Unsubscribe();
-        }
-
-        /// <summary>
-        /// It is not clear where to put this, so it will not get lost here.
-        /// 
-        /// Stops a remotely executed script that may have been executing before the connection was lost.
-        /// </summary>
-        private void RaiseTcpServiceCientConnectedEvent(object sender)
-        {
-            mWebApiService.StopPythonExecute();
-        }
-
-        private void RaiseUdpServiceServerReceivedEvent(object sender, string message)
-        {
-            ParseSyslogMessage(message);
         }
 
         #endregion

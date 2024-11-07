@@ -1,7 +1,6 @@
 ﻿using AdamStudio.Services.Interfaces;
 using Prism.Mvvm;
 
-
 namespace AdamStudio.Services
 {
     public class StatusBarNotificationDeliveryService : BindableBase, IStatusBarNotificationDeliveryService
@@ -10,7 +9,6 @@ namespace AdamStudio.Services
         #region Events
 
         public event ChangeProgressRingStateEventHandler RaiseChangeProgressRingStateEvent;
-        public event NewCompileLogMessageEventHandler RaiseNewCompileLogMessageEvent;
         public event UpdateNotificationCounterEventHandler RaiseUpdateNotificationCounterEvent;
 
         #endregion
@@ -34,19 +32,6 @@ namespace AdamStudio.Services
                 if (isNewValue)
                     OnRaiseChangeProgressRingStateEvent(ProgressRingStart);
                 
-            }
-        }
-
-        private string compileLogMessage = string.Empty;
-        public string CompileLogMessage 
-        {
-            get => compileLogMessage; 
-            set 
-            { 
-                bool isNewValue = SetProperty(ref compileLogMessage, value);
-                
-                if (isNewValue)
-                    OnRaiseNewCompileLogMessageEvent(CompileLogMessage);
             }
         }
 
@@ -85,12 +70,6 @@ namespace AdamStudio.Services
         {
             ChangeProgressRingStateEventHandler raiseEvent = RaiseChangeProgressRingStateEvent;
             raiseEvent?.Invoke(this, newState);
-        }
-
-        protected virtual void OnRaiseNewCompileLogMessageEvent(string message) 
-        {
-            NewCompileLogMessageEventHandler raiseEvent = RaiseNewCompileLogMessageEvent;
-            raiseEvent?.Invoke(this, message);
         }
 
         protected virtual void OnRaiseUpdateNotificationCounterEvent(int counter)
