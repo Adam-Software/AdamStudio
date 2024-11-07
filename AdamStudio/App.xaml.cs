@@ -85,9 +85,10 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<ITcpClientService, TcpClientService>();
             containerRegistry.RegisterSingleton<IUdpClientService, UdpClientService>();
             containerRegistry.RegisterSingleton<IUdpServerService, UdpServerService>();
+            containerRegistry.RegisterSingleton<IWebSocketClientService, WebSocketClientService>();
 
-   
-            containerRegistry.RegisterSingleton<IWebSocketClientService>(() =>
+
+            /*containerRegistry.RegisterSingleton<IWebSocketClientService>(() =>
             {
                 string ip = Settings.Default.ServerIP;
                 int port = Settings.Default.SoketServerPort;
@@ -110,7 +111,7 @@ namespace AdamStudio
 
                 WebSocketClientService client = new(uri);
                 return client;
-            });
+            });*/
 
             containerRegistry.RegisterSingleton<IWebApiService>(() =>
             {

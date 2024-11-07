@@ -76,6 +76,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
                 string port = Settings.Default.VideoDataExchangePort;
                 var uri = new Uri($"http://{ip}:{port}/stream/0.mjpeg");
                 await VideoView.Open(uri);
+                
                 return;
             }
 
@@ -95,6 +96,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
             e.Options.MinimumPlaybackBufferPercent = 0;
 
             e.Options.DecoderParams.EnableFastDecoding = true;
+            
         }
 
         private void RaiseBlocklyColumnWidthChangeEvent(object sender)

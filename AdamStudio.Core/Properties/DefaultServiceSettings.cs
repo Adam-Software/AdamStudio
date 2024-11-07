@@ -2,6 +2,8 @@
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services.UdpClientServiceDependency;
 using AdamStudio.Services.UdpServerServiceDependency;
+using AdamStudio.Services.WebSocketClientDependency;
+using System;
 using System.Net;
 
 namespace AdamStudio.Core.Properties
@@ -57,9 +59,26 @@ namespace AdamStudio.Core.Properties
                 IPAddress ip = IPAddress.Any;
                 int port = Settings.Default.LogServerPort;
 
-                UdpServerSettings udpServerSettings = new( ip, port);
+                UdpServerSettings udpServerSettings = new(ip, port);
 
                 return udpServerSettings;
+            }
+        }
+
+        public WebSocketClientSettings WebSocketClientSettings
+        {
+            get
+            {
+                string ip = Settings.Default.ServerIP;
+                int port = Settings.Default.SoketServerPort;
+                Uri uri = new($"ws://127.0.0.1:9001/adam-2.7/movement");
+
+                if (!string.IsNullOrEmpty(ip))
+                {
+                    uri = new($"ws://{ip}:{port}/adam-2.7/movement");
+                }
+
+                return new WebSocketClientSettings(uri);
             }
         }
 

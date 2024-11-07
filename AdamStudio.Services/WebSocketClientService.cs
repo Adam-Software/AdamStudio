@@ -1,5 +1,7 @@
 ﻿using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Websocket.Client;
 
@@ -23,9 +25,11 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public WebSocketClientService(Uri url)
+        public WebSocketClientService(IServiceProvider serviceProvider)
         {
-            mWebsocketClient = new(url)
+            var uri = serviceProvider.GetService<IServiceSettings>().WebSocketClientSettings.Uri;
+
+            mWebsocketClient = new(uri)
             {
                 ReconnectTimeout = null
             };

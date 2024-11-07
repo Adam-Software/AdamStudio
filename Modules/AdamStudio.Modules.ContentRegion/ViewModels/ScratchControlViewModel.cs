@@ -63,7 +63,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         #region Const
 
-        private const string cFilter = "XML documents (.xml) | *.xml";
+        //private const string cFilter = "XML documents (.xml) | *.xml";
 
         #endregion
 

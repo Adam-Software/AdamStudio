@@ -91,7 +91,13 @@
             <ffme:MediaElement IsDesignPreviewEnabled="False"
                                x:Name="VideoView"
                                LoadedBehavior="Play"
-                               UnloadedBehavior="Manual"/>
+                               UnloadedBehavior="Manual">
+                <ffme:MediaElement.LayoutTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="180" />
+                    </TransformGroup>
+                </ffme:MediaElement.LayoutTransform>
+            </ffme:MediaElement>
 
             <DockPanel LastChildFill="False">
 
