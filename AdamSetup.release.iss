@@ -8,6 +8,7 @@
 #define MyAppExeName "AdamStudio.exe"
 #define InstallerIconPath "AdamStudio.Core\Properties\Icons\main_app_icon.ico"
 #define AppReleaseFolderPath "AdamStudio\bin\Release\net8.0-windows7.0\"
+#define EdgeWebView2ExeName "MicrosoftEdgeWebView2RuntimeInstaller.1.3.195.25.X64.exe"
 #define MyAppVersion GetVersionNumbersString(AppReleaseFolderPath + MyAppExeName)
 
 [Setup]
@@ -44,11 +45,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#AppReleaseFolderPath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "AdamInstallBundle\Utils\7za.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
 Source: "AdamInstallBundle\Source\BlocklySource.zip"; DestDir: "{tmp}"; Flags: deleteafterinstall;
-Source: "AdamInstallBundle\Components\MicrosoftEdgeWebView2RuntimeInstaller.125.0.2535.51.X64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
+Source: "AdamInstallBundle\Components\{#EdgeWebView2ExeName}"; DestDir: "{tmp}"; Flags: deleteafterinstall;
 Source: "AdamInstallBundle\Components\VC_redist.14.29.30135.0.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
 Source: "AdamInstallBundle\Components\windowsdesktop-runtime-8.0.5-win-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
-;Source: "AdamInstallBundle\Components\aspnetcore-runtime-8.0.5-win-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
-
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -57,10 +56,9 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent;
 Filename: "{tmp}\7za.exe"; Parameters: "x ""{tmp}\BlocklySource.zip"" -o""{commonappdata}\{#MyAppName}\BlocklySource"" * -r -aoa"; Flags: runasoriginaluser runhidden;
-Filename: "{tmp}\MicrosoftEdgeWebView2RuntimeInstaller.125.0.2535.51.X64.exe"; Parameters: "/silent /install";
+Filename: "{tmp}\{#EdgeWebView2ExeName}"; Parameters: "/silent /install";
 Filename: "{tmp}\VC_redist.14.29.30135.0.x64.exe"; Parameters: "/install /quiet /norestart"; 
 Filename: "{tmp}\windowsdesktop-runtime-8.0.5-win-x64.exe"; Parameters: "/install /quiet /norestart"; 
-;Filename: "{tmp}\aspnetcore-runtime-8.0.5-win-x64.exe"; Parameters: "/install /quiet /norestart"; 
 
 [Registry]
 Root: HKLM64; Subkey: "SOFTWARE\{#MyAppPublisher}\{#MyAppName}"; ValueType: string; ValueName: "AppVersion"; ValueData: "{#MyAppVersion}"; Permissions: users-modify; Flags: uninsdeletevalue

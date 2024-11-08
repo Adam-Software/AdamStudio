@@ -9,7 +9,7 @@
     <PackageReference Include="FFmpeg.zgabi.FFME.Windows.6.0.2" Version="1.0.13" />
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="NetCoreServer" Version="8.0.7" />
     <PackageReference Include="PortableSettingsProvider" Version="0.2.5" />
