@@ -90,13 +90,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<ICommunicationProviderService, CommunicationProviderService>();
             containerRegistry.RegisterSingleton<IPythonRemoteRunnerService, PythonRemoteRunnerService>();
             containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
-            containerRegistry.RegisterSingleton<IControlHelperService>(containerRegistry =>
-            {
-                
-                bool isVideoShowLastValue = Settings.Default.ShowVideo;
-                return new ControlHelperService(isVideoShowLastValue);
-            });
-
+            containerRegistry.RegisterSingleton<IControlHelperService, ControlHelperService>();
             containerRegistry.RegisterSingleton<IVideoViewProvider, VideoViewProvider>();
 
             RegisterDialogs(containerRegistry);

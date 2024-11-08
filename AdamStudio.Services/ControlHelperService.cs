@@ -11,15 +11,10 @@ namespace AdamStudio.Services
         public event BlocklyColumnWidthChangeEventHandler RaiseBlocklyColumnWidthChangeEvent;
         public event IsVideoShowChangeEventHandler IsVideoShowChangeEvent;
 
-        public ControlHelperService(bool isVideoShowLastValue)
+        public ControlHelperService(IServiceProvider serviceProvider)
         {
-            IsShowVideo = isVideoShowLastValue;
+            IsShowVideo = serviceProvider.GetService<IServiceSettings>().ControlHelperSettings.IsVideoShownLastValue;
         }
-
-        /*public ControlHelper(IServiceProvider serviceProvider)
-        {
-            var uri = serviceProvider.GetService<IServiceSettings>()
-        }*/
 
         private double mainGridActualWidth = double.NaN;
         public double MainGridActualWidth
