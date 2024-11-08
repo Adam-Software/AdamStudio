@@ -13,5 +13,7 @@ namespace AdamStudio.Services.Interfaces
         public UdpServerSettings UdpServerSettings { get; }
         public WebSocketClientSettings WebSocketClientSettings { get; }
         public WebApiSettings WebApiSettings { get; }
+
+        //public ControlHelperSettings
     }
 }

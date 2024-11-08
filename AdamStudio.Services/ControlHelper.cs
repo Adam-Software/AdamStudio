@@ -1,17 +1,25 @@
-﻿using AdamStudio.Controls.Enums;
+﻿using AdamStudio.Services.ControlHelperServiceDependency;
+using AdamStudio.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Mvvm;
+using System;
 
-namespace AdamStudio.Controls.CustomControls.Services
+namespace AdamStudio.Services
 {
     public class ControlHelper : BindableBase, IControlHelper
     {
         public event BlocklyColumnWidthChangeEventHandler RaiseBlocklyColumnWidthChangeEvent;
         public event IsVideoShowChangeEventHandler IsVideoShowChangeEvent;
 
-        public ControlHelper(bool isVideoShowLastValue) 
+        public ControlHelper(bool isVideoShowLastValue)
         {
             IsShowVideo = isVideoShowLastValue;
         }
+
+        /*public ControlHelper(IServiceProvider serviceProvider)
+        {
+            var uri = serviceProvider.GetService<IServiceSettings>()
+        }*/
 
         private double mainGridActualWidth = double.NaN;
         public double MainGridActualWidth
@@ -29,9 +37,8 @@ namespace AdamStudio.Controls.CustomControls.Services
                 bool isNewValue = SetProperty(ref blocklyColumnActualWidth, value);
 
                 if (isNewValue)
-                {
                     UpdateCurrentBlocklyViewMode();
-                }
+                
             }
         }
 
@@ -44,9 +51,8 @@ namespace AdamStudio.Controls.CustomControls.Services
                 bool isNewValue = SetProperty(ref blocklyColumnWidth, value);
 
                 if (isNewValue)
-                {
                     OnRaiseBlocklyColumnWidthChangeEvent();
-                }
+                
             }
         }
 

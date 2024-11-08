@@ -1,4 +1,4 @@
-﻿namespace AdamStudio.Controls.Enums
+﻿namespace AdamStudio.Services.ControlHelperServiceDependency
 {
     public enum BlocklyViewMode
     {

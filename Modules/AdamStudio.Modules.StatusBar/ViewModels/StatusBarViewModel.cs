@@ -1,7 +1,8 @@
 ﻿using AdamStudio.Controls.CustomControls.Services;
-using AdamStudio.Controls.Enums;
 using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
+using AdamStudio.Services;
+using AdamStudio.Services.ControlHelperServiceDependency;
 using AdamStudio.Services.Interfaces;
 using MahApps.Metro.IconPacks;
 using Microsoft.Extensions.DependencyInjection;

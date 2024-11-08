@@ -1,7 +1,8 @@
 ﻿using AdamStudio.Controls.CustomControls.Services;
-using AdamStudio.Controls.Enums;
 using AdamStudio.Core;
 using AdamStudio.Core.Properties;
+using AdamStudio.Services;
+using AdamStudio.Services.ControlHelperServiceDependency;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

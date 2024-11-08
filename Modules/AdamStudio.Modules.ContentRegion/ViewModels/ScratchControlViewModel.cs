@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using AdamStudio.Services;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
