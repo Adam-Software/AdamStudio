@@ -6,12 +6,12 @@ using System;
 
 namespace AdamStudio.Services
 {
-    public class ControlHelper : BindableBase, IControlHelper
+    public class ControlHelperService : BindableBase, IControlHelperService
     {
         public event BlocklyColumnWidthChangeEventHandler RaiseBlocklyColumnWidthChangeEvent;
         public event IsVideoShowChangeEventHandler IsVideoShowChangeEvent;
 
-        public ControlHelper(bool isVideoShowLastValue)
+        public ControlHelperService(bool isVideoShowLastValue)
         {
             IsShowVideo = isVideoShowLastValue;
         }

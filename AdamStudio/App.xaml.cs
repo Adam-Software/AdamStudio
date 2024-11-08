@@ -90,11 +90,11 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<ICommunicationProviderService, CommunicationProviderService>();
             containerRegistry.RegisterSingleton<IPythonRemoteRunnerService, PythonRemoteRunnerService>();
             containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
-            containerRegistry.RegisterSingleton<IControlHelper>(containerRegistry =>
+            containerRegistry.RegisterSingleton<IControlHelperService>(containerRegistry =>
             {
                 
                 bool isVideoShowLastValue = Settings.Default.ShowVideo;
-                return new ControlHelper(isVideoShowLastValue);
+                return new ControlHelperService(isVideoShowLastValue);
             });
 
             containerRegistry.RegisterSingleton<IVideoViewProvider, VideoViewProvider>();
@@ -191,7 +191,7 @@ namespace AdamStudio
             Container.Resolve<ICommunicationProviderService>().Dispose();
             Container.Resolve<IWebApiService>().Dispose();
             Container.Resolve<ICultureProvider>().Dispose();
-            Container.Resolve<IControlHelper>().Dispose();
+            Container.Resolve<IControlHelperService>().Dispose();
             Container.Resolve<ILogWriteEventAwareService>().Dispose();
 
         }

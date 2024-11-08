@@ -24,7 +24,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
 
         private readonly ILogger<ScratchControlView> mLogger;
         private readonly IWebViewProvider mWebViewProvider;
-        private readonly IControlHelper mControlHelper;
+        private readonly IControlHelperService mControlHelper;
         private readonly IVideoViewProvider mVideoViewProvider;
         
 
@@ -43,7 +43,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
 
             mLogger = serviceProvider.GetService<ILogger<ScratchControlView>>(); 
             mWebViewProvider = serviceProvider.GetService<IWebViewProvider>(); 
-            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mControlHelper = serviceProvider.GetService<IControlHelperService>();
             mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
 
             IFolderManagmentService folderManagment = serviceProvider.GetService<IFolderManagmentService>();

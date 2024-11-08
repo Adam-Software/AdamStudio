@@ -30,7 +30,7 @@ namespace AdamStudio.ViewModels
         #region Services
 
         public IRegionChangeAwareService RegionChangeAwareService { get; }
-        public IControlHelper ControlHelper { get; }
+        public IControlHelperService ControlHelper { get; }
 
         private readonly ILogger<MainWindowViewModel> mLoggerService;
         private readonly IRegionManager mRegionManager;
@@ -53,7 +53,7 @@ namespace AdamStudio.ViewModels
             mFolderManagment = serviceProvider.GetService<IFolderManagmentService>(); 
             mThemeManager = serviceProvider.GetService<IThemeManagerService>();
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
-            ControlHelper = serviceProvider.GetService<IControlHelper>(); 
+            ControlHelper = serviceProvider.GetService<IControlHelperService>(); 
             mFlyoutManager = serviceProvider.GetService<IFlyoutManager>();
 
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);

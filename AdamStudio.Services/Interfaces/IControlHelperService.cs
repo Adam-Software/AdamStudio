@@ -11,7 +11,7 @@ namespace AdamStudio.Services
 
     #endregion
 
-    public interface IControlHelper : IDisposable
+    public interface IControlHelperService : IDisposable
     {
         #region Events
 

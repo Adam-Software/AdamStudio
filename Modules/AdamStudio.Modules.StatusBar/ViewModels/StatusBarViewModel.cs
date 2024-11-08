@@ -28,7 +28,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         private readonly IStatusBarNotificationDeliveryService mStatusBarNotificationDelivery;
         private readonly IFlyoutStateChecker mFlyoutState;
         private readonly ICultureProvider mCultureProvider;
-        private readonly IControlHelper mControlHelper;
+        private readonly IControlHelperService mControlHelper;
         private readonly ILogWriteEventAwareService mLogWriteEventAwareService;
         private readonly ILogger<StatusBarViewModel> mLogger;
 
@@ -54,7 +54,7 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mStatusBarNotificationDelivery = serviceProvider.GetService<IStatusBarNotificationDeliveryService>(); 
             mFlyoutState = serviceProvider.GetService<IFlyoutStateChecker>(); 
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
-            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mControlHelper = serviceProvider.GetService<IControlHelperService>();
             mLogWriteEventAwareService = serviceProvider.GetService<ILogWriteEventAwareService>();
           
             OpenNotificationPanelDelegateCommand = new DelegateCommand(OpenNotificationPanel, OpenNotificationPanelCanExecute);

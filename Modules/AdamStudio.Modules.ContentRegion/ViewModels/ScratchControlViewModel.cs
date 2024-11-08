@@ -56,7 +56,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IWebApiService mWebApiService;
         private readonly ICultureProvider mCultureProvider;
         private readonly ISystemDialogService mSystemDialog;
-        private readonly IControlHelper mControlHelper;
+        private readonly IControlHelperService mControlHelper;
         private readonly IVideoViewProvider mVideoViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
 
@@ -99,7 +99,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mWebApiService = serviceProvider.GetService<IWebApiService>();
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             mSystemDialog = serviceProvider.GetService<ISystemDialogService>();
-            mControlHelper = serviceProvider.GetService<IControlHelper>();
+            mControlHelper = serviceProvider.GetService<IControlHelperService>();
             mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
             mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
 
