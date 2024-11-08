@@ -46,6 +46,7 @@ using AdamStudio.Services;
 using Microsoft.Extensions.Options;
 using ICSharpCode.AvalonEdit.Highlighting;
 using AdamStudio.Core;
+using Bluegrams.Application;
 
 #endregion
 
@@ -60,6 +61,7 @@ namespace AdamStudio
         {
             Subscribe();
             LoadSharedFFmpegLibrary();
+            InitPortableSettings();
         }
 
         #endregion
@@ -96,12 +98,6 @@ namespace AdamStudio
             RegisterDialogs(containerRegistry);
             RegisterService(containerRegistry);
             RegisterAvalonHighlightingDefinition();
-        }
-
-        private void RegisterAvalonHighlightingDefinition()
-        {
-            IAvalonEditService avalonService = Container.Resolve<IAvalonEditService>();
-            avalonService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
         }
 
         private void RegisterService(IContainerRegistry containerRegistry)
@@ -187,7 +183,6 @@ namespace AdamStudio
             Container.Resolve<ICultureProvider>().Dispose();
             Container.Resolve<IControlHelperService>().Dispose();
             Container.Resolve<ILogWriteEventAwareService>().Dispose();
-
         }
 
         #region Subscribes
@@ -272,6 +267,18 @@ namespace AdamStudio
         {
             var ffmpegPath = AppDomain.CurrentDomain.BaseDirectory;
             Unosquare.FFME.Library.FFmpegDirectory = ffmpegPath;
+        }
+
+        private void RegisterAvalonHighlightingDefinition()
+        {
+            IAvalonEditService avalonService = Container.Resolve<IAvalonEditService>();
+            avalonService.RegisterHighlighting(HighlightingName.AdamPython, Resource.AdamPython);
+        }
+
+        private static void InitPortableSettings()
+        {
+            PortableSettingsProvider.SettingsFileName = "settings.config";
+            PortableSettingsProvider.ApplyProvider(Settings.Default);
         }
 
         #endregion

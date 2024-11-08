@@ -12,7 +12,7 @@ namespace AdamStudio.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -589,186 +589,6 @@ namespace AdamStudio.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32")]
-        public int BenchmarkTcpSizeByteArray {
-            get {
-                return ((int)(this["BenchmarkTcpSizeByteArray"]));
-            }
-            set {
-                this["BenchmarkTcpSizeByteArray"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.50.10")]
-        public string BenchmarkTestServerIp {
-            get {
-                return ((string)(this["BenchmarkTestServerIp"]));
-            }
-            set {
-                this["BenchmarkTestServerIp"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15000")]
-        public int BenchmarkTestTcpServerPort {
-            get {
-                return ((int)(this["BenchmarkTestTcpServerPort"]));
-            }
-            set {
-                this["BenchmarkTestTcpServerPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int BenchmarkTestTcpClientsQty {
-            get {
-                return ((int)(this["BenchmarkTestTcpClientsQty"]));
-            }
-            set {
-                this["BenchmarkTestTcpClientsQty"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int BenchmarkTestTcpMessageQty {
-            get {
-                return ((int)(this["BenchmarkTestTcpMessageQty"]));
-            }
-            set {
-                this["BenchmarkTestTcpMessageQty"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int BenchmarkTestTcpTime {
-            get {
-                return ((int)(this["BenchmarkTestTcpTime"]));
-            }
-            set {
-                this["BenchmarkTestTcpTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int BenchmarkTestUdpTime {
-            get {
-                return ((int)(this["BenchmarkTestUdpTime"]));
-            }
-            set {
-                this["BenchmarkTestUdpTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16001")]
-        public int BenchmarkTcpTestPort {
-            get {
-                return ((int)(this["BenchmarkTcpTestPort"]));
-            }
-            set {
-                this["BenchmarkTcpTestPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16002")]
-        public int BenchmarkUdpTestPort {
-            get {
-                return ((int)(this["BenchmarkUdpTestPort"]));
-            }
-            set {
-                this["BenchmarkUdpTestPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32")]
-        public int BenchmarkUdpSizeByteArray {
-            get {
-                return ((int)(this["BenchmarkUdpSizeByteArray"]));
-            }
-            set {
-                this["BenchmarkUdpSizeByteArray"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int BenchmarkTestUdpMessageQty {
-            get {
-                return ((int)(this["BenchmarkTestUdpMessageQty"]));
-            }
-            set {
-                this["BenchmarkTestUdpMessageQty"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int BenchmarkTestUdpClientsQty {
-            get {
-                return ((int)(this["BenchmarkTestUdpClientsQty"]));
-            }
-            set {
-                this["BenchmarkTestUdpClientsQty"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16000")]
-        public int BenchmarkTcpConnectStatePort {
-            get {
-                return ((int)(this["BenchmarkTcpConnectStatePort"]));
-            }
-            set {
-                this["BenchmarkTcpConnectStatePort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool BenchmarkAddEnvironmentParametersToResult {
-            get {
-                return ((bool)(this["BenchmarkAddEnvironmentParametersToResult"]));
-            }
-            set {
-                this["BenchmarkAddEnvironmentParametersToResult"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SavedResultsNetworkTestsFolderPath {
-            get {
-                return ((string)(this["SavedResultsNetworkTestsFolderPath"]));
-            }
-            set {
-                this["SavedResultsNetworkTestsFolderPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int ReconnectQtyComunicateTcpClient {
             get {
@@ -776,18 +596,6 @@ namespace AdamStudio.Core.Properties {
             }
             set {
                 this["ReconnectQtyComunicateTcpClient"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ReconnectQtyBenchmarkComunicateTcpClient {
-            get {
-                return ((int)(this["ReconnectQtyBenchmarkComunicateTcpClient"]));
-            }
-            set {
-                this["ReconnectQtyBenchmarkComunicateTcpClient"] = value;
             }
         }
         
@@ -805,18 +613,6 @@ namespace AdamStudio.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ReconnectTimeoutBenchmarkComunicateTcpClient {
-            get {
-                return ((int)(this["ReconnectTimeoutBenchmarkComunicateTcpClient"]));
-            }
-            set {
-                this["ReconnectTimeoutBenchmarkComunicateTcpClient"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AutoStartTcpConnect {
             get {
@@ -824,18 +620,6 @@ namespace AdamStudio.Core.Properties {
             }
             set {
                 this["AutoStartTcpConnect"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoStartTestTcpConnect {
-            get {
-                return ((bool)(this["AutoStartTestTcpConnect"]));
-            }
-            set {
-                this["AutoStartTestTcpConnect"] = value;
             }
         }
         

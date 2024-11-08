@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="NetCoreServer" Version="8.0.7" />
+    <PackageReference Include="PortableSettingsProvider" Version="0.2.5" />
     <PackageReference Include="Prism.Container.Extensions" Version="8.0.62" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />

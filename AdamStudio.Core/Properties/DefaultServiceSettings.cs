@@ -1,4 +1,5 @@
-﻿using AdamStudio.Services.Interfaces;
+﻿using AdamStudio.Services.ControlHelperServiceDependency;
+using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services.UdpClientServiceDependency;
 using AdamStudio.Services.UdpServerServiceDependency;
@@ -31,7 +32,6 @@ namespace AdamStudio.Core.Properties
                 int port = Settings.Default.TcpConnectStatePort;
 
                 TcpCllientSettings tcpCllientSettings = new(ip, port, option);
-
                 return tcpCllientSettings;
             } 
         }
@@ -44,7 +44,6 @@ namespace AdamStudio.Core.Properties
                 int port = int.Parse(Settings.Default.MessageDataExchangePort);
 
                 UdpClientSettings udpClientSettings = new(ip, port);
-
                 return udpClientSettings;
             }
         }
@@ -57,7 +56,6 @@ namespace AdamStudio.Core.Properties
                 int port = Settings.Default.LogServerPort;
 
                 UdpServerSettings udpServerSettings = new(ip, port);
-
                 return udpServerSettings;
             }
         }
@@ -92,6 +90,15 @@ namespace AdamStudio.Core.Properties
                     ip = "127.0.0.1";
 
                 return new WebApiSettings(ip, port, login, password);
+            }
+        }
+
+        public ControlHelperSettings ControlHelperSettings
+        {
+            get
+            {
+                bool isVideoShowLastValue = Settings.Default.ShowVideo;
+                return new ControlHelperSettings(isVideoShowLastValue);
             }
         }
 

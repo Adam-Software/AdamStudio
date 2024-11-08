@@ -143,68 +143,14 @@
     <Setting Name="TcpConnectStatePort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15000</Value>
     </Setting>
-    <Setting Name="BenchmarkTcpSizeByteArray" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">32</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestServerIp" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.50.10</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestTcpServerPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15000</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestTcpClientsQty" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestTcpMessageQty" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestTcpTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestUdpTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="BenchmarkTcpTestPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">16001</Value>
-    </Setting>
-    <Setting Name="BenchmarkUdpTestPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">16002</Value>
-    </Setting>
-    <Setting Name="BenchmarkUdpSizeByteArray" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">32</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestUdpMessageQty" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
-    </Setting>
-    <Setting Name="BenchmarkTestUdpClientsQty" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="BenchmarkTcpConnectStatePort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">16000</Value>
-    </Setting>
-    <Setting Name="BenchmarkAddEnvironmentParametersToResult" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SavedResultsNetworkTestsFolderPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="ReconnectQtyComunicateTcpClient" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="ReconnectQtyBenchmarkComunicateTcpClient" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ReconnectTimeoutComunicateTcpClient" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="ReconnectTimeoutBenchmarkComunicateTcpClient" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="AutoStartTcpConnect" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="AutoStartTestTcpConnect" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="IsMessageShowOnAbortMainConnection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
