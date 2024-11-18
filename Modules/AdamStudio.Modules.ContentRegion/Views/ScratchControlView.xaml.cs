@@ -1,6 +1,4 @@
-﻿using AdamStudio.Controls.CustomControls.Services;
-using AdamStudio.Core.Properties;
-using AdamStudio.Modules.ContentRegion.ViewModels;
+﻿using AdamStudio.Core.Properties;
 using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.WebViewProviderDependency;

@@ -82,36 +82,48 @@
         <!--#endregion-->
 
         <!-- #region video view -->
-        
+
         <Grid Grid.Column="0"
               Grid.Row="0"
               Margin="0 1 0 1"
               Visibility="{Binding IsShowVideo, Converter={StaticResource BoolToVisibilityReConverter}}">
 
-            <ffme:MediaElement IsDesignPreviewEnabled="False"
-                               x:Name="VideoView"
+            <ffme:MediaElement x:Name="VideoView"
                                LoadedBehavior="Play"
                                UnloadedBehavior="Manual">
                 <ffme:MediaElement.LayoutTransform>
                     <TransformGroup>
-                        <RotateTransform Angle="180" />
+                        <RotateTransform Angle="{Binding VideoViewRotateAngle}" />
                     </TransformGroup>
                 </ffme:MediaElement.LayoutTransform>
             </ffme:MediaElement>
 
-            <DockPanel LastChildFill="False">
+            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0 5 0 0">
 
-                <TextBlock DockPanel.Dock="Top"
+                <TextBlock DockPanel.Dock="Right"
                            Margin="10 0 10 0"
-                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
                            Text="{Binding VideoFrameRate}"
                            Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+
+                <Button DockPanel.Dock="Right" 
+                        VerticalAlignment="Top"
+                        Command="{Binding RotateScreenDelegateCommand}"
+                        Style="{DynamicResource  MahApps.Styles.Button.Circle}">
+
+                    <iconPacks:PackIconMaterial Width="15"
+                                                Height="15"
+                                                Kind="ScreenRotation"
+                                                />
+
+
+                </Button>
 
                 <Grid Background="Transparent" 
                       DockPanel.Dock="Bottom" 
                       HorizontalAlignment="Center"
                       Width="400"
-                      Margin="0 0 0 10"
+                      Margin="0 0 0 2"
                       Opacity="1">
 
                     <Grid.RowDefinitions>

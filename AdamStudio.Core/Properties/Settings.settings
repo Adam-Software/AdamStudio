@@ -233,5 +233,8 @@
     <Setting Name="SSHPanelHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">500</Value>
     </Setting>
+    <Setting Name="VideoScreenAngle" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">180</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

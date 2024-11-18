@@ -946,5 +946,17 @@ namespace AdamStudio.Core.Properties {
                 this["SSHPanelHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public ushort VideoScreenAngle {
+            get {
+                return ((ushort)(this["VideoScreenAngle"]));
+            }
+            set {
+                this["VideoScreenAngle"] = value;
+            }
+        }
     }
 }

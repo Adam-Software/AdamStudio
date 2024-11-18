@@ -33,6 +33,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
     {
         #region DelegateCommands
 
+        public DelegateCommand RotateScreenDelegateCommand { get; }
         public DelegateCommand CopyToClipboardDelegateCommand { get; }
         public DelegateCommand ReloadWebViewDelegateCommand { get; }
         public DelegateCommand<string> ShowSaveFileDialogDelegateCommand { get; }
@@ -42,6 +43,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public DelegateCommand ToZeroPositionDelegateCommand { get; }
         public DelegateCommand<string> DirectionButtonDownDelegateCommand { get; }
         public DelegateCommand<string> DirectionButtonUpDelegateCommand { get; }
+
 
         #endregion
 
@@ -103,6 +105,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
             mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
 
+            RotateScreenDelegateCommand = new DelegateCommand(RotateScreen, RotateScreenCanExecute);
             ShowSaveFileDialogDelegateCommand = new DelegateCommand<string>(ShowSaveFileDialog, ShowSaveFileDialogCanExecute);
             ShowOpenFileDialogDelegateCommand = new DelegateCommand<string>(ShowOpenFileDialog, ShowOpenFileDialogCanExecute);
 
@@ -131,6 +134,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             LoadResources();
             UpdateIsShowVideo(Settings.Default.ShowVideo);
+            UpdateScreenRotate(Settings.Default.VideoScreenAngle);
 
             mWebViewProvider.ReloadWebView();
 
@@ -147,6 +151,19 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         #endregion
 
         #region Public fields
+
+        private ushort videoViewRotateAngle;
+        public ushort VideoViewRotateAngle
+        {
+            get { return videoViewRotateAngle; }
+            set 
+            { 
+                bool isNewValue = SetProperty(ref videoViewRotateAngle, value);  
+                
+                if(isNewValue)
+                    Settings.Default.VideoScreenAngle = VideoViewRotateAngle;
+            }
+        }
 
         private string videoFrameRate;
         public string VideoFrameRate
@@ -285,6 +302,16 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         #endregion
 
         #region DelegateCommands methods
+
+        private void RotateScreen()
+        {
+            UpdateScreenRotate(VideoViewRotateAngle);
+        }
+
+        private bool RotateScreenCanExecute()
+        {
+            return true;
+        }
 
         private void CopyToClipboard()
         {
@@ -530,6 +557,14 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private void UpdateIsShowVideo(bool isShowVideo)
         {
             IsShowVideo = isShowVideo;
+        }
+
+        private void UpdateScreenRotate(ushort rotateAngle)
+        {
+            if (rotateAngle == 180)
+                VideoViewRotateAngle = 360;
+            else
+                VideoViewRotateAngle = 180;
         }
 
         private void OnPythonCodeExecuteStatusChange(bool isPythonCodeExecute)
