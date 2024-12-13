@@ -117,6 +117,8 @@ namespace AdamStudio
                     .CreateLogger();
 
                 services.AddLogging(s => s.AddSerilog(mainLogger, dispose: true));
+
+                services.AddHostedService<ITcpPythonStreamServerService, TcpPythonStreamServerService>();
             });
         }
 

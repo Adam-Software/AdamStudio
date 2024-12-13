@@ -3,17 +3,19 @@ using AdamBlocklyLibrary.Enum;
 using AdamBlocklyLibrary.Struct;
 using AdamBlocklyLibrary.Toolbox;
 using AdamBlocklyLibrary.ToolboxSets;
-using AdamStudio.Controls.CustomControls.Services;
+using AdamController.WebApi.Client.v1.ResponseModel;
 using AdamStudio.Core;
 using AdamStudio.Core.Extensions;
 using AdamStudio.Core.Model;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
+using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.SystemDialogServiceDependency;
 using AdamStudio.Services.WebViewProviderDependency;
-using AdamController.WebApi.Client.v1.ResponseModel;
 using ICSharpCode.AvalonEdit.Highlighting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -23,9 +25,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using AdamStudio.Services;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
