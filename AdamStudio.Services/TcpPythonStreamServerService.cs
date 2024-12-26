@@ -1,33 +1,43 @@
 ﻿using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PHS.Networking.Enums;
+using PHS.Networking.Server.Enums;
 using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tcp.NET.Server;
+using Tcp.NET.Server.Events.Args;
+using Tcp.NET.Server.Models;
 using TcpSharp;
+
 
 namespace AdamStudio.Services
 {
-    public class TcpPythonStreamServerService : BackgroundService
+    public class TcpPythonStreamServerService : ITcpPythonStreamServerService
     {
         private readonly ILogger<TcpPythonStreamServerService> mLoggerService;
-        private readonly TcpSharpSocketServer mTcpSocketServer;
-        private readonly Encoding mSystemEncoding = Console.OutputEncoding;
+        private readonly TcpNETServer mTcpServer;
+
+        public event ClientConnectedEventHandler RaiseClientConnectedEvent;
+        public event ClientDisconnectedEventHandler RaiseClientDisconnectedEvent;
+        public event ClientDataReceivedEventHandler RaiseClientDataReceivedEvent;
 
         #region ~
 
         public TcpPythonStreamServerService(IServiceProvider serviceProvider) 
         { 
             mLoggerService = serviceProvider.GetService<ILogger<TcpPythonStreamServerService>>();
-            mTcpSocketServer = new TcpSharpSocketServer
-            {
-                KeepAlive = false,  
-                Port = 18000,
-            };
+
+            mTcpServer = new TcpNETServer(new ParamsTcpServer(18000, "\r\n", connectionSuccessString: "Connected Successfully"));
 
             Subscribe();
+
+            mLoggerService.LogInformation("Load ~");
         }
 
         #endregion
@@ -36,66 +46,119 @@ namespace AdamStudio.Services
 
         private void Subscribe()
         {
-            mTcpSocketServer.OnConnected += OnConnected;
-            mTcpSocketServer.OnConnectionRequest += OnConnectionRequest;
-            mTcpSocketServer.OnDataReceived += OnDataReceived;
-            mTcpSocketServer.OnDisconnected += OnDisconnected;
+            mTcpServer.ConnectionEvent += ConnectionEvent;
+            mTcpServer.MessageEvent += MessageEvent;
+            mTcpServer.ServerEvent += ServerEvent;
+        }
+
+        private void ServerEvent(object sender, PHS.Networking.Server.Events.Args.ServerEventArgs args)
+        {
+            ServerEventType serverEvent = args.ServerEventType;
+
+            switch (serverEvent)
+            {
+                case ServerEventType.Start:
+                    break;
+                case ServerEventType.Stop:
+                    break;
+            }
+        }
+
+        private void MessageEvent(object sender, TcpMessageServerEventArgs args)
+        {
+            MessageEventType eventType = args.MessageEventType;
+            
+            if(eventType == MessageEventType.Receive)
+            {
+                OnRaiseClientDataReceivedEvent(args.Message);
+            }
+        }
+
+        private void ConnectionEvent(object sender, TcpConnectionServerEventArgs args)
+        {
+            ConnectionEventType connectionEvent = args.ConnectionEventType;
+
+            switch (connectionEvent)
+            {
+                case ConnectionEventType.Connected:
+                    {
+                        mLoggerService.LogInformation("Client with ConnectionId {ConnectionId} connected", args.Connection.ConnectionId);
+                        OnRaiseClientConnectedEvent();
+                    }
+                    
+                    break;
+
+                case ConnectionEventType.Disconnect:
+                    {
+                        mLoggerService.LogInformation("Client with ConnectionId {ConnectionId} disconnected ", args.Connection.ConnectionId);
+                        
+                        OnRaiseClientDisconnectedEvent();
+                    }
+                    break;
+            }
+
+            
+            
         }
 
         private void UnSubscribe()
         {
-            mTcpSocketServer.OnConnected -= OnConnected;
-            mTcpSocketServer.OnConnectionRequest -= OnConnectionRequest;
-            mTcpSocketServer.OnDataReceived -= OnDataReceived;
-            mTcpSocketServer.OnDisconnected -= OnDisconnected;
+            mTcpServer.ConnectionEvent -= ConnectionEvent;
+            mTcpServer.MessageEvent -= MessageEvent;
+            mTcpServer.ServerEvent -= ServerEvent;
         }
 
-        private void OnConnectionRequest(object sender, OnServerConnectionRequestEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 
-        #region Events
+        #region Public methods
 
-        private void OnDisconnected(object sender, OnServerDisconnectedEventArgs e)
+        public Task ExecuteAsync(CancellationToken stoppingToken = default)
         {
-            mLoggerService.LogInformation("Client with ConnectionId {ConnectionId} disconnected ", e.ConnectionId);
+            return mTcpServer.StartAsync(stoppingToken);
         }
 
-        private void OnDataReceived(object sender, OnServerDataReceivedEventArgs e)
+        public Task StopAsync(CancellationToken stoppingToken = default)
         {
-            //here incoming data
+            return mTcpServer.StopAsync(stoppingToken);
         }
 
-        private void OnConnected(object sender, OnServerConnectedEventArgs e)
+        public void SendAsync(string data, CancellationToken cancellationToken = default)
         {
-            mLoggerService.LogInformation("Client with ConnectionId {ConnectionId} connected to Port {Port}", e.ConnectionId, e.Port);
+            mTcpServer.SendToConnectionAsync(data, mTcpServer.Connections.First(), cancellationToken);
         }
 
-        #endregion
-
-        public override Task StartAsync(CancellationToken cancellationToken)
-        {
-            mTcpSocketServer.StartListening();
-            return base.StartAsync(cancellationToken);
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            //here send data
-        }
-
-        public override Task StopAsync(CancellationToken cancellationToken)
-        {
-            mTcpSocketServer.StopListening();
-            return base.StopAsync(cancellationToken);
-        }
-
-        public override void Dispose()
+        public void Dispose()
         {
             UnSubscribe();
         }
+
+        #endregion
+
+        #region RaiseEvents
+
+        //public event ClientConnectedEventHandler RaiseClientConnectedEvent;
+        //public event ClientDisconnectedEventHandler RaiseClientDisconnectedEvent;
+        //public event ClientDataReceivedEventHandler RaiseClientDataReceivedEvent;
+
+        protected virtual void OnRaiseClientConnectedEvent()
+        {
+            var raiseEvent = RaiseClientConnectedEvent;
+            raiseEvent?.Invoke(this);
+        }
+
+        protected virtual void OnRaiseClientDisconnectedEvent()
+        {
+            var raiseEvent = RaiseClientDisconnectedEvent;
+            raiseEvent?.Invoke(this);
+        }
+
+        protected virtual void OnRaiseClientDataReceivedEvent(string data)
+        {
+            var raiseEvent = RaiseClientDataReceivedEvent;
+            raiseEvent?.Invoke(this, data);
+        }
+
+        #endregion
     }
 }

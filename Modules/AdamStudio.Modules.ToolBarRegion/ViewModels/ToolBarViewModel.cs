@@ -11,7 +11,9 @@ using Prism.Regions;
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Threading;
+using Application = System.Windows.Application;
 
 namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 {
@@ -32,6 +34,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private readonly ICommunicationProviderService mCommunicationProviderService;
         private readonly IWebApiService mWebApiService;
         private readonly IFlyoutStateChecker mFlyoutStateChecker;
+        private readonly ITcpPythonStreamServerService mTcpPythonStreamServerService;
        
 
         #endregion
@@ -57,6 +60,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mCommunicationProviderService = serviceProvider.GetService<ICommunicationProviderService>();
             mWebApiService = serviceProvider.GetService<IWebApiService>();
             mFlyoutStateChecker = serviceProvider.GetService<IFlyoutStateChecker>();
+            mTcpPythonStreamServerService = serviceProvider.GetService<ITcpPythonStreamServerService>();
             
             CleanExecuteEditorDelegateCommand = new DelegateCommand(CleanExecuteEditor, CleanExecuteEditorCanExecute);
             mLogger.LogTrace("Load ~");
@@ -167,7 +171,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private void UpdateResultText(string text, bool isFinishMessage = false)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 if (isFinishMessage)
                 {
@@ -275,28 +279,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             ApplicationLogs += $"{message}\n";
         }
 
-        private void OnRaisePythonScriptExecuteStart(object sender)
-        {
-            IsPythonCodeExecute = true;
-            mIsWarningStackOwerflowAlreadyShow = false;
-            ClearResults();
-        }
-
-        private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
-        {
-            if (remoteCommandExecuteResult == null)
-                return;
-
-            UpdateResultText("", true);
-            UpdateResultExecutionTimeText(remoteCommandExecuteResult);
-            IsPythonCodeExecute = false;
-        }
-
-        private void OnRaisePythonStandartOutput(object sender, string message)
-        {
-            UpdateResultText(message);
-        }
-
         private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender)
         {
             LoadResources();
@@ -346,6 +328,28 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             }
         }
 
+        private void RaiseClientConnectedEvent(object sender)
+        {
+            IsPythonCodeExecute = true;
+            mIsWarningStackOwerflowAlreadyShow = false;
+            ClearResults();
+        }
+
+        private void RaiseClientDataReceivedEvent(object sender, string data)
+        {
+            UpdateResultText(data);
+        }
+
+        private void RaiseClientDisconnectedEvent(object sender)
+        {
+            //if (remoteCommandExecuteResult == null)
+            //    return;
+
+            //UpdateResultText("", true);
+            //UpdateResultExecutionTimeText(remoteCommandExecuteResult);
+            IsPythonCodeExecute = false;
+        }
+
         #endregion
 
         #region Subscribes
@@ -359,16 +363,21 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
-            mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent += OnRaisePythonScriptExecuteStart;
+            //mPythonRemoteRunner.RaisePythonStandartOutputEvent += OnRaisePythonStandartOutput;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent += RaiseCurrentAppCultureLoadOrChangeEvent;
 
             mFlyoutStateChecker.IsFlyoutsOpenedStateChangeEvent += IsNotificationFlyoutOpenedStateChangeEvent;
 
-
+            mTcpPythonStreamServerService.RaiseClientConnectedEvent += RaiseClientConnectedEvent;
+            mTcpPythonStreamServerService.RaiseClientDataReceivedEvent += RaiseClientDataReceivedEvent;
+            mTcpPythonStreamServerService.RaiseClientDisconnectedEvent += RaiseClientDisconnectedEvent;
+            
         }
+
+
 
 
         private void Unsubscribe()
@@ -377,17 +386,21 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             //mTcpClientService.RaiseTcpClientDisconnectedEvent -= RaiseTcpClientDisconnectedEvent;
             mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent -= RaiseTcpCientConnectedEvent;
             mCommunicationProviderService.RaiseTcpServiceClientDisconnectEvent -= RaiseTcpClientDisconnectedEvent;
-            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent += RaiseUdpServiceServerReceivedEvent;
+            mCommunicationProviderService.RaiseUdpServiceServerReceivedEvent -= RaiseUdpServiceServerReceivedEvent;
 
             mLogWriteEventAware.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
-            mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteStartEvent -= OnRaisePythonScriptExecuteStart;
+            //mPythonRemoteRunner.RaisePythonStandartOutputEvent -= OnRaisePythonStandartOutput;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent -= RaiseCurrentAppCultureLoadOrChangeEvent;
 
             mFlyoutStateChecker.IsFlyoutsOpenedStateChangeEvent -= IsNotificationFlyoutOpenedStateChangeEvent;
+
+            mTcpPythonStreamServerService.RaiseClientConnectedEvent -= RaiseClientConnectedEvent;
+            mTcpPythonStreamServerService.RaiseClientDataReceivedEvent -= RaiseClientDataReceivedEvent;
+            mTcpPythonStreamServerService.RaiseClientDisconnectedEvent += RaiseClientDisconnectedEvent;
         }
 
         #endregion

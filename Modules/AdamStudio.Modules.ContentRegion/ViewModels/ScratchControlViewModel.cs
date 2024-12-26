@@ -60,6 +60,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IControlHelperService mControlHelper;
         private readonly IVideoViewProvider mVideoViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
+        private readonly ITcpPythonStreamServerService mPythonStreamServerService;
 
         #endregion
 
@@ -103,6 +104,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mControlHelper = serviceProvider.GetService<IControlHelperService>();
             mVideoViewProvider = serviceProvider.GetService<IVideoViewProvider>();
             mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
+            mPythonStreamServerService = serviceProvider.GetService<ITcpPythonStreamServerService>();
 
             RotateScreenDelegateCommand = new DelegateCommand(RotateScreen, RotateScreenCanExecute);
             ShowSaveFileDialogDelegateCommand = new DelegateCommand<string>(ShowSaveFileDialog, ShowSaveFileDialogCanExecute);
@@ -273,7 +275,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent += OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent += OnRaiseTcpServiceClientDisconnect;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent += OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent += RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent += RaiseWebViewNavigationCompleteEvent;
@@ -281,6 +283,9 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mControlHelper.IsVideoShowChangeEvent += OnRaiseIsVideoShowChangeEvent;
 
             mVideoViewProvider.RaiseFrameRateUpdateEvent += RaiseFrameRateUpdateEvent;
+
+            mPythonStreamServerService.RaiseClientConnectedEvent += RaiseClientConnectedEvent;
+            mPythonStreamServerService.RaiseClientDisconnectedEvent += RaiseClientDisconnectedEvent;
         }
 
         private void Unsubscribe()
@@ -288,7 +293,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent -= OnRaiseTcpServiceCientConnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent -= OnRaiseTcpServiceClientDisconnect;
 
-            mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
+            //mPythonRemoteRunner.RaisePythonScriptExecuteFinishEvent -= OnRaisePythonScriptExecuteFinish;
 
             mWebViewProvider.RaiseWebViewMessageReceivedEvent -= RaiseWebViewbMessageReceivedEvent;
             mWebViewProvider.RaiseWebViewNavigationCompleteEvent -= RaiseWebViewNavigationCompleteEvent;
@@ -296,6 +301,9 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mControlHelper.IsVideoShowChangeEvent -= OnRaiseIsVideoShowChangeEvent;
 
             mVideoViewProvider.RaiseFrameRateUpdateEvent -= RaiseFrameRateUpdateEvent;
+
+            mPythonStreamServerService.RaiseClientConnectedEvent -= RaiseClientConnectedEvent;
+            mPythonStreamServerService.RaiseClientDisconnectedEvent -= RaiseClientDisconnectedEvent;
         }
 
         #endregion
@@ -417,7 +425,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             bool isPythonCodeNotExecute = !IsPythonCodeExecute;
             return isPythonCodeNotExecute;
         }
-
+       
         private async void RunPythonCode()
         {
             string source = SourceTextEditor;
@@ -429,7 +437,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     Command = source
                 };
 
-                IsPythonCodeExecute = true;
+                //IsPythonCodeExecute = true;
                 
                 _ = await mWebApiService.PythonExecuteAsync(command);
             }
@@ -455,6 +463,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             try
             {
                 await mWebApiService.StopPythonExecute();
+                await mPythonStreamServerService.StopAsync();
             }
             catch {}
         }
@@ -691,10 +700,10 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             IsTcpClientConnected = mCommunicationProvider.IsTcpClientConnected;
         }
 
-        private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
+        /*private void OnRaisePythonScriptExecuteFinish(object sender, ExtendedCommandExecuteResult remoteCommandExecuteResult)
         {
            IsPythonCodeExecute = false;
-        }
+        }*/
 
         private void OnRaiseIsVideoShowChangeEvent(object sender)
         {
@@ -712,6 +721,16 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
 
             VideoFrameRate = $"{rate} FPS";
+        }
+
+        private void RaiseClientDisconnectedEvent(object sender)
+        {
+            IsPythonCodeExecute = false;
+        }
+
+        private void RaiseClientConnectedEvent(object sender)
+        {
+            IsPythonCodeExecute = true;
         }
 
         #endregion

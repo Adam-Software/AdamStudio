@@ -94,6 +94,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
             containerRegistry.RegisterSingleton<IControlHelperService, ControlHelperService>();
             containerRegistry.RegisterSingleton<IVideoViewProvider, VideoViewProvider>();
+            containerRegistry.RegisterSingleton<ITcpPythonStreamServerService, TcpPythonStreamServerService>();
 
             RegisterDialogs(containerRegistry);
             RegisterService(containerRegistry);
@@ -117,8 +118,8 @@ namespace AdamStudio
                     .CreateLogger();
 
                 services.AddLogging(s => s.AddSerilog(mainLogger, dispose: true));
+               
 
-                services.AddHostedService<ITcpPythonStreamServerService, TcpPythonStreamServerService>();
             });
         }
 

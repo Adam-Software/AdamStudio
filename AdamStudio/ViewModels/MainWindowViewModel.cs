@@ -39,6 +39,7 @@ namespace AdamStudio.ViewModels
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
         private readonly IFlyoutManager mFlyoutManager;
+        private readonly ITcpPythonStreamServerService mTcpPythonStreamServerService;
 
         #endregion
 
@@ -55,6 +56,7 @@ namespace AdamStudio.ViewModels
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             ControlHelper = serviceProvider.GetService<IControlHelperService>(); 
             mFlyoutManager = serviceProvider.GetService<IFlyoutManager>();
+            mTcpPythonStreamServerService = serviceProvider.GetService<ITcpPythonStreamServerService>();
 
             MoveSplitterDelegateCommand = new DelegateCommand<string>(MoveSplitter, MoveSplitterCanExecute);
             SwitchToVideoDelegateCommand = new DelegateCommand(SwitchToVideo, SwitchToVideoCanExecute);
@@ -224,6 +226,7 @@ namespace AdamStudio.ViewModels
         private void Subscribe()
         {
             Application.Current.MainWindow.Loaded += MainWindowLoaded;
+            mTcpPythonStreamServerService.ExecuteAsync();
         }
 
         #endregion
