@@ -463,7 +463,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             try
             {
                 await mWebApiService.StopPythonExecute();
-                await mPythonStreamServerService.StopAsync();
+                //await mPythonStreamServerService.StopAsync();
             }
             catch {}
         }

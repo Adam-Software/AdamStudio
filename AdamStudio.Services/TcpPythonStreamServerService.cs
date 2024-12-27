@@ -96,9 +96,6 @@ namespace AdamStudio.Services
                     }
                     break;
             }
-
-            
-            
         }
 
         private void UnSubscribe()
@@ -136,10 +133,6 @@ namespace AdamStudio.Services
         #endregion
 
         #region RaiseEvents
-
-        //public event ClientConnectedEventHandler RaiseClientConnectedEvent;
-        //public event ClientDisconnectedEventHandler RaiseClientDisconnectedEvent;
-        //public event ClientDataReceivedEventHandler RaiseClientDataReceivedEvent;
 
         protected virtual void OnRaiseClientConnectedEvent()
         {
