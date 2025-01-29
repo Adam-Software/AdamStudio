@@ -3,15 +3,19 @@ using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
+using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using ControlzEx.Theming;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Net;
+using System.Windows;
 using System.Windows.Media;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
@@ -24,16 +28,20 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public DelegateCommand OpenPortSettingsDelegateCommand { get; }
         public DelegateCommand OpenWebApiSettingsDelegateCommand { get; }
         public DelegateCommand OpenUserFolderSettingsDelegateCommand { get; }   
+        public DelegateCommand FindRobotDelegateCommand { get; }
 
         #endregion
 
         #region Services
 
+
+        private readonly ILogger<SettingsControlViewModel> mLogger;
         private readonly IFlyoutManager mFlyoutManager;
         private readonly IThemeManagerService mThemeManager;
         private readonly ICultureProvider mCultureProvider;
         private readonly IWebViewProvider mWebViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
+        private readonly IFindMeClientService mFindMeClientService;
 
         #endregion
 
@@ -48,16 +56,53 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public SettingsControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            mLogger = serviceProvider.GetRequiredService<ILogger<SettingsControlViewModel>>();
             mFlyoutManager = serviceProvider.GetService<IFlyoutManager>(); 
             mThemeManager = serviceProvider.GetService<IThemeManagerService>();
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             mWebViewProvider = serviceProvider.GetService<IWebViewProvider>();
             mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
+            mFindMeClientService = serviceProvider.GetService<IFindMeClientService>();
 
             ChangeSpacingToggleSwitchDelegateCommand = new DelegateCommand(ChangeSpacingToggleSwitch, ChangeSpacingToggleSwitchCanExecute);
             OpenPortSettingsDelegateCommand = new DelegateCommand(OpenPortSettings, OpenPortSettingsCanExecute);
             OpenWebApiSettingsDelegateCommand = new DelegateCommand(OpenWebApiSettings, OpenWebApiSettingsCanExecute);
             OpenUserFolderSettingsDelegateCommand = new DelegateCommand(OpenUserFolderSettings, OpenUserFolderSettingsCanExecute);
+            FindRobotDelegateCommand = new DelegateCommand(FindRobot, FindRobotCanExecute);
+
+            mFindMeClientService.RaiseFindStartedEvent += RaiseFindStartedEvent;
+            mFindMeClientService.RaiseFindEndedEvent += RaiseFindEndedEvent;
+        }
+
+
+        private void RaiseFindStartedEvent(object sender)
+        {
+            mLogger.LogInformation("Find Robot started");
+        }
+
+        private void RaiseFindEndedEvent(object sender, List<IPAddress> findIpAddresses)
+        {
+            mLogger.LogInformation("Find Robot ended");
+
+            if (findIpAddresses.Count > 0) 
+            {
+                mLogger.LogInformation("The Find Robot service has found such ip addresses");
+
+                foreach (IPAddress ipAddress in findIpAddresses)
+                {
+                    mLogger.LogInformation("{ipAddress}", ipAddress);
+                }
+            }
+            else
+            {
+                mLogger.LogInformation("The Find Robot service did not find anything");
+            }
+        }
+
+        
+        private void RaiseReplyReceivedEvent(object sender, IPAddress findIpAddress)
+        {
+            //MessageBox.Show($"RobotFind at {findIpAddress}");
         }
 
         #endregion
@@ -104,6 +149,16 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return true;
         }
 
+        private void FindRobot()
+        {
+            mFindMeClientService.SendBroadcastPing(UseLocalServer);
+        }
+
+        private bool FindRobotCanExecute()
+        {
+            return true;
+        }
+
         #endregion
 
         #region Navigation
@@ -134,6 +189,16 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         #endregion
 
         #region Public fields
+
+        private bool useLocalServer = false;
+        public bool UseLocalServer
+        {
+            get => useLocalServer;
+            set
+            {
+                SetProperty(ref useLocalServer, value);
+            }
+        }
 
         private List<CultureInfo> languageApp;
         public List<CultureInfo> LanguageApp 

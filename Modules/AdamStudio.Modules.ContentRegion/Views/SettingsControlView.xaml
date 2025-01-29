@@ -305,24 +305,24 @@
 
             <!--#endregion-->
 
-            <!--#region Connect settings -->
+        <!--#region Connect settings -->
 
-            <DockPanel Width="280" Margin="10 0 0 0" Grid.Column="2" LastChildFill="False">
+        <DockPanel Width="300" Margin="10 0 0 0" Grid.Column="2" LastChildFill="False">
 
-                <GroupBox DockPanel.Dock="Top"
+            <GroupBox DockPanel.Dock="Top"
                       Header="{DynamicResource SettingsControlView.GroupBox.Header.ConnectionAndNotificationSettings}">
 
-                    <DockPanel Margin="10 10 10 0">
+                <DockPanel Margin="10 10 10 0">
 
-                        <StackPanel DockPanel.Dock="Top" 
+                    <StackPanel DockPanel.Dock="Top" 
                                     Margin="0 0 0 10"
                                     HorizontalAlignment="Right"
                                     Orientation="Horizontal">
 
-                            <Label FontSize="14" 
+                        <Label FontSize="14" 
                                Content="{DynamicResource SettingsControlView.StackPanel.TextBox.RobotIp}"/>
 
-                            <TextBox DockPanel.Dock="Right"
+                        <TextBox DockPanel.Dock="Right"
                                  Width="150"
                                  HorizontalContentAlignment ="Center"
                                  VerticalContentAlignment="Center"
@@ -331,35 +331,46 @@
                                  
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="192.168.50.10"/>
-                        </StackPanel>
+                    </StackPanel>
 
-                        <Button DockPanel.Dock="Top"
+                    <Button DockPanel.Dock="Top"
                             Margin="0 0 0 10"
                             Content="{DynamicResource SettingsControlView.Button.Content.WebApiSettings}"
                             Command="{Binding OpenWebApiSettingsDelegateCommand}"/>
 
-                        <Button DockPanel.Dock="Top"
+                    <Button DockPanel.Dock="Top"
                             Margin="0 0 0 10"
                             Content="{DynamicResource SettingsControlView.Button.Content.PortSettings}"
                             Command="{Binding OpenPortSettingsDelegateCommand}"/>
 
-                        <ToggleButton DockPanel.Dock="Top"
+                    <ToggleButton DockPanel.Dock="Top"
                                   Margin="0 0 0 10"
                                   Content="{DynamicResource SettingsControlView.ToggleButton.Content.ConnectOnStart}"
                                   IsChecked="{Binding AutoStartTcpConnect, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                        <ToggleButton DockPanel.Dock="Top"
+                    <ToggleButton DockPanel.Dock="Top"
                                   Margin="0 0 0 10"
                                   Content="{DynamicResource SettingsControlView.ToggleButton.Content.NotifyOnDisconnection}"
                                   IsChecked="{Binding IsMessageShowOnAbortMainConnection, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>
 
-                    </DockPanel>
+                    <Button DockPanel.Dock="Top"
+                            Margin="0 0 0 10"
+                            Content="Find Robot!"
+                            Command="{Binding FindRobotDelegateCommand}"/>
 
-                </GroupBox>
+                    <mah:ToggleSwitch DockPanel.Dock="Top"
+                                      OnContent="Использовать локальные сервера"
+                                      OffContent="Не использовать локальные сервера"
+                                      Header="Опции сервиса Find Robot"
+                                      IsOn="{Binding UseLocalServer}"/>
 
-            </DockPanel>
+                </DockPanel>
 
-            <!--#endregion-->
+            </GroupBox>
+
+        </DockPanel>
+
+        <!--#endregion-->
 
             <!--#region UserFolder settings -->
 

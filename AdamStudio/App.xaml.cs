@@ -95,6 +95,7 @@ namespace AdamStudio
             containerRegistry.RegisterSingleton<IControlHelperService, ControlHelperService>();
             containerRegistry.RegisterSingleton<IVideoViewProvider, VideoViewProvider>();
             containerRegistry.RegisterSingleton<ITcpPythonStreamServerService, TcpPythonStreamServerService>();
+            containerRegistry.RegisterSingleton<IFindMeClientService, FindMeClientService>();
 
             RegisterDialogs(containerRegistry);
             RegisterService(containerRegistry);
