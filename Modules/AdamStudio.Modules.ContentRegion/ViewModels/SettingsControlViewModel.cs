@@ -3,7 +3,6 @@ using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
 using AdamStudio.Core.Properties;
-using AdamStudio.Services;
 using AdamStudio.Services.Interfaces;
 using ControlzEx.Theming;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Net;
-using System.Windows;
 using System.Windows.Media;
 
 namespace AdamStudio.Modules.ContentRegion.ViewModels
@@ -41,7 +39,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly ICultureProvider mCultureProvider;
         private readonly IWebViewProvider mWebViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
-        private readonly IFindMeClientService mFindMeClientService;
+        private readonly IFindRobotClientService mFindMeClientService;
 
         #endregion
 
@@ -51,6 +49,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private const string cBaseColorAppDarkLightName = "Dark";
 
         #endregion
+
 
         #region ~
 
@@ -62,7 +61,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             mWebViewProvider = serviceProvider.GetService<IWebViewProvider>();
             mRegionChangeAwareService = serviceProvider.GetService<IRegionChangeAwareService>();
-            mFindMeClientService = serviceProvider.GetService<IFindMeClientService>();
+            mFindMeClientService = serviceProvider.GetService<IFindRobotClientService>();
 
             ChangeSpacingToggleSwitchDelegateCommand = new DelegateCommand(ChangeSpacingToggleSwitch, ChangeSpacingToggleSwitchCanExecute);
             OpenPortSettingsDelegateCommand = new DelegateCommand(OpenPortSettings, OpenPortSettingsCanExecute);
@@ -70,39 +69,24 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             OpenUserFolderSettingsDelegateCommand = new DelegateCommand(OpenUserFolderSettings, OpenUserFolderSettingsCanExecute);
             FindRobotDelegateCommand = new DelegateCommand(FindRobot, FindRobotCanExecute);
 
+            Subscribe();
+        }
+
+        #endregion
+
+        #region Subscribe/Unsubscribe
+
+        private void Subscribe()
+        {
             mFindMeClientService.RaiseFindStartedEvent += RaiseFindStartedEvent;
             mFindMeClientService.RaiseFindEndedEvent += RaiseFindEndedEvent;
+
         }
 
-
-        private void RaiseFindStartedEvent(object sender)
+        private void Unsubscribe()
         {
-            mLogger.LogInformation("Find Robot started");
-        }
-
-        private void RaiseFindEndedEvent(object sender, List<IPAddress> findIpAddresses)
-        {
-            mLogger.LogInformation("Find Robot ended");
-
-            if (findIpAddresses.Count > 0) 
-            {
-                mLogger.LogInformation("The Find Robot service has found such ip addresses");
-
-                foreach (IPAddress ipAddress in findIpAddresses)
-                {
-                    mLogger.LogInformation("{ipAddress}", ipAddress);
-                }
-            }
-            else
-            {
-                mLogger.LogInformation("The Find Robot service did not find anything");
-            }
-        }
-
-        
-        private void RaiseReplyReceivedEvent(object sender, IPAddress findIpAddress)
-        {
-            //MessageBox.Show($"RobotFind at {findIpAddress}");
+            mFindMeClientService.RaiseFindStartedEvent -= RaiseFindStartedEvent;
+            mFindMeClientService.RaiseFindEndedEvent -= RaiseFindEndedEvent;
         }
 
         #endregion
@@ -156,7 +140,38 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         private bool FindRobotCanExecute()
         {
-            return true;
+            return !IsFindingRobotRun;
+        }
+
+        #endregion
+
+        #region RaiseEvents methods
+
+        private void RaiseFindStartedEvent(object sender)
+        {
+            mLogger.LogInformation("Find Robot started");
+            IsFindingRobotRun = true;
+        }
+
+        private void RaiseFindEndedEvent(object sender, List<IPAddress> findIpAddresses)
+        {
+            mLogger.LogInformation("Find Robot ended");
+
+            if (findIpAddresses.Count > 0)
+            {
+                mLogger.LogInformation("The Find Robot service has found such ip addresses");
+
+                foreach (IPAddress ipAddress in findIpAddresses)
+                {
+                    mLogger.LogInformation("{ipAddress}", ipAddress);
+                }
+            }
+            else
+            {
+                mLogger.LogInformation("The Find Robot service did not find anything");
+            }
+
+            IsFindingRobotRun = false;
         }
 
         #endregion
@@ -183,6 +198,7 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
         public override void Destroy()
         {
+            Unsubscribe();
             base.Destroy();
         }
 
@@ -246,6 +262,18 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             } 
         }
 
+        private bool mIsFindingRobotRun;
+        private bool IsFindingRobotRun
+        {
+            get => mIsFindingRobotRun;
+            set
+            {
+                bool isNewValue = SetProperty(ref mIsFindingRobotRun, value);
+
+                if (isNewValue)
+                    FindRobotDelegateCommand.RaiseCanExecuteChanged();
+            }
+        }
         #endregion
 
         #region Private methods

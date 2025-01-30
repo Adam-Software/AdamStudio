@@ -1,4 +1,5 @@
-﻿using AdamStudio.Services.Interfaces;
+﻿using AdamStudio.Services.FindRobotDependency;
+using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace AdamStudio.Services
 {
-    public class FindMeClientService : IFindMeClientService
+    public class FindRobotClientService : IFindRobotClientService
     {
         #region Sevices
 
-        private readonly ILogger<FindMeClientService> mLogger;
+        private readonly ILogger<FindRobotClientService> mLogger;
 
         #endregion
 
@@ -24,7 +25,7 @@ namespace AdamStudio.Services
 
         private readonly IPAddress[] mLocalIps = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         private readonly UdpClient mClient = new(new IPEndPoint(IPAddress.Any, 12000));
-        byte[] mSendBuffer = Encoding.UTF8.GetBytes("ping");
+        private readonly byte[] mSendBuffer = Encoding.UTF8.GetBytes("ping");
 
         #endregion
 
@@ -37,17 +38,16 @@ namespace AdamStudio.Services
 
         #region ~
 
-        public FindMeClientService(IServiceProvider serviceProvider) 
+        public FindRobotClientService(IServiceProvider serviceProvider) 
         {
-            mLogger = serviceProvider.GetService<ILogger<FindMeClientService>>();
-            FindAdresses = [];
+            mLogger = serviceProvider.GetService<ILogger<FindRobotClientService>>();
         }
 
         #endregion
 
         #region Public methods
 
-        public void SendBroadcastPing(bool useLocalServer)
+        public async void SendBroadcastPing(bool useLocalServer)
         {
             List<IPAddress> broadcastAddress = GetBroadcasIPAddress();
             FindAdresses.Clear();
@@ -62,6 +62,9 @@ namespace AdamStudio.Services
                 mClient.Send(mSendBuffer, endPoint);
                 
                 Task<UdpReceiveResult> result = mClient.ReceiveAsync();
+                
+                await Task.Delay(500); 
+                
                 ResultParser(result, useLocalServer);
             }
 
@@ -72,7 +75,7 @@ namespace AdamStudio.Services
 
         #region Public fields
 
-        public List<IPAddress> FindAdresses {  get;  }
+        public List<IpAddressInfo> FindAdresses { get; } = [];
 
         #endregion
 
@@ -82,41 +85,52 @@ namespace AdamStudio.Services
         {
             Task.Run(() =>
             {
-                UdpReceiveResult result = receiveResult.Result;
-                string reply = Encoding.UTF8.GetString(result.Buffer);
-                
-                if(reply != "pong")
-                    return;
-
-                if (useLocalServer)
+                try
                 {
-                    FindAdresses.Add(result.RemoteEndPoint.Address);
-                    return;
+                    UdpReceiveResult result = receiveResult.Result;
+                    string reply = Encoding.UTF8.GetString(result.Buffer);
+
+                    if (reply != "pong")
+                        return;
+
+                    IpAddressInfo ip = new()
+                    {
+                        IPAddress = result.RemoteEndPoint.Address,
+                        IsLocal = mLocalIps.Contains(result.RemoteEndPoint.Address)
+                    };
+
+                    if (useLocalServer)
+                    { 
+                        FindAdresses.Add(ip);
+                        return;
+                    }
+
+                    if (!mLocalIps.Contains(result.RemoteEndPoint.Address))
+                    {
+                        FindAdresses.Add(ip);
+                    }
                 }
-
-               
-
-                if (!mLocalIps.Contains(result.RemoteEndPoint.Address))
-                {
-                    FindAdresses.Add(result.RemoteEndPoint.Address);
-                }    
+                catch (Exception ex) 
+                { 
+                    mLogger.LogWarning("Error parse result {exception}", ex.Message);
+                }
             });
         }
 
         private static List<IPAddress> GetBroadcasIPAddress()
         {
-            var interfaces = NetworkInterface.GetAllNetworkInterfaces()
+            List<NetworkInterface> interfaces = NetworkInterface.GetAllNetworkInterfaces()
                     .Where(x => x.OperationalStatus == OperationalStatus.Up)
                     .Where(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                     .ToList();
 
             List<IPAddress> broadcactAddresses = [];
 
-            foreach (NetworkInterface Interface in interfaces)
+            foreach (NetworkInterface @interface in interfaces)
             {
-                UnicastIPAddressInformationCollection UnicastIPInfoCol = Interface.GetIPProperties().UnicastAddresses;
+                UnicastIPAddressInformationCollection unicastIPInfoCol = @interface.GetIPProperties().UnicastAddresses;
 
-                foreach (UnicastIPAddressInformation UnicatIPInfo in UnicastIPInfoCol.Where(static x => x.IsDnsEligible == true))
+                foreach (UnicastIPAddressInformation UnicatIPInfo in unicastIPInfoCol.Where(static x => x.IsDnsEligible == true))
                 {
                     IPAddress broadcast = GetBroadcastAddress(UnicatIPInfo.Address, UnicatIPInfo.IPv4Mask);
                     broadcactAddresses.Add(broadcast);
@@ -145,7 +159,7 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this);  
         }
 
-        protected virtual void OnRaiseFindEndedEvent(List<IPAddress> findIpAddresses)
+        protected virtual void OnRaiseFindEndedEvent(List<IpAddressInfo> findIpAddresses)
         {
             FindEndedEventHandler raiseEvent = RaiseFindEndedEvent;
             RaiseFindEndedEvent?.Invoke(this, findIpAddresses);
