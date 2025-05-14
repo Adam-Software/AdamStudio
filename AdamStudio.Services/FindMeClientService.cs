@@ -148,7 +148,7 @@ namespace AdamStudio.Services
         protected virtual void OnRaiseFindEndedEvent(List<IPAddress> findIpAddresses)
         {
             FindEndedEventHandler raiseEvent = RaiseFindEndedEvent;
-            RaiseFindEndedEvent?.Invoke(this, findIpAddresses);
+            raiseEvent?.Invoke(this, findIpAddresses);
         }
 
         #endregion
