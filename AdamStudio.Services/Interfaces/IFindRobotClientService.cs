@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using AdamStudio.Services.FindRobotDependency;
+using System.Collections.Generic;
 using System.Net;
 
 namespace AdamStudio.Services.Interfaces
 {
     public delegate void FindStartedEventHandler(object sender);
-    public delegate void FindEndedEventHandler(object sender, List<IPAddress> findIpAddresses);
+    public delegate void FindEndedEventHandler(object sender, List<IpAddressInfo> findIpAddresses);
 
-    public interface IFindMeClientService
+    public interface IFindRobotClientService
     {
         #region Events
 
