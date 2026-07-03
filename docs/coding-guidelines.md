@@ -1,133 +1,400 @@
-# Coding Guidelines — AdamStudio
+# Coding Guidelines
 
-> C# 13 · .NET 10 · WPF · Prism.DryIoc · MahApps.Metro
+This document captures the conventions established in the
+AdamStudio codebase. It is descriptive, not prescriptive — when in
+doubt, match the existing code. New conventions are introduced only
+when they reduce ambiguity or prevent recurring bugs.
 
----
+## 1. Naming conventions
 
-## Language & Framework
+### 1.1 Namespaces
 
-- **C# 13**, target `net10.0` in all projects.
-- **Nullable:** enabled (`<Nullable>enable</Nullable>`). Honor nullability
-  in all signatures.
-- **ImplicitUsings:** **disabled.** All `using` directives are explicit.
-- **File-scoped namespaces:** preferred.
+- Match the folder path: file at
+  `Services/TcpClientDependency/TcpClientService.cs` declares
+  `namespace AdamController.Services.TcpClientDependency`.
+- One namespace per folder; do not split a folder across multiple
+  namespaces.
+- All namespaces use traditional brace-enclosed syntax. No
+  file-scoped namespaces.
+- Root namespace for the solution is `AdamController`.
 
-## Naming
+### 1.2 Identifiers
 
-| Target | Style | Example |
-|--------|-------|---------|
-| Types, public members | `PascalCase` | `TcpClientService`, `Connect()` |
-| Private fields | `m` prefix + `PascalCase` | `mLogger`, `mDeviceStore` |
-| Local variables, parameters | `camelCase` | `ipAddress`, `maxRetries` |
-| Constants | `PascalCase` | `MaxRetryCount` |
-| Interfaces | `I` prefix + `PascalCase` | `ITcpClientService` |
-| Async methods | `Async` suffix | `ConnectAsync()` |
+- **Types, public members, methods, properties:** `PascalCase`.
+  - `ContentRegionModule`, `OnInitialized`,
+  `IsCheckedScratchMenuItem`.
+- **Private fields:** `m` prefix + `PascalCase`.
+  - `mRegionManager`, `mCommunicationProviderService`,
+  `mIsWarningStackOverflowAlreadyShow`.
+- **Constants:** `c` prefix + `PascalCase`.
+  - `cFilter`, `cStartMessage`, `cBufferSize`.
+- **Locals and parameters:** `camelCase`.
+  - `regionName`, `receivedString`, `isNewValue`.
+- **Event names:** `Raise` prefix + description + `Event` suffix.
+  - `RaiseTcpClientConnectedEvent`,
+  `RaiseWebViewMessageReceivedEvent`.
+- **Delegate command properties:** description + `DelegateCommand`
+  suffix.
+  - `ShowRegionCommand`, `SwitchToVideoDelegateCommand`,
+  `RunPythonCodeDelegateCommand`.
 
-## Code Style
+### 1.3 Files
 
-- **Primary constructors:** preferred for simple DI-injected services.
-- **Collection expressions:** use `[...]` instead of `new List<T>()` /
-  `new T[]`.
-- **Expression-bodied members:** use for single-expression methods and
-  properties.
-- **No `#region`** except:
-  - `#region Structured logging definitions (allocation-free)` — at the
-    end of the class, contiguous `EventId` range.
-- **No `var`** when the type is not obvious from the right-hand side.
-  Exception: `var` is OK for `new` expressions and LINQ.
+- One public type per file. The file name matches the type name.
+- View–ViewModel pairs live in sibling folders:
+  `Views/ScratchControlView.xaml` ↔
+  `ViewModels/ScratchControlViewModel.cs`.
+- Service interfaces live in `Services/Interfaces/`,
+  implementations in `Services/<Area>Dependency/`.
 
-## DI & Services
+## 2. MVVM & Prism
 
-- Services registered via **extension methods** on
-  `IContainerRegistry`:
-  ```csharp
-  public static class TcpClientServiceExtensions
-  {
-      public static void AddTcpClientService(
-          this IContainerRegistry registry)
-      {
-          registry.RegisterSingleton<ITcpClientService, TcpClientService>();
-      }
-  }
-  ```
-- `App.xaml.cs` → `RegisterTypes` calls only extension methods.
-- Server-only types (internal to a project) use `internal` extension
-  methods in the same project.
-- DI-activated constructors **must be `public`.** `internal` constructors
-  crash the container at startup.
-- One logical service registration **per extension method class / file.**
+### 2.1 Base classes
 
-## Async
+All ViewModels inherit from one of the base classes in
+`AdamController.Core/Mvvm/`:
 
-- All async methods return `Task` / `Task<T>`. No `async void` except
-  event handlers.
-- Pass `CancellationToken` where applicable.
-- Use `await` in a single code path. Avoid `async void` lambdas.
+| Base class | Extends | Used by |
+|---|---|---|
+| `ViewModelBase` | `BindableBase, IDestructible` | Standalone VMs |
+| `RegionViewModelBase` | `ViewModelBase, INavigationAware, IConfirmNavigationRequest` | Region VMs that navigate |
+| `DialogViewModelBase` | `BindableBase, IDialogAware` | Prism dialog VMs (currently unused) |
+| `FlyoutBase` | `BindableBase, IFlyout` | Flyout panel VMs (in `AdamController.Controls`) |
 
-## Logging
+### 2.2 View–ViewModel wiring
 
-- **`LoggerMessage.Define` only.** No string interpolation in log calls.
-- Each class that logs owns a contiguous `EventId` range.
-- Wrap all definitions in:
-  ```csharp
-  #region Structured logging definitions (allocation-free)
-  private static readonly Action<ILogger, string, Exception?> LogConnected =
-      LoggerMessage.Define<string>(LogLevel.Information,
-          new EventId(1001, nameof(TcpClientService)),
-          "Connected to {Endpoint}");
-  #endregion
-  ```
-- Call: `LogConnected(mLogger, endpoint, null);`
+All views use Prism's convention-based wiring:
 
-## JSON
+```xml
+<UserControl ...
+    prism:ViewModelLocator.AutoWireViewModel="True">
+```
 
-- All wire types registered in a **source-generated**
-  `JsonSerializerContext`:
-  ```csharp
-  [JsonSerializable(typeof(DeviceStateDto))]
-  [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
-  public partial class AdamJsonContext : JsonSerializerContext { }
-  ```
-- DTOs are `record` types when possible.
-- No `System.Text.Json` with `JsonSerializer.Serialize<T>` — use
-  `AdamJsonContext.Default.DeviceStateDto.Serialize(dto)`.
+Prism resolves `ScratchControlView` → `ScratchControlViewModel`
+by naming convention. Never set `DataContext` manually.
 
-## Commands (WPF)
+### 2.3 Properties
 
-- Use `CanExecute` only for **ViewModel-level properties** (e.g. `IsBusy`),
-  paired with `[NotifyCanExecuteChangedFor]`.
-- Do **not** use `CanExecute` for per-item state passed as
-  `CommandParameter` — it does not re-evaluate on nested property changes.
-- Use `IsEnabled="{Binding Property}"` in XAML instead, paired with
-  `VisualStateManager` for clear disabled visuals.
+Use `SetProperty` from `BindableBase`:
 
-## XAML
+```csharp
+private bool isCheckedScratchMenuItem;
+public bool IsCheckedScratchMenuItem
+{
+    get => isCheckedScratchMenuItem;
+    set => SetProperty(ref isCheckedScratchMenuItem, value);
+}
+```
 
-- Dark theme by default. Background `#121212`, cards `#212121` / `#322F35`,
-  text white / `#BDBDBD`, accent `#6750A4` / `#D0BCFF`.
-- Buttons: rounded corners (`CornerRadius="8"` or `"12"`),
-  `HeightRequest="44"` (MAUI) / min height `40px` (WPF).
-- Icon buttons use emoji as `Text` (🔊 🖥️ 🗑️ 🔍).
+Side effects in the setter are acceptable when they raise
+`CanExecuteChanged` on dependent commands:
 
-## Commits
+```csharp
+private bool isTcpClientConnected;
+public bool IsTcpClientConnected
+{
+    get => isTcpClientConnected;
+    set
+    {
+        bool isNewValue = SetProperty(ref isTcpClientConnected, value);
+        if (isNewValue)
+            RaiseDelegateCommandsCanExecuteChanged();
+    }
+}
+```
 
-- Format: `<type>(<scope>): <short summary>` + optional body.
-- Types: `feat`, `fix`, `docs`, `refactor`, `ci`, `test`.
-- Summary: imperative mood, **lowercase**, no trailing period.
-- Examples:
-  ```
-  feat(tcp): add reconnection with exponential backoff
-  fix(webview): handle navigation failure gracefully
-  refactor(di): extract service registration into extension methods
-  ```
-- Versioning: Semantic Versioning. Independent tags:
-  `client.v.X.Y.Z`, `server.v.X.Y.Z`.
+### 2.4 Commands
 
-## What NOT to Do
+All commands use `DelegateCommand` or `DelegateCommand<T>` from
+Prism. Declare as public properties, instantiate in the constructor:
 
-- No `internal` constructors on DI-registered classes.
-- No `string interpolation` in log calls.
-- No `async void` (except event handlers).
-- No `new T()` for services — use DI.
-- No `#region` blocks (except structured logging definitions).
-- No mixing unrelated changes in one commit.
+```csharp
+public DelegateCommand<string> ShowRegionCommand { get; }
+public DelegateCommand SwitchToVideoDelegateCommand { get; }
+
+public ContentRegionViewModel(...)
+{
+    ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
+    SwitchToVideoDelegateCommand = new DelegateCommand(
+        SwitchToVideo, SwitchToVideoCanExecute);
+}
+```
+
+`CanExecute` is a separate method. Call
+`RaiseCanExecuteChanged()` explicitly when the guard condition
+changes.
+
+### 2.5 Regions
+
+Four Prism regions are defined in `MainWindow.xaml`:
+
+| Region | Host element | Defined in |
+|---|---|---|
+| `RegionNames.ContentRegion` | `ContentControl` (main Grid) | MainWindow |
+| `RegionNames.MenuRegion` | `ContentControl` (LeftWindowCommands) | MainWindow |
+| `RegionNames.FlyoutsRegion` | `FlyoutContainer` (Flyouts) | MainWindow |
+| `RegionNames.StatusBarRegion` | `ContentControl` (Grid bottom) | MainWindow |
+
+Sub-regions use `SubRegionNames`:
+`SubRegionNames.InsideContentRegion` inside `ContentRegionView`.
+
+Region names are referenced via
+`{x:Static core:RegionNames.MenuRegion}` in XAML and
+`RegionNames.ContentRegion` in code.
+
+### 2.6 Flyouts
+
+The app uses a custom `FlyoutManager` instead of Prism dialogs.
+Flyouts are registered and opened by name:
+
+```csharp
+// Registration (in module or App):
+mFlyoutManager.RegisterFlyoutWithDefaultRegion<PortSettingsView>(
+    FlyoutNames.FlyoutPortSettings);
+
+// Opening:
+mFlyoutManager.OpenFlyout(FlyoutNames.FlyoutPortSettings);
+```
+
+Flyout ViewModels extend `FlyoutBase` (from
+`AdamController.Controls`). Flyout names are defined in
+`FlyoutNames` (constants class).
+
+### 2.7 Modules
+
+Each region module implements `IModule` with two methods:
+
+```csharp
+public class ContentRegionModule : IModule
+{
+    public void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+        containerRegistry.RegisterForNavigation<ContentRegionView>();
+        containerRegistry.RegisterForNavigation<ScratchControlView>();
+    }
+
+    public void OnInitialized(IContainerProvider containerProvider)
+    {
+        mRegionManager.RequestNavigate(
+            RegionNames.ContentRegion, nameof(ContentRegionView));
+    }
+}
+```
+
+Modules are registered in `App.ConfigureModuleCatalog`.
+
+## 3. Dependency Injection
+
+### 3.1 Container
+
+Prism.DryIoc. The container is configured in `App.xaml.cs` — all
+registrations happen in `RegisterTypes(IContainerRegistry)`.
+
+### 3.2 Registration style
+
+All registrations are **inline** in `App.RegisterTypes`. No
+extension methods on `IContainerRegistry` are used. Services use
+`RegisterSingleton` or factory delegates:
+
+```csharp
+containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
+containerRegistry.RegisterSingleton<IWebViewProvider, WebViewProvider>();
+
+containerRegistry.RegisterSingleton<IAvalonEditService>(
+    containerRegistry => new AvalonEditService(...));
+```
+
+### 3.3 Lifetimes
+
+All services are registered as **singletons**. The project does
+not use scoped or transient registrations.
+
+## 4. Configuration
+
+Configuration uses WinForms `ApplicationSettingsBase` via the
+auto-generated `Properties.Settings` class:
+
+```csharp
+string ip = Settings.Default.ServerIP;
+int port = Settings.Default.TcpConnectStatePort;
+Settings.Default.AppThemeName = "Dark";
+```
+
+Settings are auto-saved on every property change (wired in the
+`App` constructor via `Settings.Default.PropertyChanged`).
+
+The settings file is `AdamController.Core/App.config` under
+`<userSettings>`.
+
+## 5. Localization
+
+Per-view XAML resource dictionaries loaded at runtime by
+`CultureProvider.ChangeAppCulture()`.
+
+- Master dictionaries: `LocalizationDictionary/en.xaml`,
+  `LocalizationDictionary/ru.xaml` — merge sub-dictionaries.
+- Sub-dictionaries per view: `MainMenu.en.xaml`,
+  `ScratchControlView.en.xaml`, etc.
+- Referenced in XAML via
+  `{DynamicResource MainMenu.File.MainHeader}`.
+
+## 6. Status messages
+
+The project does not use a logging framework. Status and error
+messages are delivered to the UI via
+`IStatusBarNotificationDeliveryService`:
+
+```csharp
+mStatusBarNotification.AppLogMessage = "Error reading blokly code";
+mStatusBarNotification.CompileLogMessage =
+    $"{syslogMessage.TimeStamp:T} {syslogMessage.Message}";
+```
+
+The service extends `BindableBase` and fires
+`PropertyChanged` — the status bar binds to it and updates
+automatically.
+
+## 7. Events
+
+Custom delegates are used instead of `EventHandler<T>`:
+
+```csharp
+// Delegate definition
+public delegate void TcpClientConnectedEventHandler(object sender);
+public delegate void TcpClientReceivedEventHandler(
+    object sender, byte[] buffer, long offset, long size);
+
+// Event declaration
+public event TcpClientConnectedEventHandler RaiseTcpClientConnectedEvent;
+
+// Raise method
+protected virtual void OnRaiseTcpClientConnectedEvent()
+{
+    TcpClientConnectedEventHandler raiseEvent = RaiseTcpClientConnectedEvent;
+    raiseEvent?.Invoke(this);
+}
+```
+
+Naming: `Raise<Description>Event` for both the event field and the
+`OnRaise` method. Copy the delegate to a local variable before
+invoking to avoid race conditions.
+
+## 8. WebView2
+
+WebView2 hosts the Google Blockly visual editor as an embedded
+browser. Communication between WPF and JavaScript uses a provider
+pattern.
+
+### 8.1 Provider
+
+`IWebViewProvider` (in Services) abstracts the WebView2 control
+away from the ViewModel:
+
+- VM calls `ExecuteJavaScript(script)` → raises event → View
+  executes `WebView.ExecuteScriptAsync(script)`.
+- View receives `CoreWebView2.WebMessageReceived` → deserializes
+  JSON → calls `IWebViewProvider.WebViewMessageReceived(data)`.
+
+### 8.2 Message protocol
+
+JSON with `action` and `data` fields:
+
+```csharp
+public class WebMessageJsonReceived : EventArgs
+{
+    [JsonPropertyName("action")]
+    public string Action { get; set; }
+
+    [JsonPropertyName("data")]
+    public string Data { get; set; }
+}
+```
+
+### 8.3 Local file serving
+
+Blockly files are served via virtual host mapping:
+
+```csharp
+WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
+    "localhost", mPathToSource,
+    CoreWebView2HostResourceAccessKind.Allow);
+WebView.CoreWebView2.Navigate("https://localhost/index.html");
+```
+
+## 9. #region organization
+
+`#region` blocks are used consistently to organize class members.
+Standard region names (in order of appearance):
+
+```
+#region DelegateCommands
+#region Services
+#region ~                    // constructor
+#region Public fields        // properties
+#region Private methods
+#region Subscriptions / Subscribes
+#region Event methods
+#region OnRaise events
+#region Navigation
+#region Const
+#region Var                  // private fields
+```
+
+Even `using` directives in `App.xaml.cs` are grouped in `#region`
+blocks by category (`system`, `prism`, `innerhit`).
+
+## 10. Source control
+
+### 10.1 Commit messages
+
+Follow Conventional Commits. Recap:
+
+```
+<type>(<scope>): <short summary>
+
+- bullet point 1
+- bullet point 2
+```
+
+**Types:** `feat`, `fix`, `refactor`, `perf`, `docs`, `ci`,
+`test`, `chore`.
+
+**Scopes** — match the project area:
+
+| Scope | Maps to |
+|---|---|
+| `shell` | AdamController (App.xaml.cs, MainWindow, DI root) |
+| `core` | AdamController.Core (MVVM, converters, behaviors, models) |
+| `services` | AdamController.Services (TCP, UDP, WebView, files) |
+| `controls` | AdamController.Controls (custom controls, FlyoutManager) |
+| `menu` | Modules.MenuRegion |
+| `content` | Modules.ContentRegion (Scratch, ComputerVision, Settings) |
+| `status` | Modules.StatusBar |
+| `flyouts` | Modules.FlyoutsRegion (notifications, settings panels) |
+
+**Summary:** imperative mood, lowercase, no trailing period.
+
+**Body:** optional, bullets with `-`. Explain *why*, not just
+*what* — the diff already shows *what*.
+
+### 10.2 Atomic commits
+
+- One commit = one logical change.
+- The solution must compile at every commit.
+- Do not mix formatting churn (renames, whitespace) with semantic
+  changes.
+
+## 11. C# language settings
+
+- **Target framework:** `net8.0-windows7.0` for all projects.
+- **Nullable reference types:** disabled in most projects.
+  `AdamController.Controls` and
+  `AdamController.WebApi.Client` are the exceptions (enabled).
+- **`ImplicitUsings`:** disabled in most projects. Same two
+  exceptions.
+- **All `using` directives are explicit.** Do not rely on global
+  usings.
+- **Traditional namespaces** (brace-enclosed). No file-scoped
+  namespaces.
+- **`var`:** use when the type is obvious from the right-hand
+  side. Prefer explicit types for readability-critical code.
