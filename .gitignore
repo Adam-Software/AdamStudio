@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.patch
 
 # Robot 3D SharpDx Model
 Models/*
