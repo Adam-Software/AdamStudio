@@ -27,16 +27,19 @@ Each commit message must follow this structure:
 The solution is a modular WPF application. Each scope maps to a project
 or module:
 
-| Scope      | Project / Directory                                      |
-|------------|----------------------------------------------------------|
-| `shell`    | `AdamController` — app entry point, `App.xaml.cs`, `MainWindow` |
-| `core`     | `AdamController.Core` — converters, models, constants, localization |
-| `services` | `AdamController.Services` — all service implementations   |
-| `controls` | `AdamController.Controls` — custom controls, region adapters |
-| `menu`     | `Modules/AdamController.Modules.MenuRegion`              |
-| `content`  | `Modules/AdamController.Modules.ContentRegion`           |
-| `status`   | `Modules/AdamController.Modules.StatusBarRegion`         |
-| `flyouts`  | `Modules/AdamController.Modules.FlyoutsRegion`           |
+| Scope      | Project / Directory                                           |
+|------------|---------------------------------------------------------------|
+| `shell`    | `AdamStudio` — app entry point, `App.xaml.cs`, `MainWindow`    |
+| `core`     | `AdamStudio.Core` — converters, models, constants, localization |
+| `services` | `AdamStudio.Services` — all service implementations            |
+| `controls` | `AdamStudio.Controls` — custom controls, region adapters        |
+| `menu`     | `Modules/AdamStudio.Modules.MenuRegion`                        |
+| `content`  | `Modules/AdamStudio.Modules.ContentRegion`                     |
+| `status`   | `Modules/AdamStudio.Modules.StatusBar`                         |
+| `flyouts`  | `Modules/AdamStudio.Modules.FlayoutsRegion`                    |
+| `settings` | `Modules/AdamStudio.Modules.SettingsRegion`                    |
+| `toolbar`  | `Modules/AdamStudio.Modules.ToolBarRegion`                     |
+| `legacy`   | `Legacy/` — deprecated code, do not add new features           |
 
 Use a scope-less commit only when the change spans multiple scopes (e.g.
 a solution-wide `.csproj` version bump).
@@ -58,11 +61,9 @@ CI pipeline.
 
 ### Tag format
 
-AdamStudio and Adam-Servers ship independently and live in separate
-repositories. Tags are prefixed to avoid collisions:
-
-- **Client:** `client.v.X.Y.Z` (this repo)
-- **Server:** `server.v.X.Y.Z` (Adam-Servers repo)
+Tags follow the format `v.X.Y.Z`. AdamStudio and Adam-Servers live in
+separate repositories and are versioned independently — a client-only
+change does not require a server tag.
 
 ### Bump rules
 
@@ -87,6 +88,6 @@ a new flyout (MINOR) results in a MINOR bump.
 ### Client vs server
 
 A client-only change (e.g. a UI refactor, a new converter) bumps only
-the client version. A wire-protocol change (e.g. a new WebSocket message
-type, a changed DTO) bumps **both** client and server, because both
-sides must understand the new contract.
+the client tag. A wire-protocol change (e.g. a new WebSocket message
+type, a changed DTO) bumps **both** client and server tags, because
+both sides must understand the new contract.

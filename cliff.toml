@@ -1,0 +1,42 @@
+[changelog]
+body = """
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | upper_first }}
+{% for commit in commits %}
+- {{ commit.message | upper_first }} ({{ commit.id | truncate(length=7, end="") }})
+{% endfor %}
+{% endfor %}
+"""
+
+[git]
+commit_parsers = [
+    { message = "^feat\\(shell\\)", group = "Shell - Added" },
+    { message = "^feat\\(core\\)", group = "Core - Added" },
+    { message = "^feat\\(services\\)", group = "Services - Added" },
+    { message = "^feat\\(controls\\)", group = "Controls - Added" },
+    { message = "^feat\\(menu\\)", group = "Menu - Added" },
+    { message = "^feat\\(content\\)", group = "Content - Added" },
+    { message = "^feat\\(status\\)", group = "Status Bar - Added" },
+    { message = "^feat\\(flyouts\\)", group = "Flyouts - Added" },
+    { message = "^feat\\(settings\\)", group = "Settings - Added" },
+    { message = "^feat\\(toolbar\\)", group = "Toolbar - Added" },
+    { message = "^feat", group = "Features" },
+    { message = "^fix\\(shell\\)", group = "Shell - Fixed" },
+    { message = "^fix\\(core\\)", group = "Core - Fixed" },
+    { message = "^fix\\(services\\)", group = "Services - Fixed" },
+    { message = "^fix\\(controls\\)", group = "Controls - Fixed" },
+    { message = "^fix\\(menu\\)", group = "Menu - Fixed" },
+    { message = "^fix\\(content\\)", group = "Content - Fixed" },
+    { message = "^fix\\(status\\)", group = "Status Bar - Fixed" },
+    { message = "^fix\\(flyouts\\)", group = "Flyouts - Fixed" },
+    { message = "^fix\\(settings\\)", group = "Settings - Fixed" },
+    { message = "^fix\\(toolbar\\)", group = "Toolbar - Fixed" },
+    { message = "^fix", group = "Fixed" },
+    { message = "^refactor", group = "Refactored" },
+    { message = "^perf", group = "Performance" },
+    { message = "^docs", group = "Documentation" },
+    { message = "^chore", group = "Miscellaneous" },
+]
+
+commit_sort_by = "date"
+group_by = "group"

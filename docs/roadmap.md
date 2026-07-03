@@ -123,7 +123,7 @@ must NOT be stored in git.
 - [ ] **Add `.editorconfig` to Adam-Servers and Adam-Blockly.**
 - [ ] **Rename `Comunication` → `Communication` in Adam-Servers.**
 - [ ] **Synchronize API versioning** (independent tags:
-  `client.v.X.Y.Z`, `server.v.X.Y.Z`).
+  `v.X.Y.Z`).
 
 ---
 
