@@ -77,6 +77,8 @@ namespace AdamStudio.Services
 
         public List<IpAddressInfo> FindAdresses { get; } = [];
 
+        List<IPAddress> IFindRobotClientService.FindAdresses => throw new NotImplementedException();
+
         #endregion
 
         #region PrivateMethods
@@ -156,7 +158,7 @@ namespace AdamStudio.Services
         protected virtual void OnRaiseFindStartedEvent()
         {
             FindStartedEventHandler raiseEvent = RaiseFindStartedEvent;
-            raiseEvent?.Invoke(this);  
+            raiseEvent?.Invoke(this);
         }
 
         protected virtual void OnRaiseFindEndedEvent(List<IpAddressInfo> findIpAddresses)

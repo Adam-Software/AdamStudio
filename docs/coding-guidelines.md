@@ -386,7 +386,7 @@ Follow Conventional Commits. Recap:
 
 ## 11. C# language settings
 
-- **Target framework:** `net8.0-windows7.0` for all projects.
+- **Target framework:** `net10.0-windows7.0` for all projects.
 - **Nullable reference types:** disabled in most projects.
   `AdamController.Controls` and
   `AdamController.WebApi.Client` are the exceptions (enabled).

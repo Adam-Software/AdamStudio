@@ -79,14 +79,11 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private void Subscribe()
         {
             mFindMeClientService.RaiseFindStartedEvent += RaiseFindStartedEvent;
-            mFindMeClientService.RaiseFindEndedEvent += RaiseFindEndedEvent;
-
         }
 
         private void Unsubscribe()
         {
             mFindMeClientService.RaiseFindStartedEvent -= RaiseFindStartedEvent;
-            mFindMeClientService.RaiseFindEndedEvent -= RaiseFindEndedEvent;
         }
 
         #endregion

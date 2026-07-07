@@ -7,7 +7,7 @@
 #define MySupportURL = "https://github.com/Adam-Software/AdamStudio"
 #define MyAppExeName "AdamStudio.exe"
 #define InstallerIconPath "AdamStudio.Core\Properties\Icons\main_app_icon.ico"
-#define AppReleaseFolderPath "AdamStudio\bin\Release\net8.0-windows7.0\"
+#define AppReleaseFolderPath "AdamStudio\bin\Release\net10.0-windows7.0\"
 #define EdgeWebView2ExeName "MicrosoftEdgeWebView2RuntimeInstaller.1.3.195.25.X64.exe"
 #define MyAppVersion GetVersionNumbersString(AppReleaseFolderPath + MyAppExeName)
 
