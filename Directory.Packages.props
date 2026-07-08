@@ -21,27 +21,27 @@
 
   <ItemGroup>
     <!-- ── Editor / code editor ─────────────────────────────────────── -->
-    <PackageVersion Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
 
     <!-- ── Media / FFmpeg ───────────────────────────────────────────── -->
     <PackageVersion Include="FFmpeg.zgabi.FFME.Windows.6.0.2" Version="1.0.13" />
     <PackageVersion Include="zgabi.FFME.Windows" Version="6.0.2" />
 
     <!-- ── UI: MahApps.Metro ────────────────────────────────────────── -->
-    <PackageVersion Include="MahApps.Metro" Version="2.4.10" />
+    <PackageVersion Include="MahApps.Metro" Version="2.4.11" />
     <PackageVersion Include="MahApps.Metro.IconPacks" Version="5.1.0" />
 
     <!-- ── Microsoft ────────────────────────────────────────────────── -->
     <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.9" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
-    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
 
     <!-- ── Networking ───────────────────────────────────────────────── -->
     <PackageVersion Include="NetCoreServer" Version="8.0.7" />
     <PackageVersion Include="Tcp.NET.Server" Version="7.0.26" />
     <PackageVersion Include="TcpSharp" Version="1.3.6" />
-    <PackageVersion Include="Websocket.Client" Version="5.1.2" />
+    <PackageVersion Include="Websocket.Client" Version="5.5.0" />
 
     <!-- ── Prism (MVVM framework) ───────────────────────────────────── -->
     <PackageVersion Include="Prism.Container.Extensions" Version="8.0.62" />
@@ -51,7 +51,7 @@
 
     <!-- ── Serilog ──────────────────────────────────────────────────── -->
     <PackageVersion Include="Serilog" Version="4.1.0" />
-    <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.DelegatingText" Version="1.0.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
 
