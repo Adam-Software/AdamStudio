@@ -1,5 +1,6 @@
 ﻿using AdamController.WebApi.Client.Common;
 using AdamController.WebApi.Client.v1.ResponseModel;
+using System.Net.Http;
 
 namespace AdamController.WebApi.Client.v1
 {

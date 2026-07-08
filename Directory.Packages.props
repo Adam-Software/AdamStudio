@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Directory.Packages.props — Central Package Management (CPM).
+  See https://learn.microsoft.com/nuget/consume-packages/Central-Package-Management
+
+  All <PackageReference> entries in .csproj files MUST omit the Version
+  attribute; the version is resolved from the <PackageVersion> items
+  below. To bump a package, change its Version here only.
+
+  Legacy/ projects opt out via <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  in their .csproj because they will be deleted in Tier 4.
+
+  Tier 3 of roadmap.
+-->
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ── Editor / code editor ─────────────────────────────────────── -->
+    <PackageVersion Include="AvalonEdit" Version="6.3.0.90" />
+
+    <!-- ── Media / FFmpeg ───────────────────────────────────────────── -->
+    <PackageVersion Include="FFmpeg.zgabi.FFME.Windows.6.0.2" Version="1.0.13" />
+    <PackageVersion Include="zgabi.FFME.Windows" Version="6.0.2" />
+
+    <!-- ── UI: MahApps.Metro ────────────────────────────────────────── -->
+    <PackageVersion Include="MahApps.Metro" Version="2.4.10" />
+    <PackageVersion Include="MahApps.Metro.IconPacks" Version="5.1.0" />
+
+    <!-- ── Microsoft ────────────────────────────────────────────────── -->
+    <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+
+    <!-- ── Networking ───────────────────────────────────────────────── -->
+    <PackageVersion Include="NetCoreServer" Version="8.0.7" />
+    <PackageVersion Include="Tcp.NET.Server" Version="7.0.26" />
+    <PackageVersion Include="TcpSharp" Version="1.3.6" />
+    <PackageVersion Include="Websocket.Client" Version="5.1.2" />
+
+    <!-- ── Prism (MVVM framework) ───────────────────────────────────── -->
+    <PackageVersion Include="Prism.Container.Extensions" Version="8.0.62" />
+    <PackageVersion Include="Prism.Core" Version="8.1.97" />
+    <PackageVersion Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageVersion Include="Prism.Wpf" Version="8.1.97" />
+
+    <!-- ── Serilog ──────────────────────────────────────────────────── -->
+    <PackageVersion Include="Serilog" Version="4.1.0" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Sinks.DelegatingText" Version="1.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+
+    <!-- ── Settings / configuration ─────────────────────────────────── -->
+    <PackageVersion Include="PortableSettingsProvider" Version="0.2.5" />
+
+    <!-- ── Legacy framework shims (kept for compatibility) ──────────── -->
+    <PackageVersion Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageVersion Include="System.Net.Primitives" Version="4.3.1" />
+    <PackageVersion Include="The.Microsoft.Expression.Interactions" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

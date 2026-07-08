@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Directory.Build.props — solution-wide MSBuild defaults.
+  Imported automatically at the top of every project in the repo.
+
+  Per-project overrides (e.g. <Nullable>enable</Nullable> in
+  AdamStudio.Controls) take precedence because they appear later in the
+  project file. See docs/coding-guidelines.md section 11.
+
+  Tier 3 of roadmap.
+-->
+<Project>
+
+  <PropertyGroup>
+    <!-- ── Target framework ────────────────────────────────────────── -->
+    <!-- net10.0-windows7.0: .NET 10 + Windows 7 API surface.
+         Legacy/ projects override this to net8.0-windows7.0 locally. -->
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+
+    <!-- ── Language version ────────────────────────────────────────── -->
+    <!-- C# 13.0 (.NET 10 default; mirrored in .editorconfig). -->
+    <LangVersion>13.0</LangVersion>
+
+    <!-- ── Nullable reference types ────────────────────────────────── -->
+    <!-- Disabled by default. AdamStudio.Controls and
+         AdamController.WebApi.Client override to enable. -->
+    <Nullable>disable</Nullable>
+
+    <!-- ── Implicit usings ─────────────────────────────────────────── -->
+    <!-- Disabled everywhere per coding-guidelines. Same two projects
+         override to enable. -->
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <!-- ── WPF ─────────────────────────────────────────────────────── -->
+    <!-- All active projects are WPF. Legacy AdamBlocklyLibrary is a
+         library without WPF but inherits <UseWPF>true</UseWPF> —
+         harmless for a non-WPF library, but if it causes issues,
+         override to false in that project. -->
+    <UseWPF>true</UseWPF>
+
+    <!-- ── Localization ────────────────────────────────────────────── -->
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>

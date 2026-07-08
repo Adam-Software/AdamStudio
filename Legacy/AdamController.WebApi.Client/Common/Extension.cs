@@ -1,4 +1,5 @@
 ﻿using AdamController.WebApi.Client.v1.ResponseModel;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace AdamController.WebApi.Client.Common
