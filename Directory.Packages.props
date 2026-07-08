@@ -50,7 +50,7 @@
     <PackageVersion Include="Prism.Wpf" Version="8.1.97" />
 
     <!-- ── Serilog ──────────────────────────────────────────────────── -->
-    <PackageVersion Include="Serilog" Version="4.1.0" />
+    <PackageVersion Include="Serilog" Version="4.3.1" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.DelegatingText" Version="1.0.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
