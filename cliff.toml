@@ -1,3 +1,9 @@
+# git-cliff configuration — https://git-cliff.org/docs/configuration
+#
+# Scopes and types MUST stay in sync with CONTRIBUTING.md.
+# Parsers are evaluated in order; the first match wins.
+# Scope-specific parsers come first, then type fallbacks.
+
 [changelog]
 body = """
 {% for group, commits in commits | group_by(attribute="group") %}
@@ -10,32 +16,50 @@ body = """
 
 [git]
 commit_parsers = [
+    # ── shell ─────────────────────────────────────────────────────
     { message = "^feat\\(shell\\)", group = "Shell - Added" },
-    { message = "^feat\\(core\\)", group = "Core - Added" },
-    { message = "^feat\\(services\\)", group = "Services - Added" },
-    { message = "^feat\\(controls\\)", group = "Controls - Added" },
-    { message = "^feat\\(menu\\)", group = "Menu - Added" },
-    { message = "^feat\\(content\\)", group = "Content - Added" },
-    { message = "^feat\\(status\\)", group = "Status Bar - Added" },
-    { message = "^feat\\(flyouts\\)", group = "Flyouts - Added" },
-    { message = "^feat\\(settings\\)", group = "Settings - Added" },
-    { message = "^feat\\(toolbar\\)", group = "Toolbar - Added" },
-    { message = "^feat", group = "Features" },
     { message = "^fix\\(shell\\)", group = "Shell - Fixed" },
+    # ── core ──────────────────────────────────────────────────────
+    { message = "^feat\\(core\\)", group = "Core - Added" },
     { message = "^fix\\(core\\)", group = "Core - Fixed" },
+    # ── services ──────────────────────────────────────────────────
+    { message = "^feat\\(services\\)", group = "Services - Added" },
     { message = "^fix\\(services\\)", group = "Services - Fixed" },
+    # ── controls ──────────────────────────────────────────────────
+    { message = "^feat\\(controls\\)", group = "Controls - Added" },
     { message = "^fix\\(controls\\)", group = "Controls - Fixed" },
+    # ── menu ──────────────────────────────────────────────────────
+    { message = "^feat\\(menu\\)", group = "Menu - Added" },
     { message = "^fix\\(menu\\)", group = "Menu - Fixed" },
+    # ── content ───────────────────────────────────────────────────
+    { message = "^feat\\(content\\)", group = "Content - Added" },
     { message = "^fix\\(content\\)", group = "Content - Fixed" },
+    # ── status ────────────────────────────────────────────────────
+    { message = "^feat\\(status\\)", group = "Status Bar - Added" },
     { message = "^fix\\(status\\)", group = "Status Bar - Fixed" },
+    # ── flyouts ───────────────────────────────────────────────────
+    { message = "^feat\\(flyouts\\)", group = "Flyouts - Added" },
     { message = "^fix\\(flyouts\\)", group = "Flyouts - Fixed" },
+    # ── settings ──────────────────────────────────────────────────
+    { message = "^feat\\(settings\\)", group = "Settings - Added" },
     { message = "^fix\\(settings\\)", group = "Settings - Fixed" },
+    # ── toolbar ───────────────────────────────────────────────────
+    { message = "^feat\\(toolbar\\)", group = "Toolbar - Added" },
     { message = "^fix\\(toolbar\\)", group = "Toolbar - Fixed" },
+    # ── legacy ────────────────────────────────────────────────────
+    { message = "^feat\\(legacy\\)", group = "Legacy - Added" },
+    { message = "^fix\\(legacy\\)", group = "Legacy - Fixed" },
+    # ── type fallbacks (scope-less or unmatched scope) ────────────
+    { message = "^feat", group = "Features" },
     { message = "^fix", group = "Fixed" },
-    { message = "^refactor", group = "Refactored" },
     { message = "^perf", group = "Performance" },
+    { message = "^refactor", group = "Refactored" },
+    { message = "^test", group = "Tests" },
+    { message = "^build", group = "Build" },
+    { message = "^ci", group = "CI" },
     { message = "^docs", group = "Documentation" },
     { message = "^chore", group = "Miscellaneous" },
+    { message = "^revert", group = "Reverted" },
 ]
 
 commit_sort_by = "date"
