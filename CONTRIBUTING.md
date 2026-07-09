@@ -80,20 +80,20 @@ CI pipeline.
 
 ### Tag format
 
-Tags follow the format `v.X.Y.Z`. AdamStudio and Adam-Servers live in
-separate repositories and are versioned independently — a client-only
-change does not require a server tag.
+Tags follow the format `v.X.Y.Z`. AdamStudio is a standalone desktop
+application; it has a single version per release.
 
 ### Bump rules
 
 - **MAJOR (X.0.0)** — breaking changes that require user action or that
-  break compatibility between client and server. Examples: removing a
+  break compatibility with the Adam-Servers backend. Examples: removing a
   WebSocket message type, changing the Blockly to C# message contract,
-  changing a default port, removing a settings group.
+  changing a default port, removing a settings group, a UI redesign that
+  removes user workflows.
 - **MINOR (0.X.0)** — new backward-compatible functionality. Examples:
   adding a new Blockly block category, a new settings flyout, a new
-  server communication channel, a significant internal refactor (module
-  split, new shared project) that does not break the wire protocol.
+  communication channel to Adam-Servers, a significant internal refactor
+  (module split, new shared project) that does not break the wire protocol.
 - **PATCH (0.0.X)** — backward-compatible bug fixes and security
   hardening. Examples: fixing a crash on disconnect, fixing a settings
   persistence bug, updating a dependency for a security patch.
@@ -104,12 +104,15 @@ When a change touches multiple categories, bump the **highest** affected
 component. For example, a commit that both fixes a bug (PATCH) and adds
 a new flyout (MINOR) results in a MINOR bump.
 
-### Client vs server
+### Wire-protocol compatibility with Adam-Servers
 
-A client-only change (e.g. a UI refactor, a new converter) bumps only
-the client tag. A wire-protocol change (e.g. a new WebSocket message
-type, a changed DTO) bumps **both** client and server tags, because
-both sides must understand the new contract.
+AdamStudio communicates with Adam-Servers over WebSocket/JSON. A
+wire-protocol change (a new WebSocket message type, a changed DTO field
+meaning) is a breaking change for the backend and bumps AdamStudio
+MAJOR **only if** Adam-Servers cannot accept the old contract after the
+upgrade. If the change is additive (a new optional field, a new message
+type that the old server ignores), it is MINOR. Coordinate backend
+releases with the Adam-Servers repository.
 
 ### Worked example: 2.0.1 to 2.1.0
 
@@ -119,5 +122,10 @@ The Tier 1 foundation pass shipped as `2.1.0`. It included:
   its own.
 - `refactor:` target `net10.0` in all projects — internal, no wire
   change. MINOR (significant internal refactor).
+- `build:` `Directory.Build.props` + Central Package Management —
+  internal build infrastructure. MINOR (significant internal refactor).
+- `build:` safe package bumps (Serilog, AvalonEdit, MahApps, etc.) —
+  dependency updates, no wire change. PATCH (or MINOR if the bump
+  enables new user-facing functionality).
 
 The highest bump is MINOR, so the release is `2.1.0`, not `2.0.2`.
