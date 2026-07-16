@@ -8,7 +8,7 @@ using MahApps.Metro.IconPacks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System;
 
 namespace AdamStudio.Modules.StatusBarRegion.ViewModels

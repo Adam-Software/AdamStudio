@@ -1,8 +1,8 @@
-﻿using Prism.Services.Dialogs;
-using System.Threading.Tasks;
-using System;
+﻿using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.SystemDialogServiceDependency;
-using AdamStudio.Services.Interfaces;
+using Prism.Dialogs;
+using System;
+using System.Threading.Tasks;
 
 namespace AdamStudio.Core.Extensions
 {

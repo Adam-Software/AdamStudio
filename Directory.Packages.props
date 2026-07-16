@@ -43,10 +43,9 @@
     <PackageVersion Include="Websocket.Client" Version="5.5.0" />
 
     <!-- ── Prism (MVVM framework) ───────────────────────────────────── -->
-    <PackageVersion Include="Prism.Container.Extensions" Version="8.0.62" />
-    <PackageVersion Include="Prism.Core" Version="8.1.97" />
-    <PackageVersion Include="Prism.DryIoc" Version="8.1.97" />
-    <PackageVersion Include="Prism.Wpf" Version="8.1.97" />
+    <PackageVersion Include="Prism.Core" Version="9.0.537" />
+    <PackageVersion Include="Prism.DryIoc" Version="9.0.537" />
+    <PackageVersion Include="Prism.Wpf" Version="9.0.537" />
 
     <!-- ── Serilog ──────────────────────────────────────────────────── -->
     <PackageVersion Include="Serilog" Version="4.3.1" />

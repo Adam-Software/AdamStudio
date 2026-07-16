@@ -2,7 +2,7 @@
 using AdamStudio.Modules.MenuRegion.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace AdamStudio.Modules.MenuRegion
 {
@@ -10,7 +10,7 @@ namespace AdamStudio.Modules.MenuRegion
     {
         private readonly IRegionManager mRegionManager;
 
-        public MenuRegionModule(IRegionManager regionManager) 
+        public MenuRegionModule(IRegionManager regionManager)
         {
             mRegionManager = regionManager;
         }

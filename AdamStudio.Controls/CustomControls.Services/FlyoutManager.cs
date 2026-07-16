@@ -1,7 +1,5 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
-using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
-using Prism.Regions;
 using System.Windows;
 
 namespace AdamStudio.Controls.CustomControls.Services

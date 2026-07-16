@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     <PackageReference Include="NetCoreServer" />
     <PackageReference Include="PortableSettingsProvider" />
-    <PackageReference Include="Prism.Container.Extensions" />
     <PackageReference Include="Prism.Core" />
     <PackageReference Include="Prism.DryIoc" />
     <PackageReference Include="Prism.Wpf" />

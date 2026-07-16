@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System;
 
 

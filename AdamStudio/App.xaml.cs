@@ -10,7 +10,6 @@ using System.Windows;
 using Prism.Ioc;
 using Prism.DryIoc;
 using Prism.Modularity;
-using Prism.Regions;
 using DryIoc;
 
 #endregion
@@ -28,7 +27,6 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System.Net;
 using Serilog.Core;
 
 using AdamStudio.Controls.CustomControls.RegionAdapters;
@@ -41,12 +39,10 @@ using AdamStudio.Core.Properties;
 using AdamStudio.Services.Interfaces;
 using AdamStudio.Views;
 using AdamStudio.Controls.CustomControls.Services;
-using AdamStudio.Services.TcpClientDependency;
 using AdamStudio.Services;
-using Microsoft.Extensions.Options;
-using ICSharpCode.AvalonEdit.Highlighting;
 using AdamStudio.Core;
 using Bluegrams.Application;
+using Prism.Navigation.Regions;
 
 #endregion
 

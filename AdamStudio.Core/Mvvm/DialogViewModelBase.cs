@@ -1,8 +1,7 @@
 ﻿
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System;
 
 namespace AdamStudio.Core.Mvvm
 {
@@ -15,17 +14,19 @@ namespace AdamStudio.Core.Mvvm
         private DelegateCommand<string> mCloseDialogCommand;
         public DelegateCommand<string> CloseDialogCommand => mCloseDialogCommand ??= new DelegateCommand<string>(CloseDialog);
 
+        DialogCloseListener IDialogAware.RequestClose { get; }
+
         #endregion
 
         #region Navigation
 
 
-        public event Action<IDialogResult> RequestClose; 
+        //public event Action<IDialogResult> RequestClose;
         //public DialogCloseListener RequestClose { get; }
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
-            RequestClose?.Invoke(dialogResult);
+            RequestClose.Invoke(dialogResult);
         }
 
         public virtual bool CanCloseDialog()

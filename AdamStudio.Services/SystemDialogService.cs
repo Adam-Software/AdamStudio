@@ -1,8 +1,8 @@
 ﻿using AdamStudio.Services.Interfaces;
-using System.IO;
-using Prism.Services.Dialogs;
-using Microsoft.Win32;
 using AdamStudio.Services.SystemDialogServiceDependency;
+using Microsoft.Win32;
+using Prism.Dialogs;
+using System.IO;
 
 
 namespace AdamStudio.Services

@@ -5,7 +5,7 @@ using AdamStudio.Services.Interfaces;
 using AdamStudio.Services.SystemDialogServiceDependency;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 using System;
 using System.Windows;
 

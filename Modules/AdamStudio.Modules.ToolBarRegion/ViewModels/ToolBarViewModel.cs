@@ -7,11 +7,8 @@ using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.Commands;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System;
-using System.Linq;
-using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Threading;
 using Application = System.Windows.Application;
 

@@ -1,5 +1,5 @@
 ﻿using AdamStudio.Services.SystemDialogServiceDependency;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 using System;
 
 namespace AdamStudio.Services.Interfaces

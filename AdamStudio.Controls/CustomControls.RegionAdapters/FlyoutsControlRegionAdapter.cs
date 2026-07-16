@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using Prism.Regions;
 using System.Collections.Specialized;
 using System.Windows;
 

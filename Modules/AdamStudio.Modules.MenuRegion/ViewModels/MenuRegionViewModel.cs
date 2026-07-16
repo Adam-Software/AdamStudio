@@ -1,11 +1,11 @@
 ﻿using AdamStudio.Core;
 using AdamStudio.Core.Mvvm;
-using Prism.Commands;
-using Prism.Regions;
-using System.Windows;
-using System;
 using AdamStudio.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.Commands;
+using Prism.Navigation.Regions;
+using System;
+using System.Windows;
 
 namespace AdamStudio.Modules.MenuRegion.ViewModels
 {

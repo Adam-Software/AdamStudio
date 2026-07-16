@@ -2,7 +2,7 @@
 using AdamStudio.Modules.ToolBarRegion.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace AdamStudio.Modules.ToolBarRegion
 {

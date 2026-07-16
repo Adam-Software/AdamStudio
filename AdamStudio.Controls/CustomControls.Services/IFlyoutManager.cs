@@ -1,5 +1,4 @@
 ﻿using AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer;
-using Prism.Regions;
 using System.Windows;
 
 namespace AdamStudio.Controls.CustomControls.Services
