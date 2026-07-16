@@ -18,9 +18,9 @@ namespace AdamController.WebApi.Client.Common
 
             Task<ExtendedCommandExecuteResult> result = Task.Run(async () =>
             {
-                var responseMessage = await response;
-                var jsonString = await responseMessage.Content.ReadAsStringAsync();
-                var result = jsonString.ToExtendedCommandResult();
+                HttpResponseMessage responseMessage = await response;
+                string jsonString = await responseMessage.Content.ReadAsStringAsync();
+                ExtendedCommandExecuteResult result = jsonString.ToExtendedCommandResult();
                 return result;
             });
 

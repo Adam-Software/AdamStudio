@@ -14,15 +14,11 @@ namespace AdamStudio.Core.Mvvm
         private DelegateCommand<string> mCloseDialogCommand;
         public DelegateCommand<string> CloseDialogCommand => mCloseDialogCommand ??= new DelegateCommand<string>(CloseDialog);
 
-        DialogCloseListener IDialogAware.RequestClose { get; }
+        public DialogCloseListener RequestClose { get; private set; }
 
         #endregion
 
         #region Navigation
-
-
-        //public event Action<IDialogResult> RequestClose;
-        //public DialogCloseListener RequestClose { get; }
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {

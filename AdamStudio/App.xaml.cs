@@ -26,8 +26,10 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
+using Serilog.Extensions.Logging;
 
 using AdamStudio.Controls.CustomControls.RegionAdapters;
 using AdamStudio.Modules.ContentRegion;
@@ -100,24 +102,20 @@ namespace AdamStudio
 
         private void RegisterService(IContainerRegistry containerRegistry)
         {
-            
-            containerRegistry.RegisterServices(services =>
-            {
-                ILogWriteEventAwareService logWriteEventAware = Container.Resolve<ILogWriteEventAwareService>();
+            ILogWriteEventAwareService logWriteEventAware = Container.Resolve<ILogWriteEventAwareService>();
 
-                Logger mainLogger = new LoggerConfiguration()
-                    .MinimumLevel.Verbose()
-                    .WriteTo.DelegatingTextSink(writeAction => logWriteEventAware.WriteToBuffer(writeAction),
-                            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-                    .WriteTo.File("logs/log-.txt",
-                            rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
-                            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
-                    .CreateLogger();
+            Logger mainLogger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.DelegatingTextSink(writeAction => logWriteEventAware.WriteToBuffer(writeAction),
+                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File("logs/log-.txt",
+                        rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
 
-                services.AddLogging(s => s.AddSerilog(mainLogger, dispose: true));
-               
-
-            });
+            var loggerFactory = new SerilogLoggerFactory(mainLogger, dispose: true);
+            containerRegistry.RegisterInstance<ILoggerFactory>(loggerFactory);
+            containerRegistry.RegisterSingleton(typeof(ILogger<>), typeof(Logger<>));
         }
 
         private static void RegisterDialogs(IContainerRegistry containerRegistry)
