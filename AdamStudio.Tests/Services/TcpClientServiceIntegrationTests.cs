@@ -67,7 +67,7 @@ namespace AdamStudio.Tests.Services
         {
             // Arrange
             bool connectedEventRaised = false;
-            mClient.RaiseTcpCientConnectedEvent += (sender) => connectedEventRaised = true;
+            mClient.RaiseTcpCientConnectedEvent += (sender, e) => connectedEventRaised = true;
 
             // Act
             _ = mClient.ConnectAsync();
@@ -93,10 +93,10 @@ namespace AdamStudio.Tests.Services
 
             byte[] receivedBuffer = Array.Empty<byte>();
             long receivedSize = 0;
-            mClient.RaiseTcpClientReceivedEvent += (sender, buffer, offset, size) =>
+            mClient.RaiseTcpClientReceivedEvent += (sender, e) =>
             {
-                receivedBuffer = buffer;
-                receivedSize = size;
+                receivedBuffer = e.Buffer;
+                receivedSize = e.Size;
             };
 
             // Act — server sends a known byte sequence to the client.
@@ -126,7 +126,7 @@ namespace AdamStudio.Tests.Services
             await Task.Delay(200);
 
             bool disconnectedEventRaised = false;
-            mClient.RaiseTcpClientDisconnectedEvent += (sender) => disconnectedEventRaised = true;
+            mClient.RaiseTcpClientDisconnectedEvent += (sender, e) => disconnectedEventRaised = true;
 
             // Act — server closes the connection
             serverSide.Close();
@@ -162,12 +162,12 @@ namespace AdamStudio.Tests.Services
             SocketError? capturedError = null;
 
             using TcpClientService badClient = new(badProvider);
-            badClient.RaiseTcpClientErrorEvent += (sender, error) =>
+            badClient.RaiseTcpClientErrorEvent += (sender, e) =>
             {
                 errorEventRaised = true;
-                capturedError = error;
+                capturedError = e.Error;
             };
-            badClient.RaiseTcpClientDisconnectedEvent += (sender) => disconnectedEventRaised = true;
+            badClient.RaiseTcpClientDisconnectedEvent += (sender, e) => disconnectedEventRaised = true;
 
             // Act
             _ = badClient.ConnectAsync();
@@ -202,7 +202,7 @@ namespace AdamStudio.Tests.Services
             await Task.Delay(200);
 
             bool disconnectedEventRaised = false;
-            mClient.RaiseTcpClientDisconnectedEvent += (sender) => disconnectedEventRaised = true;
+            mClient.RaiseTcpClientDisconnectedEvent += (sender, e) => disconnectedEventRaised = true;
 
             // Act
             mClient.DisconnectAndStop();

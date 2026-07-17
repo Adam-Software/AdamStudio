@@ -333,28 +333,44 @@ public record WebMessageJsonReceived
 
 ## 7. Events
 
-Custom delegates are used instead of `EventHandler<T>`:
+Events use the standard `EventHandler` and `EventHandler<TEventArgs>`
+pattern. Custom delegate types are being phased out (Tier 4
+migration). For events that carry data, define a custom
+`EventArgs` subclass:
 
 ```csharp
-// Delegate definition
-public delegate void TcpClientConnectedEventHandler(object sender);
-public delegate void TcpClientReceivedEventHandler(
-    object sender, byte[] buffer, long offset, long size);
+// EventArgs for events with payload
+public class TcpClientReceivedEventArgs : EventArgs
+{
+    public byte[] Buffer { get; init; } = Array.Empty<byte>();
+    public long Offset { get; init; }
+    public long Size { get; init; }
+}
 
-// Event declaration
-public event TcpClientConnectedEventHandler RaiseTcpClientConnectedEvent;
+// Event declaration (simple — no payload)
+public event EventHandler RaiseTcpClientDisconnectedEvent;
+
+// Event declaration (with payload)
+public event EventHandler<TcpClientReceivedEventArgs> RaiseTcpClientReceivedEvent;
 
 // Raise method
-protected virtual void OnRaiseTcpClientConnectedEvent()
+protected virtual void OnRaiseTcpClientReceivedEvent(byte[] buffer, long offset, long size)
 {
-    TcpClientConnectedEventHandler raiseEvent = RaiseTcpClientConnectedEvent;
-    raiseEvent?.Invoke(this);
+    RaiseTcpClientReceivedEvent?.Invoke(this,
+        new TcpClientReceivedEventArgs { Buffer = buffer, Offset = offset, Size = size });
 }
 ```
 
-Naming: `Raise<Description>Event` for both the event field and the
-`OnRaise` method. Copy the delegate to a local variable before
-invoking to avoid race conditions.
+Naming: `Raise<Description>Event` for the event field,
+`OnRaise<Description>Event` for the raise method,
+`<Description>EventArgs` for the EventArgs subclass.
+
+For events with no payload, use `EventHandler` (not a custom delegate)
+and pass `EventArgs.Empty` in the raise method.
+
+The `?.Invoke` pattern is thread-safe — it captures the delegate
+reference at call time, so a null check after capture is safe even
+if another thread unsubscribes between the check and the invoke.
 
 ## 8. WebView2
 

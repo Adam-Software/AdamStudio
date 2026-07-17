@@ -9,12 +9,12 @@ namespace AdamStudio.Services
     public class TcpClientService : NetCoreServer.TcpClient, ITcpClientService
     {
 
-        public event TcpCientConnectedEventHandler RaiseTcpCientConnectedEvent;
-        public event TcpCientSentEventHandler RaiseTcpCientSentEvent;
-        public event TcpClientDisconnectEventHandler RaiseTcpClientDisconnectedEvent;
-        public event TcpClientErrorEventHandler RaiseTcpClientErrorEvent;
-        public event TcpClientReceivedEventHandler RaiseTcpClientReceivedEvent;
-        public event TcpClientReconnectedEventHandler RaiseTcpClientReconnectedEvent;
+        public event EventHandler RaiseTcpCientConnectedEvent;
+        public event EventHandler<TcpClientSentEventArgs> RaiseTcpCientSentEvent;
+        public event EventHandler RaiseTcpClientDisconnectedEvent;
+        public event EventHandler<TcpClientErrorEventArgs> RaiseTcpClientErrorEvent;
+        public event EventHandler<TcpClientReceivedEventArgs> RaiseTcpClientReceivedEvent;
+        public event EventHandler<TcpClientReconnectedEventArgs> RaiseTcpClientReconnectedEvent;
 
         private int mReconnectTimeout;
         private int mReconnectCount;
@@ -149,38 +149,32 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseTcpCientConnectedEvent()
         {
-            TcpCientConnectedEventHandler raiseEvent = RaiseTcpCientConnectedEvent;
-            raiseEvent?.Invoke(this);
+            RaiseTcpCientConnectedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnRaiseTcpCientSentEvent(long sent, long pending)
         {
-            TcpCientSentEventHandler raiseEvent = RaiseTcpCientSentEvent;
-            raiseEvent?.Invoke(this, sent, pending);
+            RaiseTcpCientSentEvent?.Invoke(this, new TcpClientSentEventArgs { Sent = sent, Pending = pending });
         }
 
         protected virtual void OnRaiseTcpClientDisconnectedEvent()
         {
-            TcpClientDisconnectEventHandler raiseEvent = RaiseTcpClientDisconnectedEvent;
-            raiseEvent?.Invoke(this);
+            RaiseTcpClientDisconnectedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnRaiseTcpClientErrorEvent(SocketError socketError)
         {
-            TcpClientErrorEventHandler raiseEvent = RaiseTcpClientErrorEvent;
-            raiseEvent?.Invoke(this, socketError);
+            RaiseTcpClientErrorEvent?.Invoke(this, new TcpClientErrorEventArgs { Error = socketError });
         }
 
         protected virtual void OnRaiseTcpClientReceivedEvent(byte[] buffer, long offset, long size)
         {
-            TcpClientReceivedEventHandler raiseEvent = RaiseTcpClientReceivedEvent;
-            raiseEvent?.Invoke(this, buffer, offset, size);
+            RaiseTcpClientReceivedEvent?.Invoke(this, new TcpClientReceivedEventArgs { Buffer = buffer, Offset = offset, Size = size });
         }
-        
+
         protected virtual void OnRaiseTcpClientReconnectedEvent(int reconnectCount)
         {
-            TcpClientReconnectedEventHandler raiseEvent = RaiseTcpClientReconnectedEvent;
-            raiseEvent?.Invoke(this, reconnectCount);
+            RaiseTcpClientReconnectedEvent?.Invoke(this, new TcpClientReconnectedEventArgs { ReconnectCount = reconnectCount });
         }
 
     }

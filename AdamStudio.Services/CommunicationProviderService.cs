@@ -100,7 +100,7 @@ namespace AdamStudio.Services
             mUdpServerService.RaiseUdpServerReceivedEvent -= RaiseServiceUdpServerReceived;
         }
 
-        private void RaiseServiceTcpCientConnected(object sender)
+        private void RaiseServiceTcpCientConnected(object sender, EventArgs e)
         {
             IsTcpClientConnected = true;
 
@@ -111,7 +111,7 @@ namespace AdamStudio.Services
             mWebSocketClientService.ConnectAsync();
         }
 
-        private void RaiseTcpClientDisconnected(object sender)
+        private void RaiseTcpClientDisconnected(object sender, EventArgs e)
         {
             IsTcpClientConnected = false;
 
@@ -122,9 +122,9 @@ namespace AdamStudio.Services
             mWebSocketClientService.DisconnectAsync();
         }
 
-        private void RaiseServiceTcpClientReconnected(object sender, int reconnectCount)
+        private void RaiseServiceTcpClientReconnected(object sender, TcpClientReconnectedEventArgs e)
         {
-            OnRaiseTcpServiceClientReconnectedEvent(reconnectCount);
+            OnRaiseTcpServiceClientReconnectedEvent(e.ReconnectCount);
         }
 
         private void RaiseUdpClientMessageEnqueueEvent(object sender, ReceivedData data)

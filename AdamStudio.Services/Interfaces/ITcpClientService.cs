@@ -3,24 +3,13 @@ using System.Net.Sockets;
 
 namespace AdamStudio.Services.Interfaces
 {
-
-    public delegate void TcpCientConnectedEventHandler(object sender);
-    public delegate void TcpCientSentEventHandler(object sender, long sent, long pending);
-    public delegate void TcpClientDisconnectEventHandler(object sender);
-    public delegate void TcpClientErrorEventHandler(object sender, SocketError error);
-    public delegate void TcpClientReceivedEventHandler(object sender, byte[] buffer, long offset, long size);
-    public delegate void TcpClientReconnectedEventHandler(object sender, int reconnectCount);
-
     public interface ITcpClientService : IDisposable
     {
-        
-
-        public event TcpCientConnectedEventHandler RaiseTcpCientConnectedEvent;
-        public event TcpCientSentEventHandler RaiseTcpCientSentEvent;
-        public event TcpClientDisconnectEventHandler RaiseTcpClientDisconnectedEvent;
-        public event TcpClientErrorEventHandler RaiseTcpClientErrorEvent;
-        public event TcpClientReceivedEventHandler RaiseTcpClientReceivedEvent;
-        public event TcpClientReconnectedEventHandler RaiseTcpClientReconnectedEvent;
+        public event EventHandler RaiseTcpCientConnectedEvent;
+        public event EventHandler RaiseTcpClientDisconnectedEvent;
+        public event EventHandler<TcpClientErrorEventArgs> RaiseTcpClientErrorEvent;
+        public event EventHandler<TcpClientReceivedEventArgs> RaiseTcpClientReceivedEvent;
+        public event EventHandler<TcpClientReconnectedEventArgs> RaiseTcpClientReconnectedEvent;
 
         /// <summary>
         /// The number of reconnections when the connection is lost
