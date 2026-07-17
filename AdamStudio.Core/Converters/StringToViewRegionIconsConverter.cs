@@ -22,7 +22,7 @@ namespace AdamStudio.Core.Converters
             if (stringValue == ViewNames.ScratchView)
                 return PackIconFeatherIconsKind.Settings;
 
-            return PackIconSimpleIconsKind.AbbRobotStudio;
+            return PackIconSimpleIconsKind.Abbott; // AbbRobotStudio;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
