@@ -50,7 +50,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--
+      AdamStudio.Core: converters, constants, syslog parser, MVVM bases.
+      AdamStudio.Services: WebMessageJsonReceived DTO, TCP/UDP service
+      interfaces (for mock-based tests of ViewModels in the future).
+    -->
     <ProjectReference Include="..\AdamStudio.Core\AdamStudio.Core.csproj" />
+    <ProjectReference Include="..\AdamStudio.Services\AdamStudio.Services.csproj" />
   </ItemGroup>
 
 </Project>
