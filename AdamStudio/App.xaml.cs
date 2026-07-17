@@ -26,11 +26,6 @@ using MahApps.Metro.Controls;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
-using Serilog.Extensions.Logging;
 
 using AdamStudio.Controls.CustomControls.RegionAdapters;
 using AdamStudio.Modules.ContentRegion;
@@ -44,6 +39,7 @@ using AdamStudio.Views;
 using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Services;
 using AdamStudio.Core;
+using AdamStudio.Extensions;
 using Bluegrams.Application;
 using Prism.Navigation.Regions;
 
@@ -72,60 +68,8 @@ namespace AdamStudio
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IServiceSettings, DefaultServiceSettings>();
-            containerRegistry.RegisterSingleton<ILogWriteEventAwareService, LogWriteEventAwareService>();
-            containerRegistry.RegisterSingleton<IFlyoutStateChecker, FlyoutStateChecker>();
-            containerRegistry.RegisterSingleton<ICultureProvider, CultureProvider>();
-            containerRegistry.RegisterSingleton<IFileManagmentService, FileManagmentService>();
-            containerRegistry.RegisterSingleton<IFolderManagmentService, FolderManagmentService>();
-            containerRegistry.RegisterSingleton<IAvalonEditService, AvalonEditService>();
-            containerRegistry.RegisterSingleton<IWebViewProvider, WebViewProvider>();
-            containerRegistry.RegisterSingleton<IRegionChangeAwareService, RegionChangeAwareService>();
-            containerRegistry.RegisterSingleton<IStatusBarNotificationDeliveryService, StatusBarNotificationDeliveryService>();
-            containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
-            containerRegistry.RegisterSingleton<ITcpClientService, TcpClientService>();
-            containerRegistry.RegisterSingleton<IUdpClientService, UdpClientService>();
-            containerRegistry.RegisterSingleton<IUdpServerService, UdpServerService>();
-            containerRegistry.RegisterSingleton<IWebSocketClientService, WebSocketClientService>();
-            containerRegistry.RegisterSingleton<IWebApiService, WebApiService>();
-            containerRegistry.RegisterSingleton<ICommunicationProviderService, CommunicationProviderService>();
-            containerRegistry.RegisterSingleton<IPythonRemoteRunnerService, PythonRemoteRunnerService>();
-            containerRegistry.RegisterSingleton<IThemeManagerService, ThemeManagerService>();
-            containerRegistry.RegisterSingleton<IControlHelperService, ControlHelperService>();
-            containerRegistry.RegisterSingleton<IVideoViewProvider, VideoViewProvider>();
-            containerRegistry.RegisterSingleton<ITcpPythonStreamServerService, TcpPythonStreamServerService>();
-            containerRegistry.RegisterSingleton<IFindRobotClientService, FindRobotClientService>();
-
-            RegisterDialogs(containerRegistry);
-            RegisterService(containerRegistry);
+            containerRegistry.AddAdamStudioServices(Container);
             RegisterAvalonHighlightingDefinition();
-        }
-
-        private void RegisterService(IContainerRegistry containerRegistry)
-        {
-            ILogWriteEventAwareService logWriteEventAware = Container.Resolve<ILogWriteEventAwareService>();
-
-            Logger mainLogger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .WriteTo.DelegatingTextSink(writeAction => logWriteEventAware.WriteToBuffer(writeAction),
-                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .WriteTo.File("logs/log-.txt",
-                        rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10,
-                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
-                .CreateLogger();
-
-            var loggerFactory = new SerilogLoggerFactory(mainLogger, dispose: true);
-            containerRegistry.RegisterInstance<ILoggerFactory>(loggerFactory);
-            containerRegistry.RegisterSingleton(typeof(ILogger<>), typeof(Logger<>));
-        }
-
-        private static void RegisterDialogs(IContainerRegistry containerRegistry)
-        {
-            // used for call system dialog for open save/open/select file/folder (Microsoft.Win32 dialogs)
-            containerRegistry.RegisterSingleton<ISystemDialogService, SystemDialogService>();
-
-            //Dialog boxes are not used, but implemented
-            //containerRegistry.RegisterDialog<SettingsView, SettingsViewModel>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)

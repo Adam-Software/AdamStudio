@@ -197,17 +197,26 @@ registrations happen in `RegisterTypes(IContainerRegistry)`.
 
 ### 3.2 Registration style
 
-All registrations are **inline** in `App.RegisterTypes`. No
-extension methods on `IContainerRegistry` are used. Services use
-`RegisterSingleton` or factory delegates:
+Service registrations are grouped into extension methods on
+`IContainerRegistry` by functional area. The extension methods live
+in `AdamStudio/Extensions/ServiceRegistrationExtensions.cs` and are
+called from `App.RegisterTypes`:
 
 ```csharp
-containerRegistry.RegisterSingleton<IFlyoutManager, FlyoutManager>();
-containerRegistry.RegisterSingleton<IWebViewProvider, WebViewProvider>();
-
-containerRegistry.RegisterSingleton<IAvalonEditService>(
-    containerRegistry => new AvalonEditService(...));
+protected override void RegisterTypes(IContainerRegistry containerRegistry)
+{
+    containerRegistry.AddAdamStudioServices(Container);
+    RegisterAvalonHighlightingDefinition();
+}
 ```
+
+The `AddAdamStudioServices` extension composes individual area
+extensions (`AddCoreServices`, `AddCommunicationServices`,
+`AddFlyoutServices`, `AddEditorServices`, `AddThemeServices`,
+`AddStatusServices`, `AddDialogServices`, `AddLogging`) in the
+correct dependency order. To add a new service, find the relevant
+area extension and add a `RegisterSingleton` line there — do not
+add registrations directly to `App.RegisterTypes`.
 
 ### 3.3 Lifetimes
 
