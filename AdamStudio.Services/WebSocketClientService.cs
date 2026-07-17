@@ -9,9 +9,9 @@ namespace AdamStudio.Services
     public class WebSocketClientService : IWebSocketClientService
     {
 
-        public event WebSocketClientReceivedEventHandler RaiseWebSocketClientReceivedEvent;
-        public event WebSocketConnectedEventHandler RaiseWebSocketConnectedEvent;
-        public event WebSocketClientDisconnectEventHandler RaiseWebSocketClientDisconnectEvent;
+        public event EventHandler<WebSocketClientReceivedEventArgs> RaiseWebSocketClientReceivedEvent;
+        public event EventHandler RaiseWebSocketConnectedEvent;
+        public event EventHandler RaiseWebSocketClientDisconnectEvent;
 
         private readonly WebsocketClient mWebsocketClient;
 
@@ -77,20 +77,17 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseWebSocketClientReceivedEvent(string text)
         {
-            WebSocketClientReceivedEventHandler raiseEvent = RaiseWebSocketClientReceivedEvent;
-            raiseEvent?.Invoke(this, text);
+            RaiseWebSocketClientReceivedEvent?.Invoke(this, new WebSocketClientReceivedEventArgs { Text = text });
         }
 
         protected virtual void OnRaiseWebSocketConnectedEvent()
         {
-            WebSocketConnectedEventHandler raiseEvent = RaiseWebSocketConnectedEvent;
-            raiseEvent?.Invoke(this);
+            RaiseWebSocketConnectedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnRaiseWebSocketClientDisconnectEvent()
         {
-            WebSocketClientDisconnectEventHandler raiseEvent = RaiseWebSocketClientDisconnectEvent;
-            raiseEvent?.Invoke(this);
+            RaiseWebSocketClientDisconnectEvent?.Invoke(this, EventArgs.Empty);
         }
 
     }
