@@ -283,17 +283,33 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
         private async void RaiseTcpCientConnectedEvent(object sender)
         {
-            _ = await mWebApiService.StopPythonExecute();
+            // This method is an async void event handler. Any unhandled exception
+            // here would crash the entire process (async void propagates exceptions
+            // to the SynchronizationContext, which for WPF terminates the app).
+            // Wrap the entire body in try/catch so a missing or unreachable WebApi
+            // server degrades gracefully instead of killing the app.
+            try
+            {
+                _ = await mWebApiService.StopPythonExecute();
 
-            var pythonVersionResult = await mWebApiService.GetPythonVersion();
-            var pythonBinPathResult = await mWebApiService.GetPythonBinDir();
-            var pythonWorkDirResult = await mWebApiService.GetPythonWorkDir();
+                var pythonVersionResult = await mWebApiService.GetPythonVersion();
+                var pythonBinPathResult = await mWebApiService.GetPythonBinDir();
+                var pythonWorkDirResult = await mWebApiService.GetPythonWorkDir();
 
-            string pythonVersion = pythonVersionResult?.StandardOutput?.Replace("\n", "");
-            string pythonBinPath = pythonBinPathResult?.StandardOutput?.Replace("\n", "");
-            string pythonWorkDir = pythonWorkDirResult?.StandardOutput?.Replace("\n", "");
+                string pythonVersion = pythonVersionResult?.StandardOutput?.Replace("\n", "");
+                string pythonBinPath = pythonBinPathResult?.StandardOutput?.Replace("\n", "");
+                string pythonWorkDir = pythonWorkDirResult?.StandardOutput?.Replace("\n", "");
 
-            UpdatePythonInfo(pythonVersion, pythonBinPath, pythonWorkDir);
+                UpdatePythonInfo(pythonVersion, pythonBinPath, pythonWorkDir);
+            }
+            catch (Exception ex)
+            {
+                mLogger.LogError(ex,
+                    "WebApi request failed in RaiseTcpCientConnectedEvent. " +
+                    "The Adam-Servers WebApi is likely unreachable. " +
+                    "Python info will not be loaded.");
+                ApplicationLogs += $"WebApi unavailable: {ex.GetType().Name}: {ex.Message}\n";
+            }
         }
 
         private void RaiseTcpClientDisconnectedEvent(object sender, bool isUserRequest)
