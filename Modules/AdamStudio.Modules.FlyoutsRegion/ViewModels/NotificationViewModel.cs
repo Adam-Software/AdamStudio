@@ -199,7 +199,7 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             UpdateStatusConnection(false, isDisconnectByUserRequest:isUserRequest); 
         }
 
-        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender)
+        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender, EventArgs e)
         {
             LoadResources();
         }

@@ -242,7 +242,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             ApplicationLogs += $"{message}\n";
         }
 
-        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender)
+        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender, EventArgs e)
         {
             LoadResources();
         }
@@ -298,7 +298,7 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             }
         }
 
-        private void IsNotificationFlyoutOpenedStateChangeEvent(object sender)
+        private void IsNotificationFlyoutOpenedStateChangeEvent(object sender, EventArgs e)
         {
             if (mFlyoutStateChecker.IsFlyoutsOpened)
             {

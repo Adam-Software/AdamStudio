@@ -665,12 +665,12 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
            IsPythonCodeExecute = false;
         }*/
 
-        private void OnRaiseIsVideoShowChangeEvent(object sender)
+        private void OnRaiseIsVideoShowChangeEvent(object sender, EventArgs e)
         {
             UpdateIsShowVideo(mControlHelper.IsShowVideo);
         }
 
-        private void RaiseFrameRateUpdateEvent(object sender)
+        private void RaiseFrameRateUpdateEvent(object sender, EventArgs e)
         {
             double rate = double.Round(mVideoViewProvider.FrameRate, 2);
 

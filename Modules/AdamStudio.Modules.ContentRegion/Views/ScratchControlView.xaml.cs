@@ -90,7 +90,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
             
         }
 
-        private void RaiseBlocklyColumnWidthChangeEvent(object sender)
+        private void RaiseBlocklyColumnWidthChangeEvent(object sender, EventArgs e)
         {
             double doubleWidth = mControlHelper.BlocklyColumnWidth;
             GridLength width = new(doubleWidth);

@@ -1,16 +1,17 @@
 ﻿using AdamStudio.Services.Interfaces;
 using Prism.Mvvm;
+using System;
 
 namespace AdamStudio.Services
 {
     public class RegionChangeAwareService : BindableBase, IRegionChangeAwareService
     {
-
-        public event RegionChangeEventHandler RaiseRegionChangeEvent;
+        public event EventHandler RaiseRegionChangeEvent;
 
         public RegionChangeAwareService() { }
 
         private string regionNavigationRequestName;
+
         public string RegionNavigationTargetName
         {
             get { return regionNavigationRequestName; }
@@ -27,8 +28,8 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseRegionChangeEvent()
         {
-            RegionChangeEventHandler raiseEvent = RaiseRegionChangeEvent;
-            raiseEvent?.Invoke(this);
+            
+            RaiseRegionChangeEvent?.Invoke(this, EventArgs.Empty);
         }
 
     }

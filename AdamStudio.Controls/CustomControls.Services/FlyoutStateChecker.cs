@@ -2,7 +2,7 @@
 {
     public class FlyoutStateChecker : IFlyoutStateChecker
     {
-        public event IsFlyoutsOpenedStateChangeEventHandler IsFlyoutsOpenedStateChangeEvent;
+        public event EventHandler IsFlyoutsOpenedStateChangeEvent;
 
         private bool isNotificationFlyoutOpened;
         public bool IsFlyoutsOpened 
@@ -20,8 +20,7 @@
 
         protected void OnNotificationFlyoutOpenedStateChangeEvent()
         {
-            IsFlyoutsOpenedStateChangeEventHandler raiseEvent = IsFlyoutsOpenedStateChangeEvent;
-            raiseEvent?.Invoke(this);
+            IsFlyoutsOpenedStateChangeEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 }

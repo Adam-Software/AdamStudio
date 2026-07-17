@@ -264,12 +264,12 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             BadgeCounter = counter;
         }
 
-        private void IsOpenedStateChangeEvent(object sender)
+        private void IsOpenedStateChangeEvent(object sender, EventArgs e)
         {
             OpenNotificationPanelDelegateCommand.RaiseCanExecuteChanged();
         }
 
-        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender)
+        private void RaiseCurrentAppCultureLoadOrChangeEvent(object sender, EventArgs e)
         {
             LoadResource();
             UpdateStatusConnectToolbar();

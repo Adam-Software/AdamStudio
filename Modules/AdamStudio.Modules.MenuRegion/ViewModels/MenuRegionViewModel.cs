@@ -87,7 +87,7 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             mRegionChangeAware.RaiseRegionChangeEvent -= RaiseSubRegionChangeEvent;
         }
 
-        private void RaiseSubRegionChangeEvent(object sender)
+        private void RaiseSubRegionChangeEvent(object sender, EventArgs e)
         {
             ChangeCheckedMenuItem(mRegionChangeAware.RegionNavigationTargetName);
         }

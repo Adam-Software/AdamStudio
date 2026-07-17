@@ -8,8 +8,8 @@ namespace AdamStudio.Services
 {
     public class ControlHelperService : BindableBase, IControlHelperService
     {
-        public event BlocklyColumnWidthChangeEventHandler RaiseBlocklyColumnWidthChangeEvent;
-        public event IsVideoShowChangeEventHandler IsVideoShowChangeEvent;
+        public event EventHandler RaiseBlocklyColumnWidthChangeEvent;
+        public event EventHandler IsVideoShowChangeEvent;
 
         public ControlHelperService(IServiceProvider serviceProvider)
         {
@@ -53,7 +53,7 @@ namespace AdamStudio.Services
 
         private BlocklyViewMode currentBlocklyViewMode;
 
-        public BlocklyViewMode CurrentBlocklyViewMode 
+        public BlocklyViewMode CurrentBlocklyViewMode
         {
             get => currentBlocklyViewMode;
             set
@@ -66,16 +66,19 @@ namespace AdamStudio.Services
         }
 
         private bool isShowVideo;
-        public bool IsShowVideo 
-        { 
-            get =>  isShowVideo;  
-            set 
+
+       
+
+        public bool IsShowVideo
+        {
+            get =>  isShowVideo;
+            set
             {
                 bool isNewValue = SetProperty(ref isShowVideo, value);
 
                 if (isNewValue)
                     OnRaiseIsVideoShowChangeEvent();
-            } 
+            }
         }
 
         private void UpdateBlocklyColumnWidth()
@@ -119,14 +122,14 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseBlocklyColumnWidthChangeEvent()
         {
-            BlocklyColumnWidthChangeEventHandler raiseEvent = RaiseBlocklyColumnWidthChangeEvent;
-            raiseEvent?.Invoke(this);
+            
+            RaiseBlocklyColumnWidthChangeEvent?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnRaiseIsVideoShowChangeEvent()
         {
-            IsVideoShowChangeEventHandler raiseEvent = IsVideoShowChangeEvent;
-            raiseEvent?.Invoke(this);
+            
+            IsVideoShowChangeEvent?.Invoke(this, EventArgs.Empty);
 
         }
     }

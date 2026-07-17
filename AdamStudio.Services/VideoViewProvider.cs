@@ -1,13 +1,12 @@
 ﻿using AdamStudio.Services.Interfaces;
 using Prism.Mvvm;
+using System;
 
 namespace AdamStudio.Services
 {
     public class VideoViewProvider : BindableBase, IVideoViewProvider
     {
-
-        public event FrameRateUpdateEventHandler RaiseFrameRateUpdateEvent;
-
+        public event EventHandler RaiseFrameRateUpdateEvent;
         private double frameRate = double.NaN;
 
         // set frame rate in view, get frame rate in view model
@@ -25,8 +24,8 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseFrameRateUpdateEvent()
         {
-            FrameRateUpdateEventHandler raiseEvent = RaiseFrameRateUpdateEvent;
-            raiseEvent?.Invoke(this);
+            
+            RaiseFrameRateUpdateEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public void ClearFrameRate()

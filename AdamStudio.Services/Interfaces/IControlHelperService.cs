@@ -4,16 +4,14 @@ using System;
 namespace AdamStudio.Services
 {
 
-    public delegate void BlocklyColumnWidthChangeEventHandler(object sender);
 
-    public delegate void IsVideoShowChangeEventHandler(object sender);
 
     public interface IControlHelperService : IDisposable
     {
 
-        public event BlocklyColumnWidthChangeEventHandler RaiseBlocklyColumnWidthChangeEvent;
+        public event EventHandler RaiseBlocklyColumnWidthChangeEvent;
 
-        public event IsVideoShowChangeEventHandler IsVideoShowChangeEvent;
+        public event EventHandler IsVideoShowChangeEvent;
 
         public double MainGridActualWidth { get; set; }
         public double BlocklyColumnActualWidth { get; set; }

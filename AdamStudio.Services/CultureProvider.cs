@@ -11,8 +11,7 @@ namespace AdamStudio.Services
 {
     public class CultureProvider : BindableBase, ICultureProvider
     {
-
-        public event CurrentAppCultureLoadOrChangeEventHandler RaiseCurrentAppCultureLoadOrChangeEvent;
+        public event EventHandler RaiseCurrentAppCultureLoadOrChangeEvent;
 
         private const string cEnString = "en-EN";
         private const string cRuString = "ru-RU";
@@ -24,6 +23,7 @@ namespace AdamStudio.Services
         public List<CultureInfo> SupportAppCultures { get { return GetSupportAppCultures(); } }
 
         private CultureInfo currentAppCulture;
+
         public CultureInfo CurrentAppCulture 
         {  
             get => currentAppCulture;
@@ -103,8 +103,8 @@ namespace AdamStudio.Services
 
         protected virtual void OnRaiseCurrentAppCultureLoadOrChangeEvent()
         {
-            CurrentAppCultureLoadOrChangeEventHandler raiseEvent = RaiseCurrentAppCultureLoadOrChangeEvent;
-            raiseEvent?.Invoke(this);
+            
+            RaiseCurrentAppCultureLoadOrChangeEvent?.Invoke(this, EventArgs.Empty);
         }
 
     }
