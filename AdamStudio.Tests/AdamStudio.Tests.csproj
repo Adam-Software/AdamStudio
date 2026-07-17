@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AdamStudio.Tests — xUnit test project.
+
+  References AdamStudio.Core for unit tests of pure logic
+  (converters, constants, helpers). Does not reference the WPF shell
+  or modules — those require a full DI container and UI thread and
+  are covered by integration tests (future).
+
+  Run:  dotnet test
+  Coverage:  dotnet test collect:"XPlat Code Coverage"
+
+  Tier 2 of roadmap.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+      Target framework matches the solution (net10.0-windows7.0 from
+      Directory.Build.props). UseWPF=true because the tested types
+      depend on System.Windows.Data (IValueConverter) and
+      System.Windows.Controls (PackIcon types from MahApps.IconPacks).
+    -->
+    <UseWPF>true</UseWPF>
+
+    <!-- Test SDK settings -->
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <GenerateProgramFile>true</GenerateProgramFile>
+
+    <!--
+      Nullable enabled — tests are new code and should follow the
+      Tier 4 nullable rollout target even before the main projects do.
+    -->
+    <Nullable>enable</Nullable>
+
+    <!--
+      ImplicitUsings disabled — matches the solution-wide setting
+      (see Directory.Build.props and docs/coding-guidelines.md).
+    -->
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdamStudio.Core\AdamStudio.Core.csproj" />
+  </ItemGroup>
+
+</Project>
