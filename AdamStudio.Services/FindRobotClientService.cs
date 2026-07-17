@@ -15,37 +15,20 @@ namespace AdamStudio.Services
 {
     public class FindRobotClientService : IFindRobotClientService
     {
-        #region Sevices
 
         private readonly ILogger<FindRobotClientService> mLogger;
-
-        #endregion
-
-        #region Var
 
         private readonly IPAddress[] mLocalIps = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         private readonly UdpClient mClient = new(new IPEndPoint(IPAddress.Any, 12000));
         private readonly byte[] mSendBuffer = Encoding.UTF8.GetBytes("ping");
 
-        #endregion
-
-        #region Events
-
         public event FindStartedEventHandler RaiseFindStartedEvent;
         public event FindEndedEventHandler RaiseFindEndedEvent;
-
-        #endregion
-
-        #region ~
 
         public FindRobotClientService(IServiceProvider serviceProvider) 
         {
             mLogger = serviceProvider.GetService<ILogger<FindRobotClientService>>();
         }
-
-        #endregion
-
-        #region Public methods
 
         public async void SendBroadcastPing(bool useLocalServer)
         {
@@ -71,17 +54,9 @@ namespace AdamStudio.Services
             OnRaiseFindEndedEvent(FindAdresses);
         }
 
-        #endregion
-
-        #region Public fields
-
         public List<IpAddressInfo> FindAdresses { get; } = [];
 
         List<IPAddress> IFindRobotClientService.FindAdresses => throw new NotImplementedException();
-
-        #endregion
-
-        #region PrivateMethods
 
         private void ResultParser(Task<UdpReceiveResult> receiveResult, bool useLocalServer)
         {
@@ -151,10 +126,6 @@ namespace AdamStudio.Services
             return new IPAddress(BitConverter.GetBytes(broadCastIpAddress));
         }
 
-        #endregion
-
-        #region OnRaise events
-
         protected virtual void OnRaiseFindStartedEvent()
         {
             FindStartedEventHandler raiseEvent = RaiseFindStartedEvent;
@@ -167,6 +138,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this, findIpAddresses);
         }
 
-        #endregion
     }
 }

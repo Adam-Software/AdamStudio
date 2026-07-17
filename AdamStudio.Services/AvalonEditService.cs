@@ -9,14 +9,9 @@ namespace AdamStudio.Services
 {
     public class AvalonEditService : IAvalonEditService
     {
-        #region Var
 
         private readonly IFileManagmentService mFileManagmentService;
         private readonly HighlightingManager mHighlightingManager;
-
-        #endregion
-
-        #region ~
 
         public AvalonEditService(IServiceProvider serviceProvider)
         {    
@@ -24,18 +19,10 @@ namespace AdamStudio.Services
             mHighlightingManager = HighlightingManager.Instance;
         }
 
-        #endregion
-
-        #region Public field
-
         public ReadOnlyCollection<IHighlightingDefinition> HighlightingDefinitions
         {
             get => mHighlightingManager.HighlightingDefinitions;
         }
-
-        #endregion
-
-        #region Public methods
 
         public void RegisterHighlighting(string highlightingName, byte[] xmlByteArray)
         {
@@ -55,8 +42,6 @@ namespace AdamStudio.Services
         {
             
         }
-
-        #endregion
 
     }
 }

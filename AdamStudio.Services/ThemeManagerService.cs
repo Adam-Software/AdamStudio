@@ -10,7 +10,6 @@ namespace AdamStudio.Services
         private readonly Application mCurrentApplication;
         private readonly ThemeManager mCurrentThemeManager;
         
-        #region ~
 
         public ThemeManagerService() 
         {
@@ -19,15 +18,7 @@ namespace AdamStudio.Services
             AppThemesCollection = mCurrentThemeManager.Themes;
         }
 
-        #endregion
-
-        #region Public filelds
-
         public ReadOnlyObservableCollection<Theme> AppThemesCollection {  get; private set; }
-
-        #endregion
-
-        #region Public methods
 
         public Theme ChangeAppTheme(string themeName) 
         {
@@ -56,6 +47,5 @@ namespace AdamStudio.Services
             
         }
 
-        #endregion
     }
 }

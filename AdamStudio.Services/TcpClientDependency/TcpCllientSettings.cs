@@ -1,5 +1,4 @@
-﻿
-namespace AdamStudio.Services.TcpClientDependency
+﻿namespace AdamStudio.Services.TcpClientDependency
 {
     public class TcpCllientSettings
     {
@@ -13,7 +12,6 @@ namespace AdamStudio.Services.TcpClientDependency
         public string Ip { get; }
         public int Port { get; }
         public TcpClientOption Option { get; }
-
 
     }
 }

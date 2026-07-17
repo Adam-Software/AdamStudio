@@ -19,7 +19,6 @@
     <UserControl.Resources>
         <converters:GridLengthConverter x:Key="GridLengthConverter" />
 
-        <!--#region ResultsTemplate-->
 
         <ControlTemplate TargetType="ContentControl" x:Key="ResultsTemplate">
 
@@ -109,9 +108,7 @@
             </DockPanel>
         </ControlTemplate>
         
-        <!--#endregion-->
         
-        <!--#region LogsTemplate-->
 
         <ControlTemplate TargetType="ContentControl" x:Key="LogsTemplate">
             <DockPanel LastChildFill="True">
@@ -183,7 +180,6 @@
             </DockPanel>
         </ControlTemplate>
 
-        <!--#endregion-->
 
     </UserControl.Resources>
 

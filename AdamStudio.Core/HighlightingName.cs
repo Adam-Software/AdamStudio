@@ -1,5 +1,4 @@
-﻿
-using AdamStudio.Core.Properties;
+﻿using AdamStudio.Core.Properties;
 
 namespace AdamStudio.Core
 {

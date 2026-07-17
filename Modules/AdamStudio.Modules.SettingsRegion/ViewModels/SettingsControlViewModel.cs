@@ -17,16 +17,11 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
 {
     public class SettingsControlViewModel : RegionViewModelBase
     {
-        #region DelegateCommands
 
         public DelegateCommand ChangeSpacingToggleSwitchDelegateCommand { get; }
         public DelegateCommand OpenPortSettingsDelegateCommand { get; }
         public DelegateCommand OpenWebApiSettingsDelegateCommand { get; }
         public DelegateCommand OpenUserFolderSettingsDelegateCommand { get; }
-
-        #endregion
-
-        #region Services
 
         private readonly IFlyoutManager mFlyoutManager;
         private readonly IThemeManagerService mThemeManager;
@@ -34,16 +29,8 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
         private readonly IWebViewProvider mWebViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
 
-        #endregion
-
-        #region Const
-
         private const string cBaseColorAppThemeLightName = "Light";
         private const string cBaseColorAppDarkLightName = "Dark";
-
-        #endregion
-
-        #region ~
 
         public SettingsControlViewModel(IRegionManager regionManager, IFlyoutManager flyoutManager,
             IThemeManagerService themeManager, ICultureProvider cultureProvider, IWebViewProvider webViewProvider, IRegionChangeAwareService subRegionChangeAwareService) : base(regionManager)
@@ -59,10 +46,6 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
             OpenWebApiSettingsDelegateCommand = new DelegateCommand(OpenWebApiSettings, OpenWebApiSettingsCanExecute);
             OpenUserFolderSettingsDelegateCommand = new DelegateCommand(OpenUserFolderSettings, OpenUserFolderSettingsCanExecute);
         }
-
-        #endregion
-
-        #region  DelegateCommand methods
 
         private void ChangeSpacingToggleSwitch()
         {
@@ -104,10 +87,6 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
             return true;
         }
 
-        #endregion
-
-        #region Navigation
-
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             base.ConfirmNavigationRequest(navigationContext, continuationCallback);
@@ -130,10 +109,6 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
         {
             base.Destroy();
         }
-
-        #endregion
-
-        #region Public fields
 
         private List<CultureInfo> languageApp;
         public List<CultureInfo> LanguageApp
@@ -180,10 +155,6 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
                 }
             }
         }
-
-        #endregion
-
-        #region Private methods
 
         private void ChangeTheme(Theme theme)
         {
@@ -232,6 +203,5 @@ namespace AdamStudio.Modules.SettingsRegion.ViewModels
             }
         }
 
-        #endregion
     }
 }

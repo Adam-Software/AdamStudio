@@ -10,7 +10,6 @@ namespace AdamStudio.Services
 {
     public class CommunicationProviderService : ICommunicationProviderService
     {
-        #region Events
 
         public event TcpServiceCientConnectedEventHandler RaiseTcpServiceCientConnectedEvent;
         public event TcpServiceClientDisconnectEventHandler RaiseTcpServiceClientDisconnectEvent;
@@ -18,24 +17,12 @@ namespace AdamStudio.Services
         public event UdpServiceServerReceivedEventHandler RaiseUdpServiceServerReceivedEvent;
         public event UdpServiceClientMessageEnqueueEvent RaiseUdpServiceClientMessageEnqueueEvent;
 
-        #endregion
-
-        #region Services
-
         private readonly ITcpClientService mTcpClientService;
         private readonly IUdpClientService mUdpClientService;
         private readonly IUdpServerService mUdpServerService;
         private readonly IWebSocketClientService mWebSocketClientService;
 
-        #endregion
-
-        #region var
-
         private bool mIsDisconnectByUserRequest = false;
-
-        #endregion
-
-        #region ~
 
         public CommunicationProviderService(IServiceProvider serviceProvider)
         {
@@ -47,15 +34,7 @@ namespace AdamStudio.Services
             Subscribe();
         }
 
-        #endregion
-
-        #region Public fields
-
         public bool IsTcpClientConnected { get; private set; }
-
-        #endregion
-
-        #region Public methods
 
         public void ConnectAllAsync()
         {
@@ -101,10 +80,6 @@ namespace AdamStudio.Services
             mWebSocketClientService.Dispose();
         }
 
-        #endregion
-
-        #region Subscriptions
-
         private void Subscribe()
         {
             mTcpClientService.RaiseTcpClientReconnectedEvent += RaiseServiceTcpClientReconnected;
@@ -124,10 +99,6 @@ namespace AdamStudio.Services
             mUdpClientService.RaiseUdpClientMessageEnqueueEvent -= RaiseUdpClientMessageEnqueueEvent;
             mUdpServerService.RaiseUdpServerReceivedEvent -= RaiseServiceUdpServerReceived;
         }
-
-        #endregion
-
-        #region Event methods
 
         private void RaiseServiceTcpCientConnected(object sender)
         {
@@ -167,10 +138,6 @@ namespace AdamStudio.Services
             OnRaiseUdpServiceServerReceivedEvent(encodedMessage);
         }
 
-        #endregion
-
-        #region OnRaise events
-
         protected virtual void OnRaiseTcpServiceCientConnectedEvent()
         {
             TcpServiceCientConnectedEventHandler raiseEvent = RaiseTcpServiceCientConnectedEvent;
@@ -203,6 +170,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this, data);
         }
 
-        #endregion
     }
 }

@@ -19,15 +19,10 @@ namespace AdamStudio.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        #region DelegateCommands
 
         public DelegateCommand<string> MoveSplitterDelegateCommand { get; }
         public DelegateCommand SwitchToVideoDelegateCommand { get; }
         public DelegateCommand SwitchToSettingsViewDelegateCommand { get; }
-
-        #endregion
-
-        #region Services
 
         public IRegionChangeAwareService RegionChangeAwareService { get; }
         public IControlHelperService ControlHelper { get; }
@@ -40,10 +35,6 @@ namespace AdamStudio.ViewModels
         private readonly ICultureProvider mCultureProvider;
         private readonly IFlyoutManager mFlyoutManager;
         private readonly ITcpPythonStreamServerService mTcpPythonStreamServerService;
-
-        #endregion
-
-        #region ~
 
         public MainWindowViewModel(IServiceProvider serviceProvider) 
         {
@@ -63,7 +54,6 @@ namespace AdamStudio.ViewModels
             SwitchToSettingsViewDelegateCommand = new DelegateCommand(SwitchToSettingsView, SwitchToSettingsViewCanExecute);            
             Subscribe();
         }
-
 
         /*Test*/
         /*private void DeactivateView()
@@ -92,15 +82,7 @@ namespace AdamStudio.ViewModels
             } */           
         //}
 
-        #endregion
-
-        #region Public fields
-
         public string WindowTitle => $"{mFolderManagment.AssemblyTitle} {Assembly.GetExecutingAssembly().GetName().Version}";
-
-        #endregion
-
-        #region DelegateCommands methods
 
         private void MoveSplitter(string commandArg)
         {
@@ -174,10 +156,6 @@ namespace AdamStudio.ViewModels
             return true;
         }
 
-        #endregion
-
-        #region Private methods
-
         private void ShowView(string viewName)
         {
             mRegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
@@ -216,10 +194,6 @@ namespace AdamStudio.ViewModels
             mCultureProvider.ChangeAppCulture(lastLoadLanguage);
         }
 
-        #endregion
-
-        #region Subscriptions
-
         /// <summary>
         /// #20
         /// </summary>
@@ -229,9 +203,6 @@ namespace AdamStudio.ViewModels
             mTcpPythonStreamServerService.ExecuteAsync();
         }
 
-        #endregion
-
-        #region Event methods
       
         /// <summary>
         /// Load default region at startup
@@ -256,6 +227,5 @@ namespace AdamStudio.ViewModels
                 mCommunicationProviderService.ConnectAllAsync();
         }
 
-        #endregion
     }
 }

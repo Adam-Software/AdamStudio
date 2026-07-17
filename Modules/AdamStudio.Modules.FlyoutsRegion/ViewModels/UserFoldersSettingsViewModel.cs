@@ -13,36 +13,19 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
     public class UserFoldersSettingsViewModel : FlyoutBase
     {
-        #region DelegateCommands
 
         public DelegateCommand<string> ShowOpenFolderDialogDelegateCommand { get; private set; }
-
-        #endregion
-
-        #region Services
 
         private readonly IFolderManagmentService mFolderManagment;
         private readonly ICultureProvider mCultureProvider;
         private readonly ISystemDialogService mSystemDialogService;
         private readonly IFlyoutStateChecker mFlyoutState;
 
-        #endregion
-
-        #region Const
-
         private const string cDialogParamWorkspace = "workspace";
         private const string cDialogParamScript = "script";
 
-        #endregion
-
-        #region Var
-
         private string mTitleSelectWorkspaceDialog;
         private string mTitleSelectScriptDialog;
-
-        #endregion
-
-        #region ~
 
         public UserFoldersSettingsViewModel(IServiceProvider serviceProvider) 
         {
@@ -55,10 +38,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 
             BorderThickness = 1;
         }
-
-        #endregion
-
-        #region Navigation
 
         protected override void OnChanging(bool isOpening)
         {
@@ -76,10 +55,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
                 return;
             }
         }
-
-        #endregion
-
-        #region DelegateCommand methods
 
         private void ShowOpenFolderDialog(string commandParam)
         {
@@ -155,10 +130,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             }
         }
 
-
-        #endregion
-
-        #region Private methods
         private void LoadResource()
         {
             Header = mCultureProvider.FindResource("UserFoldersSettingsView.ViewModel.Flyout.Header");
@@ -166,6 +137,5 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             mTitleSelectScriptDialog = mCultureProvider.FindResource("UserFoldersSettingsView.ViewModel.TitleSelectScriptDialog");
         }
 
-        #endregion
     }
 }

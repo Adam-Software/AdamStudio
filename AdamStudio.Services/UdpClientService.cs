@@ -11,11 +11,7 @@ namespace AdamStudio.Services
     {
         public event UdpClientMessageEnqueueEventHandler RaiseUdpClientMessageEnqueueEvent;
 
-        #region Var
-
         private readonly QueueWithEvent<ReceivedData> mMessageQueue = new();
-
-        #endregion
 
         public UdpClientService(IServiceProvider serviceProvider) : base(serviceProvider.GetService<IServiceSettings>().UdpClientSettings.IpAddress, serviceProvider.GetService<IServiceSettings>().UdpClientSettings.Port)
         {
@@ -46,14 +42,11 @@ namespace AdamStudio.Services
             ReceiveAsync();
         }
 
-        #region OnRaiseEvents
-
         protected virtual void OnRaiseUdpClientMessageEnqueueEvent(ReceivedData data)
         {
             UdpClientMessageEnqueueEventHandler raiseEvent = RaiseUdpClientMessageEnqueueEvent;
             raiseEvent?.Invoke(this, data);
         }
 
-        #endregion
     }
 }

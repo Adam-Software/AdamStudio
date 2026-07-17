@@ -398,32 +398,41 @@ WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
 WebView.CoreWebView2.Navigate("https://localhost/index.html");
 ```
 
-## 9. #region organization
+## 9. Code organization (no #region)
 
-`#region` blocks are used consistently to organize class members.
-Standard region names (in order of appearance):
+`#region` / `#endregion` blocks are **not used**. They were removed in
+Tier 4 because they added visual noise without structural value —
+modern IDEs fold code by type (fields, properties, methods) without
+needing explicit region markers.
 
+Class members should be organized by convention (in order of
+appearance):
+
+1. Constants (`cPascalCase`)
+2. Private fields (`mPascalCase`, `sPascalCase` for static)
+3. Constructors
+4. Public properties
+5. Public methods
+6. Private methods
+7. Event handlers (OnRaise* methods)
+
+`using` directives are grouped by blank lines, not regions:
+
+```csharp
+using System;
+using System.IO;
+using System.Windows;
+
+using Prism.Ioc;
+using Prism.DryIoc;
+
+using AdamStudio.Services;
 ```
-#region DelegateCommands
-#region Services
-#region ~                    // constructor
-#region Public fields        // properties
-#region Private methods
-#region Subscriptions / Subscribes
-#region Event methods
-#region OnRaise events
-#region Navigation
-#region Const
-#region Var                  // private fields
-```
 
-Even `using` directives in `App.xaml.cs` are grouped in `#region`
-blocks by category (`system`, `prism`, `innerhit`).
-
-The one exception is the **structured logging region** (Tier 4
-target, see section 11): classes that adopt `LoggerMessage.Define`
-MUST use `#region Structured logging definitions (allocation-free)`
-at the end of the class.
+The one exception: when the structured logging migration (Tier 4 task
+#7, see section 11) lands, classes that adopt `LoggerMessage.Define`
+MUST use a single `#region Structured logging definitions (allocation-free)`
+at the end of the class. This is the only sanctioned use of `#region`.
 
 ## 10. Source control
 

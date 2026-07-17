@@ -37,7 +37,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!--#region  web view -->
             
         <DockPanel Grid.Column="0"
                    Grid.Row="0"
@@ -79,9 +78,7 @@
             
         </DockPanel>
         
-        <!--#endregion-->
 
-        <!-- #region video view -->
 
         <Grid Grid.Column="0"
               Grid.Row="0"
@@ -151,7 +148,6 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <!--#region row 0 -->
 
                     <Slider Grid.Column="4"
                             Grid.Row="0"
@@ -165,9 +161,7 @@
                             Style="{DynamicResource  MahApps.Styles.Slider.Flat}"/>
 
 
-                    <!--#endregion-->
 
-                    <!--#region row 1 -->
 
                     <Button Grid.Column="1"
                             Grid.Row="0"
@@ -251,9 +245,7 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <!--#endregion-->
 
-                    <!--#region row 2 -->
 
 
                     <Button Grid.Column="1"
@@ -282,9 +274,7 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <!--#endregion-->
 
-                    <!-- #region Row ZeroPosition -->
 
                     <Button Grid.Column="2"
                             Grid.Row="1"
@@ -329,9 +319,7 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <!--#endregion-->
 
-                    <!--#region row 3 -->
 
                     <Button Grid.Column="0"
                             Grid.Row="2"
@@ -358,7 +346,6 @@
                         </i:Interaction.Triggers>
                     </Button>
 
-                    <!--#endregion-->
 
                     <Button Grid.Column="1"
                             Grid.Row="2"
@@ -478,18 +465,14 @@
             </DockPanel>
         </Grid>
         
-        <!--#endregion-->
             
-        <!--#region vertical splitter -->
 
         <GridSplitter Grid.Column="1" 
                       Grid.Row="0" 
                       Width="1"
                       Background="{DynamicResource MahApps.Brushes.Text}"/>
 
-        <!--#endregion-->
 
-        <!--#region code editor -->
 
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
@@ -616,7 +599,6 @@
 
             </DockPanel>
 
-            <!--#endregion-->
 
         </Grid>
     

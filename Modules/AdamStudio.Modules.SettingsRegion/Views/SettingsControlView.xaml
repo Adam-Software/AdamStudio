@@ -17,7 +17,6 @@
         <ResourceDictionary>
             <converters:MultiConverter x:Key="MultiConverter"/>
 
-            <!-- #region Current control style -->
 
             <Style TargetType="GroupBox" BasedOn="{StaticResource MahApps.Styles.GroupBox}">
                 <Setter Property="mah:ControlsHelper.ContentCharacterCasing"  Value="Normal"/>
@@ -53,7 +52,6 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
-            <!--#endregion-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -66,7 +64,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!--#region Various settings -->
 
         <DockPanel Grid.Column="0" LastChildFill="False">
 
@@ -103,9 +100,7 @@
             </GroupBox>
         </DockPanel>
 
-        <!--#endregion-->
 
-        <!--#region  Scrath settings -->
 
         <DockPanel Margin="10 0 0 0" Grid.Column="1" LastChildFill="False">
 
@@ -123,7 +118,6 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--#region Show blocks -->
 
                     <DockPanel Grid.Column="0" 
                                Grid.Row="0"
@@ -175,9 +169,7 @@
 
                     </DockPanel>
 
-                    <!--#endregion-->
 
-                    <!--#region Button -->
 
                     <DockPanel  Grid.Column="1" 
                                     Grid.Row="0" 
@@ -262,9 +254,7 @@
                         </ToggleButton>
                     </DockPanel>
 
-                    <!--#endregion-->
 
-                    <!--#region ChangeSpacingSwitch -->
 
                     <DockPanel Grid.Column="0"
                                Grid.Row="1"
@@ -299,15 +289,12 @@
                         </mah:NumericUpDown>
                     </DockPanel>
 
-                    <!--#endregion-->
 
                 </Grid>
             </GroupBox>
         </DockPanel>
 
-        <!--#endregion-->
 
-        <!--#region Connect settings -->
 
         <DockPanel Width="280" Margin="10 0 0 0" Grid.Column="2" LastChildFill="False">
 
@@ -361,9 +348,7 @@
 
         </DockPanel>
 
-        <!--#endregion-->
 
-        <!--#region UserFolder settings -->
 
         <DockPanel Margin="10 0 0 0" Grid.Column="3" Width="220" LastChildFill="False">
 
@@ -388,7 +373,6 @@
 
         </DockPanel>
 
-        <!--#endregion-->
 
     </Grid>
 

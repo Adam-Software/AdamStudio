@@ -5,11 +5,8 @@ namespace AdamStudio.Services
 {
     public class VideoViewProvider : BindableBase, IVideoViewProvider
     {
-        #region Events
 
         public event FrameRateUpdateEventHandler RaiseFrameRateUpdateEvent;
-
-        #endregion
 
         private double frameRate = double.NaN;
 
@@ -26,8 +23,6 @@ namespace AdamStudio.Services
             }
         }
 
-        #region OnRaise events
-
         protected virtual void OnRaiseFrameRateUpdateEvent()
         {
             FrameRateUpdateEventHandler raiseEvent = RaiseFrameRateUpdateEvent;
@@ -43,8 +38,6 @@ namespace AdamStudio.Services
         {
             
         }
-
-        #endregion
 
     }
 }

@@ -1,27 +1,13 @@
-﻿#region system
-
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
-
-#endregion
-
-#region prism
 
 using Prism.Ioc;
 using Prism.DryIoc;
 using Prism.Modularity;
 using DryIoc;
 
-#endregion
-
-#region mahapps
-
 using MahApps.Metro.Controls;
-
-#endregion
-
-#region other
 
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -43,14 +29,10 @@ using AdamStudio.Extensions;
 using Bluegrams.Application;
 using Prism.Navigation.Regions;
 
-#endregion
-
 namespace AdamStudio
 {
     public partial class App : PrismApplication
     {
-
-        #region ~
 
         public App()
         {
@@ -58,8 +40,6 @@ namespace AdamStudio
             LoadSharedFFmpegLibrary();
             InitPortableSettings();
         }
-
-        #endregion
 
         protected override Window CreateShell()
         {
@@ -128,8 +108,6 @@ namespace AdamStudio
             Container.Resolve<ILogWriteEventAwareService>().Dispose();
         }
 
-        #region Subscribes
-
         private void Subscribe()
         {
             SubscribeUnhandledExceptionHandling();
@@ -141,18 +119,11 @@ namespace AdamStudio
             Settings.Default.PropertyChanged -= OnPropertyChange;
         }
 
-        #endregion
-
-        #region OnRaise event
         
         private void OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             Settings.Default.Save();
         }
-
-        #endregion
-
-        #region Intercepting Unhandled Exception
 
         private void SubscribeUnhandledExceptionHandling()
         {
@@ -209,10 +180,6 @@ namespace AdamStudio
             }
         }
 
-        #endregion
-
-        #region PrivateMethods
-
         private static void LoadSharedFFmpegLibrary()
         {
             // FFME expects the FFmpeg shared libraries (avcodec-*.dll, etc.)
@@ -250,6 +217,5 @@ namespace AdamStudio
             PortableSettingsProvider.ApplyProvider(Settings.Default);
         }
 
-        #endregion
     }
 }

@@ -6,7 +6,6 @@ namespace AdamStudio.Services.Interfaces
 {
     public interface IFileManagmentService : IDisposable
     {
-        #region Public methods
 
         public Task WriteAsync(string path, string file);
 
@@ -16,6 +15,5 @@ namespace AdamStudio.Services.Interfaces
 
         public XmlTextReader ReadTextAsXml(byte[] xml);
 
-        #endregion
     }
 }

@@ -11,20 +11,11 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
 {
     public class MenuRegionViewModel : RegionViewModelBase
     {
-        #region DelegateCommands
 
         public DelegateCommand CloseAppCommand { get; }    
         public DelegateCommand<string> ShowRegionCommand { get; }
 
-        #endregion
-
-        #region Services
-
         private readonly IRegionChangeAwareService mRegionChangeAware;
-
-        #endregion
-
-        #region ~
 
         public MenuRegionViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -33,10 +24,6 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             CloseAppCommand = new DelegateCommand(CloseApp);
             ShowRegionCommand = new DelegateCommand<string>(ShowRegion);
         }
-
-        #endregion
-
-        #region Navigation
 
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
@@ -50,15 +37,10 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             base.OnNavigatedTo(navigationContext);
         }
 
-
         public override void Destroy()
         {
             Unsubscribe();
         }
-
-        #endregion
-
-        #region Public fields
 
         private bool isCheckedScratchMenuItem;
         public bool IsCheckedScratchMenuItem
@@ -73,10 +55,6 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             get => isCheckedVisualSettingsMenuItem;
             set => SetProperty(ref isCheckedVisualSettingsMenuItem, value);
         }
-
-        #endregion
-
-        #region Private methods
 
         private void ChangeCheckedMenuItem(string selectedRegionName)
         {
@@ -99,10 +77,6 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             IsCheckedVisualSettingsMenuItem = false;
         }
 
-        #endregion
-
-        #region Subscription
-
         private void Subscribe()
         {
             mRegionChangeAware.RaiseRegionChangeEvent += RaiseSubRegionChangeEvent;
@@ -113,18 +87,10 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             mRegionChangeAware.RaiseRegionChangeEvent -= RaiseSubRegionChangeEvent;
         }
 
-        #endregion
-
-        #region Event methods
-
         private void RaiseSubRegionChangeEvent(object sender)
         {
             ChangeCheckedMenuItem(mRegionChangeAware.RegionNavigationTargetName);
         }
-
-        #endregion
-
-        #region Command methods
 
         private void ShowRegion(string regionName)
         {
@@ -136,6 +102,5 @@ namespace AdamStudio.Modules.MenuRegion.ViewModels
             Application.Current.Shutdown();
         }
 
-        #endregion
     }
 }

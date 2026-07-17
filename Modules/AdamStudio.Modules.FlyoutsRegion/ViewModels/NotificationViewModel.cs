@@ -12,24 +12,15 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
     public class NotificationViewModel : FlyoutBase
     {
-        #region DelegateCommands
 
         public DelegateCommand ConnectButtonDelegateCommand { get; private set;  }
         public DelegateCommand ReconnectNotificationButtonDelegateCommand { get; private set; }
         public DelegateCommand ResetNotificationsDelegateCommand { get; private set; }
 
-        #endregion
-
-        #region Services
-
         private readonly ICommunicationProviderService mCommunicationProvider;
         private readonly IStatusBarNotificationDeliveryService mStatusBarNotificationDeliveryService;
         private readonly IFlyoutStateChecker mFlyoutState;
         private readonly ICultureProvider mCultureProvider;
-
-        #endregion
-
-        #region Var
 
         private bool mIsDisconnectByUserRequest = false;
 
@@ -37,10 +28,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
         private string mConnectButtonStatusDisconnected;
         private string mConnectButtonStatusConnected;
         private string mConnectButtonStatusReconnected;
-
-        #endregion
-
-        #region ~
 
         public NotificationViewModel(IServiceProvider serviceProvider) 
         {
@@ -53,10 +40,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             ReconnectNotificationButtonDelegateCommand = new(ReconnectNotificationButton, ReconnectNotificationButtonCanExecute);
             ResetNotificationsDelegateCommand = new(ResetNotifications, ResetNotificationsCanExecute);
         }
-
-        #endregion
-
-        #region Navigation
 
         protected override void OnChanging(bool isOpening)
         {
@@ -87,10 +70,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
                 return;
             }
         }
-
-        #endregion
-
-        #region Public field
 
         private Visibility noNewNotificationMessageVisibility = Visibility.Visible;
         public Visibility NoNewNotificationMessageVisibility
@@ -131,10 +110,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             get => iconConnectButton;
             set => SetProperty(ref iconConnectButton, value);
         }
-
-        #endregion
-
-        #region Private methods
 
         private void LoadFlyoutParametrs()
         {
@@ -193,9 +168,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
         }
 
     
-        #endregion
-
-        #region Subscription
 
     
         private void Subscribe()
@@ -211,10 +183,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             mCommunicationProvider.RaiseTcpServiceClientReconnectedEvent -= OnRaiseTcpServiceClientReconnected;
             mCommunicationProvider.RaiseTcpServiceClientDisconnectEvent -= OnRaiseTcpServiceClientDisconnect;
         }
-
-        #endregion
-
-        #region Event methods
 
         private void OnRaiseTcpServiceCientConnected(object sender)
         {
@@ -235,11 +203,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
         {
             LoadResources();
         }
-
-
-        #endregion
-
-        #region DelegateCommands methods
 
         private void ConnectButton()
         {
@@ -287,10 +250,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             return true;
         }
 
-        #endregion
     }
-
-
-
 
 }

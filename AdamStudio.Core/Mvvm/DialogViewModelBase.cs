@@ -1,5 +1,4 @@
-﻿
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Dialogs;
 using Prism.Mvvm;
 
@@ -9,16 +8,10 @@ namespace AdamStudio.Core.Mvvm
     {
         public string Title { get; protected set; } = "DefaultTitle";
 
-        #region Command
-
         private DelegateCommand<string> mCloseDialogCommand;
         public DelegateCommand<string> CloseDialogCommand => mCloseDialogCommand ??= new DelegateCommand<string>(CloseDialog);
 
         public DialogCloseListener RequestClose { get; private set; }
-
-        #endregion
-
-        #region Navigation
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
@@ -51,8 +44,6 @@ namespace AdamStudio.Core.Mvvm
 
             RaiseRequestClose(new DialogResult(result));
         }
-
-        #endregion
 
     }
 }

@@ -11,7 +11,6 @@ using Tcp.NET.Server;
 using Tcp.NET.Server.Events.Args;
 using Tcp.NET.Server.Models;
 
-
 namespace AdamStudio.Services
 {
     public class TcpPythonStreamServerService : ITcpPythonStreamServerService
@@ -23,8 +22,6 @@ namespace AdamStudio.Services
         public event ClientDisconnectedEventHandler RaiseClientDisconnectedEvent;
         public event ClientDataReceivedEventHandler RaiseClientDataReceivedEvent;
 
-        #region ~
-
         public TcpPythonStreamServerService(IServiceProvider serviceProvider) 
         { 
             mLoggerService = serviceProvider.GetService<ILogger<TcpPythonStreamServerService>>();
@@ -35,10 +32,6 @@ namespace AdamStudio.Services
 
             mLoggerService.LogInformation("Load ~");
         }
-
-        #endregion
-
-        #region Subscribe/Unsubscribe
 
         private void Subscribe()
         {
@@ -101,11 +94,6 @@ namespace AdamStudio.Services
             mTcpServer.ServerEvent -= ServerEvent;
         }
 
-
-        #endregion
-
-        #region Public methods
-
         public Task ExecuteAsync(CancellationToken stoppingToken = default)
         {
             return mTcpServer.StartAsync(stoppingToken);
@@ -126,10 +114,6 @@ namespace AdamStudio.Services
             UnSubscribe();
         }
 
-        #endregion
-
-        #region RaiseEvents
-
         protected virtual void OnRaiseClientConnectedEvent()
         {
             var raiseEvent = RaiseClientConnectedEvent;
@@ -148,6 +132,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this, data);
         }
 
-        #endregion
     }
 }

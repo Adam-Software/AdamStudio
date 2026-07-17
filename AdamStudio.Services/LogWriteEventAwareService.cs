@@ -6,11 +6,8 @@ namespace AdamStudio.Services
 {
     public class LogWriteEventAwareService : ILogWriteEventAwareService
     {
-        #region Events
 
         public event NewLogMessageWriteEventHandler RaiseNewLogMessageWriteEvent;
-
-        #endregion
 
         private readonly StringBuilder mLogEventBuffer = new();
 

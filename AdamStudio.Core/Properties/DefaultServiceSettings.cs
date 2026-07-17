@@ -12,7 +12,6 @@ namespace AdamStudio.Core.Properties
 {
     public class DefaultServiceSettings : IServiceSettings
     {
-        #region Fields
 
         public TcpCllientSettings TcpCllientSettings 
         { 
@@ -101,8 +100,6 @@ namespace AdamStudio.Core.Properties
                 return new ControlHelperSettings(isVideoShowLastValue);
             }
         }
-
-        #endregion
 
     }
 }

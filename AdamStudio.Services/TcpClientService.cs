@@ -8,7 +8,6 @@ namespace AdamStudio.Services
 {
     public class TcpClientService : NetCoreServer.TcpClient, ITcpClientService
     {
-        #region Events
 
         public event TcpCientConnectedEventHandler RaiseTcpCientConnectedEvent;
         public event TcpCientSentEventHandler RaiseTcpCientSentEvent;
@@ -17,19 +16,11 @@ namespace AdamStudio.Services
         public event TcpClientReceivedEventHandler RaiseTcpClientReceivedEvent;
         public event TcpClientReconnectedEventHandler RaiseTcpClientReconnectedEvent;
 
-        #endregion
-
-        #region Private variable
-
         private int mReconnectTimeout;
         private int mReconnectCount;
         private bool mStop;
         private bool mDisconnectAlreadyInvoke = false;
         private CancellationTokenSource mTokenSource;
-
-        #endregion
-
-        #region ~
 
         public TcpClientService(IServiceProvider serviceProvider) : base(serviceProvider.GetService<IServiceSettings>().TcpCllientSettings.Ip, serviceProvider.GetService<IServiceSettings>().TcpCllientSettings.Port)
         {
@@ -41,10 +32,6 @@ namespace AdamStudio.Services
             RenewVariable(true);
         }
 
-        #endregion
-
-        #region Public field
-
         /// <summary>
         /// The number of reconnections when the connection is lost
         /// </summary>
@@ -54,10 +41,6 @@ namespace AdamStudio.Services
         /// Reconnection timeout
         /// </summary>
         public int ReconnectTimeout { get; }
-
-        #endregion
-
-        #region Public methods
 
         public void DisconnectAndStop()
         {
@@ -74,10 +57,6 @@ namespace AdamStudio.Services
                 _ = Thread.Yield();
             }
         }
-
-        #endregion
-
-        #region Private methods
 
         /// <summary>
         /// Need update varible on connected because clients in helper class static
@@ -168,10 +147,6 @@ namespace AdamStudio.Services
             OnRaiseTcpClientReceivedEvent(buffer, offset, size);
         }
 
-        #endregion
-
-        #region OnRaiseEvents
-
         protected virtual void OnRaiseTcpCientConnectedEvent()
         {
             TcpCientConnectedEventHandler raiseEvent = RaiseTcpCientConnectedEvent;
@@ -208,6 +183,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this, reconnectCount);
         }
 
-        #endregion
     }
 }

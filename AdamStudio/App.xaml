@@ -30,7 +30,6 @@
                 <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Text}"/>
             </Style>
             
-            <!--#region Close button style-->
 
             <Style x:Key="CustomLightMetroWindowButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.WindowCommands}">
                 <Setter Property="Foreground" Value="Black" />
@@ -49,7 +48,6 @@
                 <Setter Property="DarkCloseButtonStyle" Value="{StaticResource CustomDarkMetroWindowButtonStyle}" />
             </Style>
             
-            <!--#endregion-->
 
         </ResourceDictionary>
             

@@ -9,14 +9,9 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
     public class WebApiSettingsViewModel : FlyoutBase
     {
-        #region Services
 
         private readonly ICultureProvider mCultureProvider;
         private readonly IFlyoutStateChecker mFlyoutState;
-
-        #endregion
-
-        #region ~
 
         public WebApiSettingsViewModel(IServiceProvider serviceProvider) 
         {
@@ -25,10 +20,6 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             
             BorderThickness = 1;   
         }
-
-        #endregion
-
-        #region Navigation
 
         protected override void OnChanging(bool isOpening)
         {
@@ -47,6 +38,5 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
             }
         }
 
-        #endregion
     }
 }

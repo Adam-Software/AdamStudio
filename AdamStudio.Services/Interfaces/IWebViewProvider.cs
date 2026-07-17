@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace AdamStudio.Services.Interfaces
 {
-    #region Delegate
 
     /*event in view model*/
     public delegate void WebViewNavigationCompleteEventHandler(object sender);
@@ -13,8 +12,6 @@ namespace AdamStudio.Services.Interfaces
     /*event in view */
     public delegate Task<string> ExecuteJavaScriptEventHandler(object sender, string script, bool deserializeResultToString = false);
     public delegate void ExecuteReloadWebViewEventHandler(object sender);
-
-    #endregion
 
     public interface IWebViewProvider : IDisposable
     {

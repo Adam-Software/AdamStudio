@@ -11,7 +11,6 @@
 
 
     
-    <!--#region Resources -->
     
     <!--<UserControl.Resources>
         <ResourceDictionary>
@@ -21,9 +20,7 @@
         </ResourceDictionary>
     </UserControl.Resources>-->
     
-    <!--#endregion-->
 
-    <!--#region WindowStyle -->
     
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
@@ -35,7 +32,6 @@
         </Style>
     </prism:Dialog.WindowStyle>
     
-    <!--#endregion-->
 
     <!--<i:Interaction.Behaviors>
         <behaviors:ActivateBehavior Activated="{Binding SettingWindowActivated, Mode=TwoWay}"/>
@@ -57,7 +53,6 @@
             <TabItem Header="Настройка API"
                      Style="{DynamicResource MahApps.Styles.TabItem}">
 
-                <!--#region сlient settings -->
 
                 <Grid Margin="5 5 10 5">
                     <Grid.RowDefinitions>
@@ -73,7 +68,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--#region API Login 
 
                     <Label Grid.Column="0" 
                            Grid.Row="0" 
@@ -96,7 +90,6 @@
 
                     endregion-->
 
-                    <!--#region API Password
 
                     <Label Grid.Column="0" 
                            Grid.Row="1" 
@@ -119,7 +112,6 @@
 
                     endregion-->
 
-                    <!--#region Server API IP  
 
                     <Label Grid.Column="0" 
                                Grid.Row="2" 
@@ -140,9 +132,7 @@
                              mah:TextBoxHelper.ClearTextButton="True"
                              mah:TextBoxHelper.Watermark="192.168.50.10"/>
 
-                    #endregion-->
 
-                    <!--#region API port 
 
                     <Label Grid.Column="0" 
                            Grid.Row="3" 
@@ -179,7 +169,6 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--#region Automatic main connect -->
 
                         <!--<mah:ToggleSwitch Grid.Column="0"
                                           IsEnabled="False"
@@ -193,19 +182,16 @@
                                           mah:HeaderedControlHelper.HeaderFontWeight="DemiBold"
                                           IsOn="{Binding CheckServerVersion, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"/>-->
 
-                        <!--#endregion-->
 
                     </Grid>
                 </Grid>
 
-                <!--#endregion-->
 
             </TabItem>
             
             <TabItem Header="Настройки клиентов"
                      Style="{DynamicResource MahApps.Styles.TabItem}">
 
-                <!--#region сlient settings -->
 
                 <Grid Margin="5 5 10 5">
                     <Grid.RowDefinitions>
@@ -227,7 +213,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--#region  VideoDataExchangePort 
 
                     <Label Grid.Column="0" 
                            Grid.Row="0" 
@@ -248,9 +233,7 @@
                              mah:TextBoxHelper.ClearTextButton="True"
                              mah:TextBoxHelper.Watermark="4998"/>
 
-                    #endregion-->
 
-                    <!--#region SocketServerPort 
 
                     <Label Grid.Column="0" Grid.Row="1" Margin="0 5 0 0" Content="Порт сокет-сервера" FontWeight="DemiBold" />
 
@@ -266,9 +249,7 @@
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="8000"/>
 
-                    #endregion-->
 
-                    <!--#region MessageDataExchangePort 
 
                     <Label Grid.Column="0" Grid.Row="2" Margin="0 5 0 0" Content="Порт сервера приема сообщений" FontWeight="DemiBold"/>
 
@@ -284,9 +265,7 @@
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="15005"/>
 
-                    #endregion-->
 
-                    <!--#region LogServerPort
 
                     <Label Grid.Column="0" Grid.Row="4" Margin="0 5 0 0" Content="Порт сервера логов" FontWeight="DemiBold"/>
 
@@ -304,7 +283,6 @@
 
                     endregion-->
 
-                    <!--#region TcpConnectStatePort 
 
                     <Label Grid.Column="0" Grid.Row="5" Margin="0 5 0 0" Content="Порт контроля состояния соединения" FontWeight="DemiBold"/>
 
@@ -320,9 +298,7 @@
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="15000"/>
 
-                    #endregion-->
 
-                    <!--#region ServerIP 
 
                     <Label Grid.Column="0" 
                            Grid.Row="6" 
@@ -358,7 +334,6 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--#region Automatic main connect 
                         
                         <mah:ToggleSwitch Grid.Column="0"
                                           Margin="5 5 0 0" 
@@ -374,7 +349,6 @@
 
                         endregion-->
 
-                        <!--#region Automatic test connect 
 
                         <mah:ToggleSwitch Grid.Column="1"
                                           Margin="5 5 0 0" 
@@ -396,9 +370,7 @@
                     
 
 
-                    <!--#region Developers settings -->
 
-                    <!--#region TestTcpPort 
 
                     <Label Grid.Column="0" 
                                Grid.Row="8" 
@@ -421,9 +393,7 @@
                                  mah:TextBoxHelper.ClearTextButton="True"
                                  mah:TextBoxHelper.Watermark="15000"/>
 
-                    #endregion-->
 
-                    <!--#region TestUdpPort 
 
                     <Label Grid.Column="0" 
                                Grid.Row="9" 
@@ -448,7 +418,6 @@
 
                     endregion-->
 
-                    <!--#region TestTcpConnectStatePort 
 
                     <Label Grid.Column="0" 
                                Grid.Row="10" 
@@ -473,7 +442,6 @@
 
                     endregion-->
 
-                    <!--#region Test ServerIP 
 
                     <Label Grid.Column="0" 
                                Grid.Row="11" 
@@ -497,18 +465,15 @@
 
                     endregion-->
 
-                    <!--#endregion-->
 
                 </Grid>
 
-                <!--#endregion-->
 
             </TabItem>
 
             <TabItem Header="Настройки окружения"
                      Style="{DynamicResource MahApps.Styles.TabItem}">
 
-                <!--#region folder layout settings -->
 
                 <GroupBox Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
 
@@ -529,7 +494,6 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--#region Workspace
                         
                         <Label Grid.Column="0" Grid.Row="0"
                                Margin="10 0 0 0"
@@ -556,7 +520,6 @@
                         
                         endregion-->
 
-                        <!--#region Toolbox 
                         
                         <Label Grid.Row="2" Grid.Column="0"
                                Margin="10 10 0 0"
@@ -580,7 +543,6 @@
                         
                         endregion-->
 
-                        <!--#region Blocks 
                         
                         <Label Grid.Row="4" Grid.Column="0"
                                Margin="10 10 0 0"
@@ -605,7 +567,6 @@
                         
                         endregion-->
                         
-                        <!--#region Scripts -->
                         
                         <Label Grid.Row="6" Grid.Column="0"
                                Margin="10 10 0 0"
@@ -628,11 +589,8 @@
                             </DockPanel>
                         </StackPanel>
                         
-                        <!--#endregion-->
                         
-                        <!--#region Developers settings -->
 
-                        <!--#region SavedResultsNetworkTestsFolderPath 
 
                         <Label Grid.Row="8" Grid.Column="0"
                                Margin="10 10 0 0"
@@ -662,12 +620,10 @@
 
                         endregion-->
 
-                        <!--#endregion-->
                         
                     </Grid>
                 </GroupBox>
                 
-                <!--#endregion-->
                 
             </TabItem>
 
@@ -692,7 +648,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--#region Reconnect main tcp state clients quantity-->
 
                     <Label Grid.Row="2" 
                            Grid.Column="0"
@@ -715,9 +670,7 @@
                                        HorizontalAlignment="Right"
                                        Width="100"/>
 
-                    <!--#endregion-->
                     
-                    <!--#region Reconnect benchmark tcp state clients quantity
 
                     <Label Grid.Row="3" 
                            Grid.Column="0"
@@ -740,9 +693,7 @@
                                        HorizontalAlignment="Right"
                                        Width="100"/>
 
-                    #endregion-->
 
-                    <!--#region Reconnect main tcp state clients quantity-->
 
                     <Label Grid.Row="4" 
                            Grid.Column="0"
@@ -765,9 +716,7 @@
                                        HorizontalAlignment="Right"
                                        Width="100"/>
 
-                    <!--#endregion-->
 
-                    <!--#region Reconnect benchmark tcp state clients quantity
 
                     <Label Grid.Row="5" 
                            Grid.Column="0"
@@ -790,7 +739,6 @@
                                        HorizontalAlignment="Right"
                                        Width="100"/>
 
-                    #endregion-->
 
 
                 </Grid>
@@ -798,7 +746,6 @@
 
         </TabControl>
         
-        <!--#region buttons -->
         
         <Grid Margin="0 10 5 5" Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -849,7 +796,6 @@
 
         </Grid>
 
-        <!--#endregion-->
         
     </Grid>
     

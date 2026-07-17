@@ -11,32 +11,15 @@ namespace AdamStudio.Services
 {
     public class CultureProvider : BindableBase, ICultureProvider
     {
-        #region Events
 
         public event CurrentAppCultureLoadOrChangeEventHandler RaiseCurrentAppCultureLoadOrChangeEvent;
-
-        #endregion
-
-        #region Const
 
         private const string cEnString = "en-EN";
         private const string cRuString = "ru-RU";
 
-        #endregion
-
-        #region Var
-
         private readonly Application mCurrentApp = Application.Current;
 
-        #endregion
-
-        #region ~
-
         public CultureProvider() {}
-
-        #endregion
-
-        #region Public fields
 
         public List<CultureInfo> SupportAppCultures { get { return GetSupportAppCultures(); } }
 
@@ -54,10 +37,6 @@ namespace AdamStudio.Services
             
         }
 
-        #endregion
-
-        #region Public methods
-
         public void ChangeAppCulture(CultureInfo culture)
         {
             string resourceName = $"pack://application:,,,/AdamStudio.Core;component/LocalizationDictionary/{culture.TwoLetterISOLanguageName}.xaml";
@@ -73,7 +52,6 @@ namespace AdamStudio.Services
             UpdateCurrentCulture(culture);
         }
 
-
         public void Dispose()
         {
 
@@ -84,10 +62,6 @@ namespace AdamStudio.Services
             var @string = mCurrentApp.TryFindResource(resource) as string;
             return @string;
         }
-
-        #endregion
-
-        #region Private method
 
         private void UpdateCurrentCulture(CultureInfo culture)
         {
@@ -127,16 +101,11 @@ namespace AdamStudio.Services
             return cultureInfos;
         }
 
-        #endregion
-
-        #region OnRaise events
-
         protected virtual void OnRaiseCurrentAppCultureLoadOrChangeEvent()
         {
             CurrentAppCultureLoadOrChangeEventHandler raiseEvent = RaiseCurrentAppCultureLoadOrChangeEvent;
             raiseEvent?.Invoke(this);
         }
 
-        #endregion
     }
 }

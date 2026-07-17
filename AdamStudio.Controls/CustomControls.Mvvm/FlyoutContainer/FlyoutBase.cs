@@ -33,7 +33,6 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
         private ICommand mCloseCommand;
         private MouseButton mExternalCloseButton;
 
-
         public double BorderThickness
         {
             get => mBorderThickness;
@@ -45,7 +44,6 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
             get => mBorderBrush;
             set => SetProperty(ref mBorderBrush, value);
         }
-
 
         /// <summary>
         /// Bindable property to determine open/closed staus of flyout, based on private field isOpen.
@@ -61,7 +59,6 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
                 SetProperty(ref mIsOpen, value);
             }
         }
-
 
         /// <summary>
         /// Bindable property to determine position of flyout in window.
@@ -149,7 +146,6 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
             return true;
         }
 
-
         /// <summary>
         /// Is opacity animated.
         /// </summary>
@@ -227,7 +223,6 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
             Close(new FlyoutParameters());
         }
 
-
         /// <summary>
         /// Open the flyout.
         /// </summary>
@@ -244,4 +239,3 @@ namespace AdamStudio.Controls.CustomControls.Mvvm.FlyoutContainer
         }
     }
 }
-

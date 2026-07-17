@@ -15,13 +15,8 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
 {
     public class StatusBarViewModel : RegionViewModelBase
     {
-        #region DelegateCommands
 
         public DelegateCommand OpenNotificationPanelDelegateCommand { get; }
-
-        #endregion
-
-        #region Services
 
         private readonly IFlyoutManager mFlyoutManager;
         private readonly ICommunicationProviderService mCommunicationProviderService;
@@ -32,19 +27,11 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         private readonly ILogWriteEventAwareService mLogWriteEventAwareService;
         private readonly ILogger<StatusBarViewModel> mLogger;
 
-        #endregion
-
-        #region Var
-
         private string mTextOnStatusConnectToolbarDisconnected;
         private string mTextOnStatusConnectToolbarConnected;
         private string mTextOnStatusConnectToolbarReconnected;
         private string mAppLogStatusBar;
         private string mChangAppLanguageLogMessage;
-
-        #endregion
-
-        #region ~
 
         public StatusBarViewModel(IServiceProvider serviceProvider) : base(serviceProvider)        
         {
@@ -62,10 +49,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             LoadDefaultFieldValue();
         }
 
-        #endregion
-
-        #region DelegateCommands methods
-
         private void OpenNotificationPanel()
         {
             if(mControlHelper.CurrentBlocklyViewMode == BlocklyViewMode.FullScreen)
@@ -81,10 +64,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         {
             return !mFlyoutState.IsFlyoutsOpened;
         }
-
-        #endregion
-
-        #region Navigation
 
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
@@ -102,10 +81,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
         {
             Unsubscribe();
         }
-
-        #endregion
-
-        #region Public fields
 
         private bool progressRingStart;
         public bool ProgressRingStart
@@ -142,10 +117,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             set { SetProperty(ref notificationBadge, value); }
         }
 
-        #endregion
-
-        #region Private fields
-
         private int badgeCounter = 0;
         private int BadgeCounter
         {
@@ -174,10 +145,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
                     UpdateStatusConnectToolbar();
             }
         }
-
-        #endregion
-
-        #region Private methods
 
         private void LoadDefaultFieldValue()
         {
@@ -226,10 +193,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mLogger.LogInformation(mChangAppLanguageLogMessage);
         }
 
-        #endregion
-
-        #region Subscribes
-
         private void Subscribe()
         {
             mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent += RaiseAdamTcpCientConnectedEvent;
@@ -245,8 +208,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent += RaiseNewLogMessageWriteEvent;
         }
 
-
-
         private void Unsubscribe() 
         {
             mCommunicationProviderService.RaiseTcpServiceCientConnectedEvent -= RaiseAdamTcpCientConnectedEvent;
@@ -261,10 +222,6 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             mCultureProvider.RaiseCurrentAppCultureLoadOrChangeEvent -= RaiseCurrentAppCultureLoadOrChangeEvent;
             mLogWriteEventAwareService.RaiseNewLogMessageWriteEvent -= RaiseNewLogMessageWriteEvent;
         }
-
-        #endregion
-
-        #region Event methods
 
         private void RaiseAdamTcpCientConnectedEvent(object sender)
         {
@@ -323,6 +280,5 @@ namespace AdamStudio.Modules.StatusBarRegion.ViewModels
             AppLogStatusBar = message;
         }
 
-        #endregion
     }
 }

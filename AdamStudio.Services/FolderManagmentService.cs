@@ -10,17 +10,12 @@ namespace AdamStudio.Services
 {
     public class FolderManagmentService : IFolderManagmentService
     {
-        #region ~
 
         public FolderManagmentService(IServiceProvider serviceProvider) 
         {
             ILogger<FolderManagmentService> logger = serviceProvider.GetService<ILogger<FolderManagmentService>>();
             logger.LogTrace("Init FolderManagmentService");
         }
-
-        #endregion
-
-        #region Public fields
 
         public string AssemblyTitle => Assembly.GetEntryAssembly().GetName().Name;
 
@@ -37,10 +32,6 @@ namespace AdamStudio.Services
         public string DirFileAppSessionData => Path.Combine(DirAppData, string.Format(CultureInfo.InvariantCulture, "{0}.App.session", AssemblyTitle));
 
         public string CommonDirAppData => Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + AssemblyTitle;
-
-        #endregion
-
-        #region Public methods
 
         public bool CreateAppDataFolder()
         {
@@ -76,6 +67,5 @@ namespace AdamStudio.Services
 
         public void Dispose(){}
 
-        #endregion
     }
 }

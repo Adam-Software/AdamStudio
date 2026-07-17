@@ -10,12 +10,8 @@ namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
     public class PortSettingsViewModel : FlyoutBase
     {
 
-        #region Services
-
         private readonly ICultureProvider mCultureProvider;
         private readonly IFlyoutStateChecker mFlyoutState;
-
-        #endregion
 
         public PortSettingsViewModel(IServiceProvider serviceProvider) 
         {

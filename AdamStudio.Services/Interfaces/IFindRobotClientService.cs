@@ -9,23 +9,13 @@ namespace AdamStudio.Services.Interfaces
 
     public interface IFindRobotClientService
     {
-        #region Events
 
         public event FindStartedEventHandler RaiseFindStartedEvent;   
         public event FindEndedEventHandler RaiseFindEndedEvent;
 
-        #endregion
-
-        #region Fields
-
         public List<IPAddress> FindAdresses { get; }
-
-        #endregion
-
-        #region Methods
 
         public void SendBroadcastPing(bool useLocalServer);
 
-        #endregion
     }
 }

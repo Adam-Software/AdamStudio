@@ -6,20 +6,10 @@ namespace AdamStudio.Services
     public class StatusBarNotificationDeliveryService : BindableBase, IStatusBarNotificationDeliveryService
     {
 
-        #region Events
-
         public event ChangeProgressRingStateEventHandler RaiseChangeProgressRingStateEvent;
         public event UpdateNotificationCounterEventHandler RaiseUpdateNotificationCounterEvent;
 
-        #endregion
-
-        #region ~
-
         public StatusBarNotificationDeliveryService() { }
-
-        #endregion
-
-        #region Public fields
 
         private bool progressRingStart;
         public bool ProgressRingStart 
@@ -48,10 +38,6 @@ namespace AdamStudio.Services
             }
         }
 
-        #endregion
-
-        #region Public methode
-
         public void ResetNotificationCounter()
         {
             NotificationCounter = 0;
@@ -61,10 +47,6 @@ namespace AdamStudio.Services
         {
 
         }
-
-        #endregion
-
-        #region OnRaise methods
 
         protected virtual void OnRaiseChangeProgressRingStateEvent(bool newState)
         {
@@ -78,6 +60,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this, counter);  
         }
 
-        #endregion
     }
 }

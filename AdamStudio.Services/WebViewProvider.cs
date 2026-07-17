@@ -6,7 +6,6 @@ namespace AdamStudio.Services
 {
     public class WebViewProvider : IWebViewProvider
     {
-        #region Events
 
         /*event in view model*/
         public event WebViewNavigationCompleteEventHandler RaiseWebViewNavigationCompleteEvent;
@@ -16,21 +15,9 @@ namespace AdamStudio.Services
         public event ExecuteJavaScriptEventHandler RaiseExecuteJavaScriptEvent;
         public event ExecuteReloadWebViewEventHandler RaiseExecuteReloadWebViewEvent;
 
-        #endregion
-
-        #region ~
-
         public WebViewProvider(){}
 
-        #endregion
-
-        #region Public fields
-
         public bool NeedReloadOnLoad { get; set; } = false;
-
-        #endregion
-
-        #region Public methods
 
         public void WebViewMessageReceived(WebMessageJsonReceived receivedResult)
         {
@@ -53,10 +40,6 @@ namespace AdamStudio.Services
         }
 
         public void Dispose(){}
-
-        #endregion
-
-        #region OnRaise methods
 
         protected virtual void OnRaiseWebViewNavigationCompleteEvent()
         {
@@ -82,6 +65,5 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this);
         }
 
-        #endregion
     }
 }

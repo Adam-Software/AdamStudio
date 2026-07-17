@@ -8,21 +8,12 @@ namespace AdamStudio.Services
 {
     public class WebSocketClientService : IWebSocketClientService
     {
-        #region Events
 
         public event WebSocketClientReceivedEventHandler RaiseWebSocketClientReceivedEvent;
         public event WebSocketConnectedEventHandler RaiseWebSocketConnectedEvent;
         public event WebSocketClientDisconnectEventHandler RaiseWebSocketClientDisconnectEvent;
 
-        #endregion
-
-        #region var 
-
         private readonly WebsocketClient mWebsocketClient;
-
-        #endregion
-
-        #region ~
 
         public WebSocketClientService(IServiceProvider serviceProvider)
         {
@@ -36,17 +27,9 @@ namespace AdamStudio.Services
             Subscribe();
         }
 
-        #endregion
-
-        #region Public field
-
         public bool IsStarted => mWebsocketClient.IsStarted;
 
         public bool IsRunning => mWebsocketClient.IsRunning;
-
-        #endregion
-
-        #region Public method
 
         public Task ConnectAsync()
         {
@@ -74,10 +57,6 @@ namespace AdamStudio.Services
             mWebsocketClient.Dispose();
         }
 
-        #endregion
-
-        #region Subscriptions
-
         private void Subscribe()
         {
             mWebsocketClient.MessageReceived.Subscribe(message =>
@@ -95,10 +74,6 @@ namespace AdamStudio.Services
                 OnRaiseWebSocketConnectedEvent();
             });
         }
-
-        #endregion
-
-        #region OnRaiseEvents
 
         protected virtual void OnRaiseWebSocketClientReceivedEvent(string text)
         {
@@ -118,10 +93,7 @@ namespace AdamStudio.Services
             raiseEvent?.Invoke(this);
         }
 
-        #endregion
     }
 }
-
-
 
  

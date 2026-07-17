@@ -12,13 +12,7 @@ namespace AdamStudio.Services
     public class WebApiService : IWebApiService
     {
 
-        #region Var
-
         private readonly BaseApi mBaseApi;
-
-        #endregion
-
-        #region ~
 
         public WebApiService(IServiceProvider serviceProvider)
         {
@@ -27,10 +21,6 @@ namespace AdamStudio.Services
             Uri defaultUri = new($"http://{settings.Ip}:{settings.Port}");
             mBaseApi = new BaseApi(defaultUri, settings.Login, settings.Password);
         }
-
-        #endregion
-
-        #region Public methods
 
         public Task<ExtendedCommandExecuteResult> GetPythonBinDir()
         {
@@ -67,6 +57,5 @@ namespace AdamStudio.Services
             mBaseApi.Dispose();
         }
 
-        #endregion
     }
 }

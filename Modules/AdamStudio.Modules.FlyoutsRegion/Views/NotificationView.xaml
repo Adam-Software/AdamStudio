@@ -29,7 +29,6 @@
                            Text="{DynamicResource NotificationView.TextBlock.Text.NoNewMessage}"
                            Visibility="{Binding NoNewNotificationMessageVisibility}"/>
 
-                <!--#region FailConnect Notify -->
 
                 <Border Grid.Row="0" 
                         Visibility="{Binding FailConnectNotificationVisibility}"
@@ -78,7 +77,6 @@
                     </Grid>
                 </Border>
 
-                <!--#endregion-->
 
                 <TextBlock Grid.Row="4"
                            Margin="0 0 10 20"
@@ -94,7 +92,6 @@
 
                 </TextBlock>
 
-                <!--#region  Buttons -->
 
                 <Grid Grid.Row="5">
                     <Grid.ColumnDefinitions>
@@ -139,7 +136,6 @@
 
                     </Button>
 
-                    <!--#endregion-->
 
                 </Grid>
             </Grid>

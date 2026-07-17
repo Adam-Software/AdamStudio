@@ -1,5 +1,4 @@
-﻿
-using AdamStudio.Core.Model;
+﻿using AdamStudio.Core.Model;
 using System;
 using System.Text.RegularExpressions;
 

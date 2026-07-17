@@ -43,7 +43,6 @@ namespace AdamStudio.Controls.CustomControls.Services
             mFlyouts = new Dictionary<string, IFlyout>();
         }
 
-
         public void RegisterFlyoutWithDefaultRegion<TView>(string flyoutKey) where TView : FrameworkElement
         {
             if (string.IsNullOrEmpty(mDefaultFlyoutRegion))
@@ -51,7 +50,6 @@ namespace AdamStudio.Controls.CustomControls.Services
 
             RegisterFlyout<TView>(flyoutKey, mDefaultFlyoutRegion);
         }
-
 
         public void RegisterFlyoutWithDefaultRegion<TView>(string flyoutKey, IFlyout viewModel) where TView : FrameworkElement
         {

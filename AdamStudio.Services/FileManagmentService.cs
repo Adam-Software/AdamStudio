@@ -9,19 +9,10 @@ namespace AdamStudio.Services
 {
     public class FileManagmentService : IFileManagmentService
     {
-        #region Const
 
         private const int cBufferSize = 0x4096;
 
-        #endregion
-
-        #region ~
-
         public FileManagmentService() {}
-
-        #endregion
-
-        #region Public methods
 
         public XmlTextReader ReadTextAsXml(byte[] xmlByteArray)
         {
@@ -69,16 +60,10 @@ namespace AdamStudio.Services
 
         }
 
-        #endregion
-
-        #region Private mehods
-
         private static FileStream OpenFileStreamAsync(string path)
         {
             return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: cBufferSize, useAsync: true);
         }
-
-        #endregion
 
     }
 }

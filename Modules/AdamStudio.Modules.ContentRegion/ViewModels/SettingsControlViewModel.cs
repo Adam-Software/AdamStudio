@@ -20,18 +20,12 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
     public class SettingsControlViewModel : RegionViewModelBase 
     {
-        #region DelegateCommands
 
         public DelegateCommand ChangeSpacingToggleSwitchDelegateCommand { get; }
         public DelegateCommand OpenPortSettingsDelegateCommand { get; }
         public DelegateCommand OpenWebApiSettingsDelegateCommand { get; }
         public DelegateCommand OpenUserFolderSettingsDelegateCommand { get; }   
         public DelegateCommand FindRobotDelegateCommand { get; }
-
-        #endregion
-
-        #region Services
-
 
         private readonly ILogger<SettingsControlViewModel> mLogger;
         private readonly IFlyoutManager mFlyoutManager;
@@ -41,17 +35,8 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
         private readonly IFindRobotClientService mFindMeClientService;
 
-        #endregion
-
-        #region Const
-
         private const string cBaseColorAppThemeLightName = "Light";
         private const string cBaseColorAppDarkLightName = "Dark";
-
-        #endregion
-
-
-        #region ~
 
         public SettingsControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -72,10 +57,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             Subscribe();
         }
 
-        #endregion
-
-        #region Subscribe/Unsubscribe
-
         private void Subscribe()
         {
             mFindMeClientService.RaiseFindStartedEvent += RaiseFindStartedEvent;
@@ -85,10 +66,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         {
             mFindMeClientService.RaiseFindStartedEvent -= RaiseFindStartedEvent;
         }
-
-        #endregion
-
-        #region  DelegateCommand methods
 
         private void ChangeSpacingToggleSwitch()
         {
@@ -140,10 +117,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return !IsFindingRobotRun;
         }
 
-        #endregion
-
-        #region RaiseEvents methods
-
         private void RaiseFindStartedEvent(object sender)
         {
             mLogger.LogInformation("Find Robot started");
@@ -171,10 +144,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             IsFindingRobotRun = false;
         }
 
-        #endregion
-
-        #region Navigation
-
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             base.ConfirmNavigationRequest(navigationContext, continuationCallback);
@@ -198,10 +167,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             Unsubscribe();
             base.Destroy();
         }
-
-        #endregion
-
-        #region Public fields
 
         private bool useLocalServer = false;
         public bool UseLocalServer
@@ -271,9 +236,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                     FindRobotDelegateCommand.RaiseCanExecuteChanged();
             }
         }
-        #endregion
-
-        #region Private methods
 
         private void ChangeTheme(Theme theme)
         {
@@ -322,6 +284,5 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
         }
 
-        #endregion
     }
 }

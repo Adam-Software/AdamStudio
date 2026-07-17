@@ -2,26 +2,18 @@
 using Prism.Navigation.Regions;
 using System;
 
-
 namespace AdamStudio.Core.Mvvm
 {
     public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
     {
         
-        #region private service
 
         protected IRegionManager RegionManager { get; }
-
-        #endregion
-
-        #region ~
 
         public RegionViewModelBase(IServiceProvider serviceProvider)
         {
             RegionManager = serviceProvider.GetService<IRegionManager>();
         }
-
-        #endregion
 
         /// <summary>
         /// Occurs when the navigation area is called

@@ -17,16 +17,13 @@
                   SaveWindowPosition="True"
                   TitleBarHeight="25">
     
-    <!--#region Resources -->
 
     <mah:MetroWindow.Resources>
         <converters:BoolToViewModeIconsConverter x:Key="BoolToViewModeIconsConverter"/>
         <converters:StringToViewRegionIconsConverter x:Key="StringToViewRegionIconsConverter"/>
     </mah:MetroWindow.Resources>
     
-    <!--#endregion-->
 
-    <!--#region LeftWindowCommands -->
 
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands ShowLastSeparator="False">
@@ -39,9 +36,7 @@
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
 
-    <!--#endregion-->
 
-    <!--#region TitleTemplate -->
     
     <mah:MetroWindow.TitleTemplate>
         <DataTemplate>
@@ -66,7 +61,6 @@
         </DataTemplate>
     </mah:MetroWindow.TitleTemplate>
     
-    <!--#endregion-->
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands ShowLastSeparator="False">
@@ -108,14 +102,12 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     
-    <!--#region Flyouts -->
 
     <mah:MetroWindow.Flyouts>
         <customusercontrol:FlyoutContainer Margin="0 25 -1 24" 
                                            prism:RegionManager.RegionName="{x:Static core:RegionNames.FlyoutsRegion}"/>
     </mah:MetroWindow.Flyouts>
 
-    <!--#endregion-->
 
     
     <Grid>

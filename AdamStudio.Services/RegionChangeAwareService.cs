@@ -5,18 +5,10 @@ namespace AdamStudio.Services
 {
     public class RegionChangeAwareService : BindableBase, IRegionChangeAwareService
     {
-        #region Events
 
         public event RegionChangeEventHandler RaiseRegionChangeEvent;
 
-        #endregion
-
-        #region ~
         public RegionChangeAwareService() { }
-
-        #endregion
-
-        #region Public fields
 
         private string regionNavigationRequestName;
         public string RegionNavigationTargetName
@@ -33,17 +25,11 @@ namespace AdamStudio.Services
 
         public void Dispose() { }
 
-        #endregion
-
-        #region OnRaise events
-
         protected virtual void OnRaiseRegionChangeEvent()
         {
             RegionChangeEventHandler raiseEvent = RaiseRegionChangeEvent;
             raiseEvent?.Invoke(this);
         }
-
-        #endregion
 
     }
 }

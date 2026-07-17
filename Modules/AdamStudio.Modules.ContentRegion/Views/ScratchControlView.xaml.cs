@@ -18,7 +18,6 @@ namespace AdamStudio.Modules.ContentRegion.Views
 {
     public partial class ScratchControlView : UserControl
     {
-        #region Services
 
         private readonly ILogger<ScratchControlView> mLogger;
         private readonly IWebViewProvider mWebViewProvider;
@@ -26,13 +25,7 @@ namespace AdamStudio.Modules.ContentRegion.Views
         private readonly IVideoViewProvider mVideoViewProvider;
         
 
-        #endregion
-
-        #region Var
-
         private readonly string mPathToSource;
-
-        #endregion
 
         public ScratchControlView(IServiceProvider serviceProvider)
         {

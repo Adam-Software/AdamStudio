@@ -11,8 +11,6 @@ namespace AdamStudio.Modules.ToolBarRegion.Template
             InitializeComponent();
         }
 
-        #region DependencyProperty
-
         public bool IsOpen
         {
             get { return (bool)GetValue(IsOpenProperty); }
@@ -27,8 +25,6 @@ namespace AdamStudio.Modules.ToolBarRegion.Template
         }
 
         private static readonly DependencyProperty PopupWindowTemplateProperty = DependencyProperty.Register(nameof(PopupWindowTemplate), typeof(ControlTemplate), typeof(PopupWindow), null);
-
-        #endregion
 
         private void ThumbDragDelta(object sender, DragDeltaEventArgs e)
         {

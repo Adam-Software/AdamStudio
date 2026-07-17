@@ -29,7 +29,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 {
     public class ScratchControlViewModel : RegionViewModelBase 
     {
-        #region DelegateCommands
 
         public DelegateCommand RotateScreenDelegateCommand { get; }
         public DelegateCommand CopyToClipboardDelegateCommand { get; }
@@ -41,11 +40,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public DelegateCommand ToZeroPositionDelegateCommand { get; }
         public DelegateCommand<string> DirectionButtonDownDelegateCommand { get; }
         public DelegateCommand<string> DirectionButtonUpDelegateCommand { get; }
-
-
-        #endregion
-
-        #region Services
 
         private readonly ILogger<ScratchControlViewModel> mLogger;
         private readonly ICommunicationProviderService mCommunicationProvider;
@@ -60,10 +54,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private readonly IVideoViewProvider mVideoViewProvider;
         private readonly IRegionChangeAwareService mRegionChangeAwareService;
         private readonly ITcpPythonStreamServerService mPythonStreamServerService;
-
-        #endregion
-
-        #region Var
 
         private string mCompileLogMessageStartDebug; 
         private string mCompileLogMessageEndDebug;
@@ -83,11 +73,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         private string mExtNotSupport2;
 
         private string mOpenFile;
-
-
-        #endregion
-
-        #region ~
 
         public ScratchControlViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -124,10 +109,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             Subscribe();
         }
 
-        #endregion
-
-        #region Navigation
-
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             mRegionChangeAwareService.RegionNavigationTargetName = ViewNames.ScratchView;
@@ -147,10 +128,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
 
             base.Destroy();
         }
-
-        #endregion
-
-        #region Public fields
 
         private ushort videoViewRotateAngle;
         public ushort VideoViewRotateAngle
@@ -265,10 +242,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         public string RotateRightDirrection { get; private set; } = "{\"move\":{\"x\": 0.0, \"y\": 0.0, \"z\": 1.0 }}";
         public string RotateLeftDirrection { get; private set; } = "{\"move\":{\"x\": 0.0, \"y\": 0.0, \"z\": -1.0}}";
 
-        #endregion
-
-        #region Subscribes
-
         private void Subscribe()
         {
             mCommunicationProvider.RaiseTcpServiceCientConnectedEvent += OnRaiseTcpServiceCientConnected;
@@ -304,10 +277,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mPythonStreamServerService.RaiseClientConnectedEvent -= RaiseClientConnectedEvent;
             mPythonStreamServerService.RaiseClientDisconnectedEvent -= RaiseClientDisconnectedEvent;
         }
-
-        #endregion
-
-        #region DelegateCommands methods
 
         private void RotateScreen()
         {
@@ -557,10 +526,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return true;
         }
 
-        #endregion
-
-        #region Private methods
-
         private void UpdateIsShowVideo(bool isShowVideo)
         {
             IsShowVideo = isShowVideo;
@@ -671,10 +636,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             mOpenFile = mCultureProvider.FindResource("ScratchControlViewModel.OpenFileDialog.FileOpened.LogMessage");
         }
 
-        #endregion
-
-        #region Event methods
-
         private void RaiseWebViewNavigationCompleteEvent(object sender)
         {
             InitBlockly();
@@ -731,10 +692,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
         {
             IsPythonCodeExecute = true;
         }
-
-        #endregion
-
-        #region Initialize Blockly
 
         private async void InitBlockly()
         {
@@ -876,10 +833,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             return toolbox;
         }
 
-        #endregion
-
-        #region Blockly method
-
         private async Task LoadBlocklySrc()
         {
             string loadLocalSrc = Scripts.SerealizeObject("loadSrcs", new object[]
@@ -898,7 +851,6 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
                 Scripts.AdamTwoBlockSrc,
                 Scripts.AdamCommonBlockSrc,
             });
-
 
             string loadLocalAdamPythonGenSrc = Scripts.SerealizeObject("loadSrcs", new object[]
             {
@@ -936,17 +888,11 @@ namespace AdamStudio.Modules.ContentRegion.ViewModels
             }
         }
 
-        #endregion
-
-        #region ExecuteScripts
-
         private async Task<string> ExecuteScriptFunctionAsync(string functionName, params object[] parameters)
         {
             string script = Scripts.SerealizeObject(functionName, parameters);
             return await mWebViewProvider.ExecuteJavaScript(script);
         }
-
-        #endregion
 
     }
 }

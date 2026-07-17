@@ -4,7 +4,6 @@ using Microsoft.Win32;
 using Prism.Dialogs;
 using System.IO;
 
-
 namespace AdamStudio.Services
 {
     public class SystemDialogService : ISystemDialogService

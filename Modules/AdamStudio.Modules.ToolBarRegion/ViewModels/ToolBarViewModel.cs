@@ -16,13 +16,8 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 {
     public class ToolBarViewModel : RegionViewModelBase
     {
-        #region DelegateCommands
 
         public DelegateCommand CleanExecuteEditorDelegateCommand { get; }
-
-        #endregion
-
-        #region Services
 
         private readonly ILogger<ToolBarViewModel> mLogger;
         private readonly ILogWriteEventAwareService mLogWriteEventAware;
@@ -34,19 +29,11 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
         private readonly ITcpPythonStreamServerService mTcpPythonStreamServerService;
        
 
-        #endregion
-
-        #region Var
-
         private bool mIsWarningStackOwerflowAlreadyShow;
         private string mFinishAppExecute;
         private string mWarningStackOwerflow1;
         private string mWarningStackOwerflow2;
         private string mWarningStackOwerflow3;
-
-        #endregion
-
-        #region ~
 
         public ToolBarViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -63,10 +50,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mLogger.LogTrace("Load ~");
         }
 
-        #endregion
-
-        #region Commands method
-
         private void CleanExecuteEditor()
         {
             ResultText = string.Empty;
@@ -78,10 +61,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             bool isResultNotEmpty = ResultText?.Length > 0;
             return isResultNotEmpty;
         }
-
-        #endregion
-
-        #region Navigation
 
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
@@ -101,10 +80,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
 
             base.Destroy();
         }
-
-        #endregion
-
-        #region Public fields
 
         private string applicationLogs;
         public string ApplicationLogs
@@ -160,11 +135,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             get => mLogsButtonIsChecked; 
             set => SetProperty(ref mLogsButtonIsChecked, value);
         }
-
-
-        #endregion
-
-        #region Private Methods
 
         private void UpdateResultText(string text, bool isFinishMessage = false)
         {
@@ -267,10 +237,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             CleanExecuteEditorDelegateCommand.RaiseCanExecuteChanged();
         }
 
-        #endregion
-
-        #region Events
-
         private void RaiseNewLogMessageWriteEvent(object sender, string message)
         {
             ApplicationLogs += $"{message}\n";
@@ -363,9 +329,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             IsPythonCodeExecute = false;
         }
 
-        #endregion
-
-        #region Subscribes
         private void Subscribe()
         {
             //mTcpClientService.RaiseTcpCientConnectedEvent += RaiseTcpCientConnectedEvent;
@@ -390,9 +353,6 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             
         }
 
-
-
-
         private void Unsubscribe()
         {
             //mTcpClientService.RaiseTcpCientConnectedEvent -= RaiseTcpCientConnectedEvent;
@@ -416,6 +376,5 @@ namespace AdamStudio.Modules.ToolBarRegion.ViewModels
             mTcpPythonStreamServerService.RaiseClientDisconnectedEvent += RaiseClientDisconnectedEvent;
         }
 
-        #endregion
     }
 }
