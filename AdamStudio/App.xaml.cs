@@ -1,6 +1,7 @@
 ﻿#region system
 
 using System;
+using System.IO;
 using System.Windows;
 
 #endregion
@@ -233,12 +234,19 @@ namespace AdamStudio
 
         private void ShowUnhandledException(Exception e, string unhandledExceptionType, bool promptUserForShutdown)
         {
-            if (e.HResult == -2146233088)
+            // COR_E_EXCEPTION (0x80131500) — the base CLR exception HResult.
+            // Websocket.Client connection failures surface with this HResult
+            // and an InnerException whose Source is "Websocket.Client". They
+            // are noisy and non-fatal (the WebSocketClientService already
+            // handles reconnection), so we suppress the crash dialog for
+            // them. Service-level errors should be handled in the services
+            // themselves.
+            const int cClrExceptionHResult = unchecked((int)0x80131500);
+
+            if (e.HResult == cClrExceptionHResult
+                && e.InnerException?.Source == "Websocket.Client")
             {
-                // This message disables an error about the inability to connect to the websocket server.
-                // As a temporary measure. Service errors should be handled in the services themselves
-                if (e.InnerException.Source == "Websocket.Client")
-                    return;
+                return;
             }
             var messageBoxTitle = $"An unexpected error has occurred: {unhandledExceptionType}";
             var messageBoxMessage = $"The following exception occurred:\n\n{e}";
@@ -263,8 +271,27 @@ namespace AdamStudio
 
         private static void LoadSharedFFmpegLibrary()
         {
-            var ffmpegPath = AppDomain.CurrentDomain.BaseDirectory;
-            Unosquare.FFME.Library.FFmpegDirectory = ffmpegPath;
+            // FFME expects the FFmpeg shared libraries (avcodec-*.dll, etc.)
+            // to be in FFmpegDirectory. Placing them in the app root pollutes
+            // the output folder; prefer a "ffmpeg" subdirectory. Fall back to
+            // the base directory if the subdirectory does not exist (e.g.
+            // when running from the IDE with a flat layout).
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string subDir = Path.Combine(baseDir, "ffmpeg");
+
+            string ffmpegPath = Directory.Exists(subDir) ? subDir : baseDir;
+
+            try
+            {
+                Unosquare.FFME.Library.FFmpegDirectory = ffmpegPath;
+            }
+            catch (Exception ex)
+            {
+                // FFmpeg loading is best-effort — the app can still run
+                // without video playback. Log and continue.
+                System.Diagnostics.Debug.WriteLine(
+                    $"Failed to set FFmpegDirectory to '{ffmpegPath}': {ex.Message}");
+            }
         }
 
         private void RegisterAvalonHighlightingDefinition()
