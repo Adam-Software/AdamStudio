@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Modules.StatusBa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Services", "AdamStudio.Services\AdamStudio.Services.csproj", "{C6EEA5FC-E4F2-4334-B134-C4A9B7D2A49A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Modules.FlayoutsRegion", "Modules\AdamStudio.Modules.FlayoutsRegion\AdamStudio.Modules.FlayoutsRegion.csproj", "{D17BE826-5C86-4EAC-8424-534F9CF3DFE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Modules.FlyoutsRegion", "Modules\AdamStudio.Modules.FlyoutsRegion\AdamStudio.Modules.FlyoutsRegion.csproj", "{D17BE826-5C86-4EAC-8424-534F9CF3DFE0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdamStudio.Core", "AdamStudio.Core\AdamStudio.Core.csproj", "{F6817FD0-DE3E-4636-8443-A26F46507A6F}"
 EndProject

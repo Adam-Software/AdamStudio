@@ -8,7 +8,7 @@ using Prism.Commands;
 using System;
 using System.Windows;
 
-namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
+namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
     public class NotificationViewModel : FlyoutBase
     {

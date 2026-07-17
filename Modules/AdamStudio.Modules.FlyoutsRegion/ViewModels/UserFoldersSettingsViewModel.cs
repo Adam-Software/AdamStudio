@@ -9,7 +9,7 @@ using Prism.Dialogs;
 using System;
 using System.Windows;
 
-namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
+namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
     public class UserFoldersSettingsViewModel : FlyoutBase
     {

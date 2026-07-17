@@ -39,9 +39,9 @@ namespace AdamStudio.Tests.Core
         }
 
         [Fact]
-        public void FlayoutsRegion_IsNonEmptyString()
+        public void FlyoutsRegion_IsNonEmptyString()
         {
-            Assert.False(string.IsNullOrEmpty(RegionNames.FlayoutsRegion));
+            Assert.False(string.IsNullOrEmpty(RegionNames.FlyoutsRegion));
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace AdamStudio.Tests.Core
                 RegionNames.MenuRegion,
                 RegionNames.StatusBarRegion,
                 RegionNames.ToolBarRegion,
-                RegionNames.FlayoutsRegion
+                RegionNames.FlyoutsRegion
             ];
 
             Assert.Equal(allRegions.Length, allRegions.Distinct().Count());
@@ -64,7 +64,7 @@ namespace AdamStudio.Tests.Core
         [InlineData(RegionNames.MenuRegion, nameof(RegionNames.MenuRegion))]
         [InlineData(RegionNames.StatusBarRegion, nameof(RegionNames.StatusBarRegion))]
         [InlineData(RegionNames.ToolBarRegion, nameof(RegionNames.ToolBarRegion))]
-        [InlineData(RegionNames.FlayoutsRegion, nameof(RegionNames.FlayoutsRegion))]
+        [InlineData(RegionNames.FlyoutsRegion, nameof(RegionNames.FlyoutsRegion))]
         public void RegionName_MatchesConstantIdentifier(string value, string identifier)
         {
             // The pattern $"${nameof(X)}" means the string value equals the

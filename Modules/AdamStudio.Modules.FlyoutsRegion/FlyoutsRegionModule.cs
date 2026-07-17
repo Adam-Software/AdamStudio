@@ -1,16 +1,16 @@
 ﻿using AdamStudio.Controls.CustomControls.Services;
 using AdamStudio.Core;
-using AdamStudio.Modules.FlayoutsRegion.Views;
+using AdamStudio.Modules.FlyoutsRegion.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace AdamStudio.Modules.FlayoutsRegion
+namespace AdamStudio.Modules.FlyoutsRegion
 {
-    public class FlayoutsRegionModule : IModule
+    public class FlyoutsRegionModule : IModule
     {
         private readonly IFlyoutManager mFlyoutManager;
 
-        public FlayoutsRegionModule(IFlyoutManager flyoutManager)
+        public FlyoutsRegionModule(IFlyoutManager flyoutManager)
         {
             mFlyoutManager = flyoutManager;
         }
@@ -19,7 +19,7 @@ namespace AdamStudio.Modules.FlayoutsRegion
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            mFlyoutManager.SetDefaultFlyoutRegion(RegionNames.FlayoutsRegion);
+            mFlyoutManager.SetDefaultFlyoutRegion(RegionNames.FlyoutsRegion);
 
             mFlyoutManager.RegisterFlyoutWithDefaultRegion<NotificationView>(FlyoutNames.FlyoutNotification);
             mFlyoutManager.RegisterFlyoutWithDefaultRegion<PortSettingsView>(FlyoutNames.FlyoutPortSettings);

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace AdamStudio.Modules.FlayoutsRegion.Views
+namespace AdamStudio.Modules.FlyoutsRegion.Views
 {
     public partial class UserFoldersSettingsView : UserControl
     {

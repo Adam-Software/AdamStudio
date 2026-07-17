@@ -108,11 +108,11 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     
-    <!--#region Flayouts -->
+    <!--#region Flyouts -->
 
     <mah:MetroWindow.Flyouts>
         <customusercontrol:FlyoutContainer Margin="0 25 -1 24" 
-                                           prism:RegionManager.RegionName="{x:Static core:RegionNames.FlayoutsRegion}"/>
+                                           prism:RegionManager.RegionName="{x:Static core:RegionNames.FlyoutsRegion}"/>
     </mah:MetroWindow.Flyouts>
 
     <!--#endregion-->

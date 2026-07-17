@@ -31,7 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AdamStudio.Core\AdamStudio.Core.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.ContentRegion\AdamStudio.Modules.ContentRegion.csproj" />
-    <ProjectReference Include="..\Modules\AdamStudio.Modules.FlayoutsRegion\AdamStudio.Modules.FlayoutsRegion.csproj" />
+    <ProjectReference Include="..\Modules\AdamStudio.Modules.FlyoutsRegion\AdamStudio.Modules.FlyoutsRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.MenuRegion\AdamStudio.Modules.MenuRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.StatusBar\AdamStudio.Modules.StatusBarRegion.csproj" />
     <ProjectReference Include="..\Modules\AdamStudio.Modules.ToolBarRegion\AdamStudio.Modules.ToolBarRegion.csproj" />

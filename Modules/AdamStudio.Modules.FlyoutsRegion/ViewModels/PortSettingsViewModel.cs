@@ -5,10 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 
-namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
+namespace AdamStudio.Modules.FlyoutsRegion.ViewModels
 {
-    public class WebApiSettingsViewModel : FlyoutBase
+    public class PortSettingsViewModel : FlyoutBase
     {
+
         #region Services
 
         private readonly ICultureProvider mCultureProvider;
@@ -16,25 +17,18 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
 
         #endregion
 
-        #region ~
-
-        public WebApiSettingsViewModel(IServiceProvider serviceProvider) 
+        public PortSettingsViewModel(IServiceProvider serviceProvider) 
         {
+            BorderThickness = 1;
             mCultureProvider = serviceProvider.GetService<ICultureProvider>();
             mFlyoutState = serviceProvider.GetService<IFlyoutStateChecker>();
-            
-            BorderThickness = 1;   
         }
-
-        #endregion
-
-        #region Navigation
 
         protected override void OnChanging(bool isOpening)
         {
-            if(isOpening)
+            if (isOpening)
             {
-                Header = mCultureProvider.FindResource("WebApiSettingsView.ViewModel.Flyout.Header");
+                Header = mCultureProvider.FindResource("PortSettingsView.ViewModel.Flyout.Header");
                 BorderBrush = Application.Current.TryFindResource("MahApps.Brushes.Text").ToString();
                 mFlyoutState.IsFlyoutsOpened = true;
                 return;
@@ -46,7 +40,5 @@ namespace AdamStudio.Modules.FlayoutsRegion.ViewModels
                 return;
             }
         }
-
-        #endregion
     }
 }

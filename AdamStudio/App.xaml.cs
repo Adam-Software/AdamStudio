@@ -34,7 +34,7 @@ using Serilog.Extensions.Logging;
 
 using AdamStudio.Controls.CustomControls.RegionAdapters;
 using AdamStudio.Modules.ContentRegion;
-using AdamStudio.Modules.FlayoutsRegion;
+using AdamStudio.Modules.FlyoutsRegion;
 using AdamStudio.Modules.MenuRegion;
 using AdamStudio.Modules.StatusBarRegion;
 using AdamStudio.Modules.ToolBarRegion;
@@ -140,7 +140,7 @@ namespace AdamStudio
             moduleCatalog.AddModule<MenuRegionModule>();
             moduleCatalog.AddModule<ContentRegionModule>();
             moduleCatalog.AddModule<StatusBarRegionModule>();
-            moduleCatalog.AddModule<FlayoutsRegionModule>();
+            moduleCatalog.AddModule<FlyoutsRegionModule>();
             moduleCatalog.AddModule<ToolBarRegionModule>();
         }
 
